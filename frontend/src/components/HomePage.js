@@ -5,7 +5,10 @@ const HomePage = () => {
 
   return (
     <div>
-      <h1>Home Page</h1>
+      <div>
+        <h1>Welcome to LerryLazzyShop</h1>
+        <p>Explore our amazing products and start shopping!</p>
+      </div>
       <button>
         <Link to = "/login">Account</Link>
       </button>
