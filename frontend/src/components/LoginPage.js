@@ -7,12 +7,17 @@ const LoginPage = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
+        if (!username.trim() || !password.trim()) {
+            console.error('Username or password is empty');
+            return;
+        }
         try {
             const response = await axios.post('/api/login', {
                 username,
                 password
             });
             console.log(response.data); 
+            
         } catch (error) {
             console.error('Login failed:', error);
         }
