@@ -1,17 +1,20 @@
 import React from "react";
-import { Link } from "react-router-dom";
-
+import NavBar from "../components/NavBar";
+import Banner from "../components/Banner";
 const HomePage = () => {
 
   return (
     <div>
       <div>
+        <NavBar/>
+      </div>
+      <div className="text-center"> 
         <h1>Welcome to LerryLazzyShop</h1>
         <p>Explore our amazing products and start shopping!</p>
       </div>
-      <button>
-        <Link to = "/login">Account</Link>
-      </button>
+      <div className="mx-5">      
+        <Banner/>
+      </div>
     </div>
   );
 };
