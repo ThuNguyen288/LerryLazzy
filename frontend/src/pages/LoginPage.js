@@ -16,12 +16,13 @@ const LoginPage = () => {
                 username,
                 password
             });
-            console.log(response.data); 
-            
+            console.log('Login successful:', response.data);
         } catch (error) {
-            console.error('Login failed:', error);
+            console.error('Login failed:', error.response?.data?.message || error.message);
+            
         }
     };
+    
 
     return (
         <div className="container">
