@@ -1,10 +1,16 @@
 import React from "react";
 import NavBar from "../components/NavBar";
 import Banner from "../components/Banner";
+import Header from "../components/Header";
+import '../App.css';
+
 const HomePage = () => {
 
   return (
     <div>
+      <div className="App-header">
+        <Header/>
+      </div>
       <div>
         <NavBar/>
       </div>

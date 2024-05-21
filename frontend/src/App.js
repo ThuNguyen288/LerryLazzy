@@ -6,7 +6,7 @@ import UserInfoPage from './pages/UserInfoPage';
 
 function App() {
   return (
-    <div className=''>
+    <div>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomePage />} />
