@@ -9,7 +9,7 @@ const config = {
     user: 'sa',
     password: '123456',
     server: 'LAPTOPCUATUI',
-    database: 'LerryLazzyShop',
+    database: 'WoolShop',
     options: {
         encrypt: true,
         trustServerCertificate: true,

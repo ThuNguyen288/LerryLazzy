@@ -1,26 +1,11 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 
 const LoginPage = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleLogin = async (e) => {
-        e.preventDefault();
-        if (!username.trim() || !password.trim()) {
-            console.error('Username or password is empty');
-            return;
-        }
-        try {
-            const response = await axios.post('/users', {
-                username,
-                password
-            });
-            console.log('Login successful:', response.data);
-        } catch (error) {
-            console.error('Login failed:', error.response?.data?.message || error.message);
-            
-        }
+    const handleLogin = (event) => {
+        event.preventDefault();
     };
     
 
@@ -31,7 +16,7 @@ const LoginPage = () => {
                     <div className="card">
                         <div className="card-body">
                             <h2 className="card-title text-center mb-4">Login</h2>
-                            <form onSubmit={handleLogin}>
+                            <form onSubmit={handleLogin} method="post">
                                 <div className="mb-3">
                                     <label htmlFor="username" className="form-label">Username:</label>
                                     <input type="text" id="username" className="form-control" value={username} onChange={(e) => setUsername(e.target.value)}/>

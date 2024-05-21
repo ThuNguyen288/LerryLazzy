@@ -1,8 +1,7 @@
 import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom';
 
-const Navbar = () => {
+const NavBar = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
@@ -43,7 +42,7 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default NavBar;
 
 
 
