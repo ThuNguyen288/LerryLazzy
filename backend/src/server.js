@@ -1,30 +1,33 @@
-const express = require('express');
-const sql = require('mssql');
-const bodyParser = require('body-parser');
+import bodyParser from "body-parser";
+import express from "express";
+import sql from "mssql";
 
-const productModel = require('./models/productModel');
-const userModel = require('./models/userModel');
+import viewEngine from "./config/viewEngine";
+import initWebRoutes from "./route/web";
+import connectDB from "./config/connectDB";
 
-const config = {
-    user: 'sa',
-    password: '123456',
-    server: 'LAPTOPCUATUI',
-    database: 'WoolShop',
-    options: {
-        encrypt: true,
-        trustServerCertificate: true,
-        instancename: 'SQLEXPRESS'
-    },
-    port: 1433
-};
+require('dotenv').config();
 
-const app = express();
+let app = express();
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}))
 
-app.get('/', (req, res) => {
-    res.send('Welcome to Lerry Lazzy Shop');
-});
+viewEngine(app);
+initWebRoutes(app);
+
+connectDB();
+
+let port = process.env.PORT || 8000; // Port == underfined => port = 8000
+
+app.listen(port, () => {
+    console.log("Backend Nodejs is running on port " + port);
+})
+
+const productModel = require('../model/productModel');
+const userModel = require('../model/userModel');
+
+
 
 app.get('/users', async (req, res) => {
     try {
@@ -73,14 +76,3 @@ app.get('/products', async (req, res) => {
         res.status(500).send({'error': 'An error occurred while retrieving products' });
     }
 });
-
-sql.connect(config)
-    .then(() => {
-        console.log('Connected to SQL Server');
-        app.listen(4000, () => {
-            console.log('Server is running on port 4000');
-        });
-    })
-    .catch((err) => {
-        console.error('Error connecting to SQL Server:', err);
-    });

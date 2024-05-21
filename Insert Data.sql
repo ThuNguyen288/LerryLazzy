@@ -62,3 +62,13 @@ VALUES
 (9, 'JULY10', 10.00, '2024-07-31'),
 (10, 'LABORDAY', 30.00, '2024-09-05');
 
+-- Insert data into Products table
+INSERT INTO Products (ProductID, Name, Description, Price, CategoryID)
+VALUES (1, 'Susan Family 4', 'Susan Family 4 premium Chinese domestic wool. Wool is hygroscopic, meaning it absorbs moisture from the air...', 30000, 1),
+       (2, 'Susan Family 5', 'Susan Family 5 wool is a larger version than Susan Family 4, and it is also made from premium Chinese domestic wool...', 50000, 1),
+       (3, 'Cotton Milk', 'Round, smooth, colorful yarn. Suitable for knitting and crocheting toys, bags, clothes, and amigurumi...', 10000, 1),
+       (4, 'Cow Milk', 'Cow milk wool is a type of wool that is quite soft, spongy, and easy to work with. It is available in a variety of colors...', 14000, 1),
+       (5, 'Baby Yarn', 'Baby Yarn, also called Baby Jeans wool, is top-quality acrylic yarn that is very soft and gentle on the skin. It is perfect for knitting and crocheting clothes, blankets, and accessories for babies and toddlers...', 22000, 1),
+       (6, 'Milk Cotton 125Gr', 'Cotton milk wool is used to knit scarves and crochet amigurumi, toys, and other home decor items. It is also a great choice for making baby clothes and accessories because it is soft and gentle on the skin...', 43000, 1),
+       (7, 'Simply Yarn', 'Recycled Cotton suitable hanging bags, hats, tote bags, and other projects. This yarn is eco-friendly and has a beautiful, natural texture...', 30000, 1),
+       (8, 'SKC Flexible Crochet Hook', 'SKC flexible crochet hook SKC flexible crochet hook hook for crocheting...', 30000, 3);
