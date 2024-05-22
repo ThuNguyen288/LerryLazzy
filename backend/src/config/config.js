@@ -35,4 +35,12 @@ module.exports = {
     database: `${process.env.DB_DATABASE}_prod`,
     host: process.env.DB_HOST,
     dialect: process.env.DB_DIALECT,
-    port:
+    port: process.env.DB_PORT,
+    dialectOptions: {
+      options: {
+        encrypt: true,
+        trustServerCertificate: true
+      }
+    }
+  }
+}
