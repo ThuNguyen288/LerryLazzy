@@ -10,44 +10,36 @@ module.exports = {
         primaryKey: true
       },
       Username: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(50),
         allowNull: false,
         unique: true
       },
       Password: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(255),
         allowNull: false
       },
-      Firstname: {  
-        type: Sequelize.STRING,
+      Firstname: {
+        type: Sequelize.STRING(50),
         allowNull: false
       },
       Lastname: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(50),
         allowNull: false
       },
       Phone: {
-        type: Sequelize.STRING,  
-        allowNull:false
+        type: Sequelize.STRING(20),
+        allowNull: false
       },
       Email: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(100),
         allowNull: true
       },
       Address: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(255),
         allowNull: true
       },
       Role: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      createdAt: {
-        type: Sequelize.DATE,
-        allowNull: false
-      },
-      updatedAt: {
-        type: Sequelize.DATE,
+        type: Sequelize.STRING(50),
         allowNull: false
       }
     });

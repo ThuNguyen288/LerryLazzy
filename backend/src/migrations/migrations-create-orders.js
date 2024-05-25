@@ -15,18 +15,20 @@ module.exports = {
         references: {
           model: 'Users',
           key: 'UserID'
-        }
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL'
       },
       OrderDate: {
         type: Sequelize.DATE,
         allowNull: false
       },
       ShippingAddress: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(255),
         allowNull: false
       },
       PaymentMethod: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(100),
         allowNull: false
       },
       TotalPrice: {
@@ -39,15 +41,9 @@ module.exports = {
         references: {
           model: 'Coupons',
           key: 'CouponID'
-        }
-      },
-      createdAt: {
-        type: Sequelize.DATE,
-        allowNull: false
-      },
-      updatedAt: {
-        type: Sequelize.DATE,
-        allowNull: false
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL'
       }
     });
   },

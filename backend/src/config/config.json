@@ -1,3 +1,4 @@
+
 {
   "development": {
     "username": "sa",
@@ -5,7 +6,7 @@
     "database": "WoolShop",
     "host": "LAPTOPCUATUI",
     "dialect": "mssql",
-    "logging": false,
+    "logging": true,
     "port": 1433,
     "dialectOptions": {
       "options": {

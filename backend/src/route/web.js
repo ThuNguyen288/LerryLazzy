@@ -10,6 +10,10 @@ let router = express.Router();
 
 let initWebRoutes = (app) => { //rest api
     router.get('/', homeController.getHomePage);
+    router.get('/crud', homeController.getCRUD);
+    router.get('/get-crud', homeController.displayCRUD);
+
+    router.post('/post-crud', homeController.postCRUD);
 
 
     return app.use("/", router);
