@@ -1,5 +1,5 @@
 import React from "react";
-import img from "../Image/img.jpg"
+import img from "../images/img.jpg"
  const Banner = () => {
     return(
         <div id="carouselExampleCaptions" className="carousel carousel-dark slide" data-bs-ride="carousel">
