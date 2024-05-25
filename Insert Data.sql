@@ -50,6 +50,33 @@ VALUES
 (21, 'alexander_allen', 'alex123', 'Alexander', 'Allen', '444666888', 'alexander.allen@example.com', '404 Pine Ave, Territory', 'customer'),
 (22, 'mia_young', 'mia456', 'Mia', 'Young', '111222333', 'mia.young@example.com', '505 Elm Ave, Region', 'customer');
 
+-- Update password in Users table
+UPDATE Users
+SET Password = CASE
+    WHEN UserID = 1 THEN '$2a$10$bSaVn63wFVdIVSaH51VSLuSf5NpgOdJIgFd76bVxlKroMU5M1T0o2'
+    WHEN UserID = 2 THEN '$2a$10$RORFmVhtnkEsvwn7pTXGw.rxYhi7X/p3NL3iRS17/0x8waCIMs3hW'
+    WHEN UserID = 3 THEN '$$2a$10$UrO3mazeO/ybqV/PuzmrLeG2BvPZ2NFtodssVdSzklSTtcDztDUze'
+    WHEN UserID = 4 THEN '$2a$10$C656qBpPGpFK1bxG0N652eP.nXtp.JCvtYf/P3/2SBvF05ZHR4Gi6'
+    WHEN UserID = 5 THEN '$2a$10$fQhRZ1ACYV1286Z7zW.32.PHkqoXw3c6NLsKh.uRefcMM/mBsLO3m'
+    WHEN UserID = 6 THEN '$2a$10$D88kxH61rpw3BG1Serrdyurz0gIjVnFlBIKB1BQZtDMA8I9lehwVe'
+    WHEN UserID = 7 THEN '$2a$10$/WmXf56q824RhQF2zuhUoOvP6NIOZ/RS9iaIa7lMJ1gIL3.AMdjU2'
+    WHEN UserID = 8 THEN '$2a$10$IfaNMbTz9mnqe56Z4JkzEOf.7yAU0SG4eGE2uWyZ8NxXBsogmguse'
+    WHEN UserID = 9 THEN '$2a$10$zTDLfi5GL3FEfvvhSIrMZuWFc1ap5L4HLy0miV8yXnNPQ5vSimSfG'
+    WHEN UserID = 10 THEN '$2a$10$myfqPKRROgsgUhcxGx5HvOh1cnjQTbmyywkdOJmnU0kmipmqQ.ZVq'
+    WHEN UserID = 11 THEN '$2a$10$BiTDt5XIqxJpdh3ftFabE.7JbUSBmPpiqAnzJbiWg6vKcob6gXcJ6'
+    WHEN UserID = 12 THEN '$2a$10$m93iSfc0dcmeApzbQK4XiuIYAQGPkP1vkq/2Hm4r.P60WlIkAovOy'
+    WHEN UserID = 13 THEN '$2a$10$6c/h04MyL.yXp2FnOZ9KcelpwaxHddwRK/YPAdQhZjKGp0z.VMaA.'
+    WHEN UserID = 14 THEN '$2a$10$1ZrGAadI.SFaeR0e7nCq.OvrBUHvdNN623hI.RXXT.d1feP/EunPu'
+    WHEN UserID = 15 THEN '$2a$10$a8b7vZAa0MsD./o22zPb1.F.lY4BsrSEeNfecvRpO.J6k9731ltm.'
+    WHEN UserID = 16 THEN '$2a$10$2p6TwNbk886Uh/NZS1WbEudHk7TqJSqcP1ib9pHCcMmPlH9H7ACau'
+    WHEN UserID = 17 THEN '$2a$10$SGlWxFtr0xqP37Dcw46sQ.6Fa/vDoaaV7RaegO9MU/EdoI/jYcmR2'
+    WHEN UserID = 18 THEN '$2a$10$CIuKrP065Ibcr8elZJ4FF.bQL8VuuHWuiCVcjsnzn4.40DKLqmdy2'
+    WHEN UserID = 19 THEN '$2a$10$KCQ/M0f6bNv0uDNkt120s.LkHgZmD6Qz0/7RIVeBZQov/odJq/ylK'
+    WHEN UserID = 20 THEN '$2a$10$axSPLGthlV0Dm2Qr0LNUbe0Peweg5QizNae3MJcYIwNZwnZy7ZYzy'
+    WHEN UserID = 21 THEN '$2a$10$WodCyotaJCiT1Le120048.aNtJ6I8/LMC6gU9x2zxVeTk1p12bxyy'
+    WHEN UserID = 22 THEN '$2a$10$Fa8xUR3xPNVKrQcMfmpYVeYmKmV4banLMWX9X7LkbWWkKf.4Nmq.W'
+    ELSE Password 
+END;
 
 -- Insert data into Coupons table
 INSERT INTO Coupons (CouponID, Code, Discount, ExpiryDate)

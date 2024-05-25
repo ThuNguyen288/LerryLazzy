@@ -12,9 +12,11 @@ let initWebRoutes = (app) => { //rest api
     router.get('/', homeController.getHomePage);
     router.get('/crud', homeController.getCRUD);
     router.get('/get-crud', homeController.displayCRUD);
+    router.get('/edit-crud', homeController.editCRUD);
+    router.get('/delete-crud', homeController.deleteCRUD);
 
     router.post('/post-crud', homeController.postCRUD);
-
+    router.post('/put-crud', homeController.putCRUD);
 
     return app.use("/", router);
 }
