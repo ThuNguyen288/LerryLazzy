@@ -3,7 +3,20 @@ import db from '../models/index';
 
 const saltRounds = 10;
 
-let createNewUser = async (data) => {
+// Function to encode password
+const hashUserPassword = (password) => {
+    return new Promise((resolve, reject) => {
+        bcrypt.hash(password, saltRounds, (err, hash) => {
+            if (err) {
+                return reject(err);
+            }
+            resolve(hash);
+        });
+    });
+};
+
+// Function to create new user
+const createNewUser = (data, res) => {
     return new Promise(async (resolve, reject) => {
         try {
             let hashPasswordFromBcrypt = await hashUserPassword(data.password);
@@ -17,55 +30,44 @@ let createNewUser = async (data) => {
                 Address: data.address,
                 Role: data.role || 'customer' 
             });
-
-            resolve('Create new user succeeded!');
+            res.status(201).json({ message: 'Create new user succeeded!' });
         } catch (e) {
-            reject(e);
+            res.status(500).json({ error: e.message });
         }
     });
 };
 
-let hashUserPassword = (password) => {
-    return new Promise((resolve, reject) => {
-        bcrypt.hash(password, saltRounds, (err, hash) => {
-            if (err) reject(err);
-            resolve(hash);
-        });
-    });
-};
-
-let getAllUser = () => {
+// Function to get all users
+let getAllUsers = () => {
     return new Promise(async (resolve, reject) => {
         try {
-            let users = await db.User.findAll({
-                raw: true,
-            });
+            let users = await db.User.findAll({ raw: true });
             resolve(users);
-            
         } catch (e) {
-            reject(e);
+            res.status(500).json({ error: e.message });
         }
-    })
-}
+    });
+};
 
+// Function to get user information by id
 let getUserInfoById = (id) => {
     return new Promise( async (resolve, reject) => {
         try {
             let user = await db.User.findOne({
                 where: {UserID: id}, 
-                raw: true,
+                raw: true
             });
-            if (user) {
-                resolve(user);
-            } else {
-                reject('User not found!');
+            if (!user) {
+                return res.status(404).json({ message: 'User not found!' });
             }
+            res.status(200).json(user);
         } catch (e) {
-            reject(e);
+            res.status(500).json({ error: e.message });
         }
-    })
-}
+    });
+};
 
+// Function to update user information
 let updateUserData = async (data) => {
     return new Promise(async(resolve, reject) => {
         try {
@@ -73,23 +75,24 @@ let updateUserData = async (data) => {
                 where: { UserID: data.UserID }
             });
             if (!user) {
-                reject('User not found!');
+                return res.status(404).json({ message: 'User not found!' });
             } else {
                 await user.update({
-                    Firstname: data.Firstname,
-                    Lastname: data.Lastname,
-                    Phone: data.Phone,
-                    Address: data.Address
+                    Firstname: req.body.Firstname,
+                    Lastname: req.body.Lastname,
+                    Phone: req.body.Phone,
+                    Address: req.body.Address
                 });
-                let allUsers = await db.User.findAll();
-                resolve(allUsers);
             }
-        } catch(e) {
-            reject(e);
+            let allUsers = await db.User.findAll({ raw: true });
+            res.status(200).json(allUsers);
+        } catch (e) {
+            res.status(500).json({ error: e.message });
         }
     });
-}
+};
 
+// Funtion to detele user
 let deleteUserById = (userId) => {
     return new Promise(async(resolve, reject) => {
         try {
@@ -97,21 +100,21 @@ let deleteUserById = (userId) => {
                 where: { UserID: userId }
             });
             if (!user) {
-                reject('User not found!');
+                return res.status(404).json({ message: 'User not found!' });
             } else {
                 await user.destroy();
+                res.status(200).json({ message: 'User deleted successfully' });
             }
-            resolve();
         } catch {
-            reject(e);
+            res.status(500).json({ error: e.message });
         }
-    })
-}
+    });
+};
 
 
 module.exports = {
     createNewUser: createNewUser,
-    getAllUser: getAllUser,
+    getAllUsers: getAllUsers,
     getUserInfoById : getUserInfoById,
     updateUserData: updateUserData,
     deleteUserById: deleteUserById

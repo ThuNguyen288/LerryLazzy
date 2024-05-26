@@ -1,43 +1,109 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
+import './LoginPage.css';
 
-const LoginPage = () => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+class LoginPage extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            username: '',
+            password: '',
+            showPassword: false
+        };
+    }
 
-    const handleLogin = (event) => {
+    handleLogin = (event) => {
         event.preventDefault();
+        console.log(this.state.username, this.state.password);
+        console.log("All state: ", this.state);
     };
-    
 
-    return (
-        <div className="container">
-            <div className="row justify-content-center">
-                <div className="col-md-6">
-                    <div className="card">
-                        <div className="card-body">
-                            <h2 className="card-title text-center mb-4">Login</h2>
-                            <form onSubmit={handleLogin} method="post">
-                                <div className="mb-3">
-                                    <label htmlFor="username" className="form-label">Username:</label>
-                                    <input type="text" id="username" className="form-control" value={username} onChange={(e) => setUsername(e.target.value)}/>
+    handleOnChangeInput = (event) => {
+        const { name, value } = event.target;
+        console.log(value);
+        this.setState({
+            [name]: value
+        });
+    }
+
+    handleShowPassword = () => {
+        this.setState((prevState) => ({
+            showPassword: !prevState.showPassword
+        }));
+    }
+
+    render() {
+        const { username, password, showPassword } = this.state;
+
+        return (
+            <section className="vh-100 gradient-custom">
+                <div className="container py-5 h-100">
+                    <div className="row d-flex justify-content-center align-items-center h-100">
+                        <div className="col-12 col-md-8 col-lg-6 col-xl-5">
+                            <div className="card bg-dark text-white" style={{ borderRadius: '1rem' }}>
+                                <div className="card-body p-5 text-center">
+                                    <div className="mb-md-5 mt-md-4 pb-5">
+                                        <h2 className="fw-bold mb-2 text-uppercase">Login</h2>
+                                        <p className="text-white-50 mb-5">Please enter your account and password!</p>
+
+                                        <form onSubmit={this.handleLogin}>
+                                            <div className="form-outline form-white mb-4">
+                                                <input 
+                                                    type="text" 
+                                                    id="typeUsername" 
+                                                    name="username" 
+                                                    placeholder="Username" 
+                                                    className="form-control form-control-lg" 
+                                                    value={username} 
+                                                    onChange={this.handleOnChangeInput}
+                                                />
+                                            </div>
+
+                                            <div className="form-outline form-white mb-4 position-relative">
+                                                <input 
+                                                    type={this.state.showPassword ? "text" : "password"} 
+                                                    id="typePassword" 
+                                                    name="password" 
+                                                    placeholder="Password" 
+                                                    className="form-control form-control-lg" 
+                                                    value={password} 
+                                                    onChange={this.handleOnChangeInput}
+                                                />
+                                                <i
+                                                    className={"fa " + (showPassword ? "fa-eye" : "fa-eye-slash") + " position-absolute"}
+                                                    style={{ top: '50%', right: '10px', transform: 'translateY(-50%)', cursor: 'pointer', opacity: '0.7'}}
+                                                    onClick={this.handleShowPassword}
+                                                ></i>
+                                            </div>
+
+                                            <div className="d-flex justify-content-between mb-4">
+                                                <div className="remember-me">
+                                                    <input id="remember" type="checkbox"/>
+                                                    <label>Remember me</label>
+                                                </div>
+                                                <p className="small mb-5 pb-lg-2"><a className="text-white-50" href="#!">Forgot password?</a></p>
+                                            </div>
+                                            
+                                            <button className="btn btn-outline-light btn-lg px-5" type="submit">Login</button>
+                                        </form>
+
+                                        <div className="d-flex justify-content-center text-center mt-4 pt-1">
+                                            <a href="#!" className="text-white"><i className="fa fa-facebook-f fa-lg"></i></a>
+                                            <a href="#!" className="text-white"><i className="fa fa-twitter fa-lg mx-4 px-2"></i></a>
+                                            <a href="#!" className="text-white"><i className="fa fa-google fa-lg"></i></a>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <p className="mb-0">Don't have an account? <a href="#!" className="text-white-50 fw-bold">Sign Up</a></p>
+                                    </div>
                                 </div>
-                                <div className="mb-3">
-                                    <label htmlFor="password" className="form-label">Password:</label>
-                                    <input type="password" id="password" className="form-control" value={password} onChange={(e) => setPassword(e.target.value)}/>
-                                </div>
-                                <button type="submit" className="btn btn-primary w-100">Login</button>
-                            </form>
-                        </div>
-                        <div className="card-footer text-center">
-                            <button className="btn btn-link me-3">Forgot Password?</button>
-                            <span className="text-muted">|</span>
-                            <button className="btn btn-link ms-3">Create New Account</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    );
-};
+            </section>
+        );
+    }
+}
 
 export default LoginPage;

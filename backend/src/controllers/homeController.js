@@ -1,5 +1,5 @@
 import db from '../models/index';
-import crudService from '../services/crudService';
+import crudService from '../services/userService';
 
 let getHomePage = async(req, res) => {
     try {
@@ -23,7 +23,7 @@ let postCRUD = async(req, res) => {
 }
 
 let displayCRUD = async(req, res) => {
-    let data = await crudService.getAllUser();
+    let data = await crudService.getAllUsers();
     console.log('------------------------------');
     console.log(data);
     console.log('------------------------------');
