@@ -1,5 +1,5 @@
 import db from '../models/index';
-import crudService from '../services/userService';
+import crudService from '../services/crudService';
 
 let getHomePage = async(req, res) => {
     try {

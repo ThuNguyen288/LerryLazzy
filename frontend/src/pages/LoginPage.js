@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './LoginPage.css';
+import { handleLoginApi }  from '../services/userService';
 
 class LoginPage extends Component {
     constructor(props) {
@@ -11,10 +12,16 @@ class LoginPage extends Component {
         };
     }
 
-    handleLogin = (event) => {
+    handleLogin = async (event) => {
         event.preventDefault();
         console.log(this.state.username, this.state.password);
         console.log("All state: ", this.state);
+
+        try {
+            await handleLoginApi(this.state.username, this.state.password);
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     handleOnChangeInput = (event) => {
