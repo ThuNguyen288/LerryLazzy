@@ -41,6 +41,13 @@ input::placeholder {
     border-color: #333;
 }
 
+.error-message {
+    color: red;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+
 .btn {
     border-color: #333;
     background: #6a11cb;
