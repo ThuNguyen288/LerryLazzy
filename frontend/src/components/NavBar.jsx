@@ -38,7 +38,7 @@ const NavBar = () => {
               <div className="nav-link"><Link to="/">MATERIAL</Link></div>
             </li>
             <li className='nav-item'>
-              <div className="nav-link"><Link to="/">SET</Link></div>
+              <div className="nav-link"><Link to="/">TOOL</Link></div>
             </li>
           </ul>
           <div className="d-flex align-items-center w-25">
