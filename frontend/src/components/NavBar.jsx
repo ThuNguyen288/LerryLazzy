@@ -38,7 +38,7 @@ const NavBar = () => {
               <div className="mx-5"><Link to="/" className='text-brown'>MATERIAL</Link></div>
             </li>
             <li className='nav-item'>
-              <div className="nav-link"><Link to="/">TOOL</Link></div>
+              <div className="mx-5"><Link to="/" className='text-brown'>TOOL</Link></div>
             </li>
           </ul>
           <div className="d-flex ms-auto align-items-center">
