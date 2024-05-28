@@ -40,6 +40,10 @@ module.exports = {
         },
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL'
+      },
+      Image: {
+        type: Sequelize.BLOB,
+        allowNull: true
       }
     });
   },

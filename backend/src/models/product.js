@@ -37,6 +37,10 @@ module.exports = (sequelize, DataTypes) => {
     SubcategoryID: {
       type: DataTypes.INTEGER,
       allowNull: true
+    },
+    Image: {
+      type: DataTypes.BLOB,
+      allowNull: true
     }
   }, {
     sequelize,
