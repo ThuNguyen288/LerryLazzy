@@ -2,7 +2,7 @@ import React from "react";
 import img from "../images/img.jpg"
  const Banner = () => {
     return(
-        <div id="carouselExampleCaptions" className="carousel carousel-dark slide" data-bs-ride="carousel">
+        <div id="carouselExampleCaptions" className="carousel carousel-dark slide w-75 py-5 mx-auto" data-bs-ride="carousel">
             <div className="carousel-indicators">
                 <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" className="active btn btn-black" aria-current="true" aria-label="Slide 1"></button>
                 <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
