@@ -1,8 +1,36 @@
 .App {
   text-align: center;
+  font-family: Outfit;
+  
 }
 
+.outfit{
+  font-family: "Outfit", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
 
+.bg-img{
+  min-height: 100vh;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bg-img::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('./images/Background.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.5; /* Adjust the opacity as needed */
+  z-index: -1; /* Ensure the background is behind the content */
+}
 
 .App-header {
   background-color:#d6c0a3;
@@ -26,4 +54,7 @@
 }
 .bg-4{
   background-color: #502E18;
+}
+.bg-5{
+  background-color:#fbd5cc;
 }

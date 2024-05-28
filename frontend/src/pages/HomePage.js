@@ -6,11 +6,11 @@ import '../App.css';
 const HomePage = () => {
 
   return (
-    <div>
+    <div className="bg-img">
       <div>
         <NavBar/>
       </div>
-      <div className="text-center"> 
+      <div className="text-center py-5"> 
         <h1>Welcome to LerryLazzyShop</h1>
         <p>Explore our amazing products and start shopping!</p>
       </div>
