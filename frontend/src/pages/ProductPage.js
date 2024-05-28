@@ -1,7 +1,7 @@
 import React from "react";
 import NavBar from "../components/NavBar";
 import Items from "../components/Item";
-const Products = () => {
+const ProductPage = () => {
     return (
         <div>
             <NavBar/>
@@ -13,4 +13,4 @@ const Products = () => {
     )
  }
 
-export default Products;
+export default ProductPage;

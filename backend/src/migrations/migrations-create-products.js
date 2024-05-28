@@ -42,7 +42,7 @@ module.exports = {
         onDelete: 'SET NULL'
       },
       Image: {
-        type: Sequelize.BLOB,
+        type: Sequelize.STRING,
         allowNull: true
       }
     });

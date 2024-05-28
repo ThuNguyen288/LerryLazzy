@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Information</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .product {
+    border: 1px solid #ccc; /* Add border to create a frame */
+    padding: 20px; /* Increase padding for more space inside the frame */
+    margin-bottom: 20px; /* Add margin to separate products */
+}
+
+.product img {
+    max-width: 100%; /* Ensure images don't exceed the width of their container */
+    height: auto; /* Maintain aspect ratio */
+    display: block; /* Ensure proper layout */
+}
+
+@media (min-width: 992px) {
+    .col-lg-3 {
+        flex-basis: calc(25% - 40px); /* Adjust width for large devices */
+        max-width: calc(25% - 40px); /* Adjust max width for large devices */
+        margin-right: 20px; /* Add margin between products */
+    }
+    .col-lg-3:last-child {
+        margin-right: 0; /* Remove margin from the last product in a row */
+    }
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Product Information</h1>
+        
+        <div class="row">
+            <% for (let i = 0; i < productData.length; i++) { %>
+                <div class="col-md-3"> <!-- Each product takes 3 columns in medium-sized screens -->
+                    <div class="product">
+                        <h2><%= productData[i].Name %></h2>
+                        <p>Description: <%= productData[i].Description %></p>
+                        <p>Price: $<%= productData[i].Price %></p>
+                        <img src="<%= productData[i].Image %>" />
+                    </div>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</body>
+</html>

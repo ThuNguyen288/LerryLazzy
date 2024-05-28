@@ -9,6 +9,7 @@ module.exports = {
           Description: 'Susan Family 4 premium Chinese domestic wool. Wool is hygroscopic, meaning it absorbs moisture from the air...',
           Price: 30000,
           CategoryID: 1,
+          SubcategoryID: null,
           Image: '/images/wools/susan-family-4.png'
         },
         {
@@ -16,6 +17,7 @@ module.exports = {
           Description: 'Susan Family 5 wool is a larger version than Susan Family 4, and it is also made from premium Chinese domestic wool...',
           Price: 50000,
           CategoryID: 1,
+          SubcategoryID: null,
           Image: '/images/wools/susan-family-5.png'
         },
         {
@@ -23,6 +25,7 @@ module.exports = {
           Description: 'Round, smooth, colorful yarn. Suitable for knitting and crocheting toys, bags, clothes, and amigurumi...',
           Price: 10000,
           CategoryID: 1, 
+          SubcategoryID: null,
           Image: '/images/wools/cotton-milk.png'
         },
         {
@@ -30,6 +33,7 @@ module.exports = {
           Description: 'Cow milk wool is a type of wool that is quite soft, spongy, and easy to work with. It is available in a variety of colors...',
           Price: 14000,
           CategoryID: 1,
+          SubcategoryID: null,
           Image: '/images/wools/cow-milk.png'
         },
         {
@@ -37,6 +41,7 @@ module.exports = {
           Description: 'Baby Yarn, also called Baby Jeans wool, is top-quality acrylic yarn that is very soft and gentle on the skin. It is perfect for knitting and crocheting clothes, blankets, and accessories for babies and toddlers...',
           Price: 22000,
           CategoryID: 1,
+          SubcategoryID: null,
           Image: '/images/wools/baby-yarn.png'
         },
         {
@@ -44,6 +49,7 @@ module.exports = {
           Description: 'Cotton milk wool is used to knit scarves and crochet amigurumi, toys, and other home decor items. It is also a great choice for making baby clothes and accessories because it is soft and gentle on the skin...',
           Price: 43000,
           CategoryID: 1,
+          SubcategoryID: null,
           Image: '/images/wools/milk-cotton-125gr.png'
         },
         {
@@ -51,6 +57,7 @@ module.exports = {
           Description: 'Recycled Cotton suitable hanging bags, hats, tote bags, and other projects. This yarn is eco-friendly and has a beautiful, natural texture...',
           Price: 30000,
           CategoryID: 1,
+          SubcategoryID: null,
           Image: '/images/wools/simply-yarn.png'
         },
         {
@@ -58,7 +65,168 @@ module.exports = {
           Description: 'Korean milk cotton wool, 25 gram super soft Korean baby wool roll for knitting beginners...',
           Price: 15000,
           CategoryID: 1,
+          SubcategoryID: null,
           Image: '/images/wools/liliarge-cotton.png'
+        },
+        {
+          Name: 'Capybara Wearing Orange',
+          Description: '...',
+          Price: 60000,
+          CategoryID: 2,
+          SubcategoryID: 1,
+          Image: '/images/products/animal/capybara-wear-orange.png'
+        },
+        {
+          Name: 'Penguin Wearing Flower Hat',
+          Description: '...',
+          Price: 70000,
+          CategoryID: 2,
+          SubcategoryID: 1,
+          Image: '/images/products/animal/penguin-wear-flower-hat.png'
+        },
+        {
+          Name: 'Black Cat Cute',
+          Description: '...',
+          Price: 55000,
+          CategoryID: 2,
+          SubcategoryID: 1,
+          Image: '/images/products/animal/black-cat.png'
+        },
+        {
+          Name: 'Mini Cute Bear',
+          Description: '...',
+          Price: 50000,
+          CategoryID: 2,
+          SubcategoryID: 1,
+          Image: '/images/products/animal/mini-bear.png'
+        },
+        {
+          Name: 'Tulip',
+          Description: '...',
+          Price: 25000,
+          CategoryID: 2,
+          SubcategoryID: 2,
+          Image: '/images/products/plant/tulip.png'
+        },
+        {
+          Name: 'Red Rose',
+          Description: '...',
+          Price: 30000,
+          CategoryID: 2,
+          SubcategoryID: 2,
+          Image: '/images/products/plant/red-rose.png'
+        },
+        {
+          Name: 'Cactus',
+          Description: '...',
+          Price: 30000,
+          CategoryID: 2,
+          SubcategoryID: 2,
+          Image: '/images/products/plant/cactus.png'
+        },
+        {
+          Name: 'Carrot Garden',
+          Description: '...',
+          Price: 70000,
+          CategoryID: 2,
+          SubcategoryID: 2,
+          Image: '/images/products/plant/carrot-garden.png'
+        },
+        {
+          Name: 'Thai Pineapple Fried Rice',
+          Description: '...',
+          Price: 50000,
+          CategoryID: 2,
+          SubcategoryID: 3,
+          Image: '/images/products/food/thai-pinapple-fried-rice.png'
+        },
+        {
+          Name: 'Mango Cake Roll',
+          Description: '...',
+          Price: 60000,
+          CategoryID: 2,
+          SubcategoryID: 3,
+          Image: '/images/products/food/mango-cake-roll.png'
+        },
+        {
+          Name: 'Sea Salt Oreo Cake Roll',
+          Description: '...',
+          Price: 60000,
+          CategoryID: 2,
+          SubcategoryID: 3,
+          Image: '/images/products/food/oreo-cake-roll.png'
+        },
+        {
+          Name: 'Matcha Strawberry Cake Roll',
+          Description: '...',
+          Price: 60000,
+          CategoryID: 2,
+          SubcategoryID: 3,
+          Image: '/images/products/food/matcha-strawberry-cake-roll.png'
+        },
+        {
+          Name: 'Crop-top With Floral Appliqué',
+          Description: '...',
+          Price: 250000,
+          CategoryID: 2,
+          SubcategoryID: 4,
+          Image: '/images/products/cloth/croptop-floral.png'
+        },
+        {
+          Name: 'Rose Halter Top',
+          Description: '...',
+          Price: 280000,
+          CategoryID: 2,
+          SubcategoryID: 4,
+          Image: '/images/products/cloth/rose-halter-top.png'
+        },
+        {
+          Name: 'Bear Face Hamburger Dress Set',
+          Description: '...',
+          Price: 600000,
+          CategoryID: 2,
+          SubcategoryID: 4,
+          Image: '/images/products/cloth/hamburger-dress-set.png'
+        },
+        {
+          Name: 'Vintage Cardigan',
+          Description: '...',
+          Price: 450000,
+          CategoryID: 2,
+          SubcategoryID: 4,
+          Image: '/images/products/cloth/vintage-cardigan.png'
+        },
+        {
+          Name: 'Capybara Hair Clip',
+          Description: '...',
+          Price: 20000,
+          CategoryID: 2,
+          SubcategoryID: 5,
+          Image: '/images/products/accessory/capybara-hair-clip.png'
+        },
+        {
+          Name: 'Hangyodon Hair Clip',
+          Description: '...',
+          Price: 20000,
+          CategoryID: 2,
+          SubcategoryID: 5,
+          Image: '/images/products/accessory/hangyodon-hair-clip.png'
+        },
+        {
+          Name: 'Milky Woven Bag',
+          Description: '...',
+          Price: 150000,
+          CategoryID: 2,
+          SubcategoryID: 5,
+          Image: '/images/products/accessory/milky-woven-bag.png'
+        },
+        {
+          Name: 'Bear Oatmeal Milk Satchel',
+          Description: '...',
+          Price: 120000,
+          CategoryID: 2,
+          SubcategoryID: 5,
+          Image: '/images/products/accessory/bear-oatmeal-milk-satchel.png'
         },
         {
           Name: 'Christmas Dumpling',
@@ -253,10 +421,43 @@ module.exports = {
           Image: '/images/products/mochi/tuxedo-mask-dumpling.png'
         },
         {
+          Name: 'Phone Case With Floral Pattern',
+          Description: '...',
+          Price: 80000,
+          CategoryID: 2,
+          SubcategoryID: 7,
+          Image: '/images/products/other/phone-case-flower.png'
+        },
+        {
+          Name: 'Flower Shaped Coaster',
+          Description: '...',
+          Price: 25000,
+          CategoryID: 2,
+          SubcategoryID: 7,
+          Image: '/images/products/other/flower-shaped-coaster.png'
+        },
+        {
+          Name: 'Toilet Paper Keychain',
+          Description: '...',
+          Price: 15000,
+          CategoryID: 2,
+          SubcategoryID: 7,
+          Image: '/images/products/other/toilet-paper-keychain.png'
+        },
+        {
+          Name: 'Angel And Devil Heart',
+          Description: '...',
+          Price: 40000,
+          CategoryID: 2,
+          SubcategoryID: 7,
+          Image: '/images/products/other/angel-devil-heart.png'
+        },
+        {
           Name: 'Wool Sewing Needle',
           Description: 'Used to hide excess wool inside the product.',
           Price: 2000,
           CategoryID: 3,
+          SubcategoryID: null,
           Image: '/images/materials/wool-sewing.png'
         },
         {
@@ -264,6 +465,7 @@ module.exports = {
           Description: 'Silver teardrop clip is often used in fashion accessories, handmade products.',
           Price: 10000,
           CategoryID: 3,
+          SubcategoryID: null,
           Image: '/images/materials/teardrop-clip.png'
         },
         {
@@ -271,6 +473,7 @@ module.exports = {
           Description: 'Tape-shaped wool felt with plastic material, colorful eye-catching. Used to mark stitches and rows when hooking.',
           Price: 5000,
           CategoryID: 3,
+          SubcategoryID: null,
           Image: '/images/materials/tape-needle-mark.png'
         },
         {
@@ -278,6 +481,7 @@ module.exports = {
           Description: 'Animal eyes are made of plastic material, which is used to make crocheted animal eyes very convenient.',
           Price: 10000,
           CategoryID: 3,
+          SubcategoryID: null,
           Image: '/images/materials/animal-eye.png'
         },
         {
@@ -285,6 +489,7 @@ module.exports = {
           Description: 'SKC flexible crochet hook SKC flexible crochet hook hook for crocheting...',
           Price: 30000,
           CategoryID: 4,
+          SubcategoryID: null,
           Image: '/images/tools/skc-crochet-hook.png'
         },
         {
@@ -292,6 +497,7 @@ module.exports = {
           Description: 'Clover Japanese domestic crochet hooks are designed standardly and accurately from needle to handle to help prevent hand fatigue and slipping when crocheting continuously.',
           Price: 180000,
           CategoryID: 4,
+          SubcategoryID: null,
           Image: '/images/tools/clover-crochet-hook.png'
         },
         {
@@ -299,6 +505,7 @@ module.exports = {
           Description: 'Tulip imitation crochet hook set There are two types of Tulip imitation crochet hook set : a dark pink set for crocheting wool, and a light pink set for crocheting yarn.',
           Price: 160000,
           CategoryID: 4,
+          SubcategoryID: null,
           Image: '/images/tools/tulip-crochet-hook.png'
         },
         {
@@ -306,6 +513,7 @@ module.exports = {
           Description: 'Tulip imitation crochet hook set There are two types of Tulip imitation crochet hook set : a dark pink set for crocheting wool, and a light pink set for crocheting yarn.',
           Price: 160000,
           CategoryID: 4,
+          SubcategoryID: null,
           Image: '/images/tools/tcp-crochet-hook.png'
         },
       ], {});
