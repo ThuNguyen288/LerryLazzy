@@ -19,7 +19,7 @@ const HomePage = () => {
       <div className="mx-auto">      
         <Banner/>
       </div>
-      <div className="mx-auto pb-5 w-80 text-center bg-white">
+      <div className="mx-auto mb-5 pb-5 w-80 text-center bg-white">
         <h1 className="my-5 text-100">Hot Items</h1>
         <Items/>
       </div>
