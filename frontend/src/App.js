@@ -7,7 +7,7 @@ import Cart from './pages/Cart';
 
 function App() {
   return (
-    <div className='outfit'>
+    <div className='outfit text-brown bg-img'>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomePage />} />
