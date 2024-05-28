@@ -28,17 +28,17 @@ const NavBar = () => {
                 PRODUCTS
               </div>
               <ul className="dropdown-menu">
-                <li><div className="dropdown-item"><Link to="/products" className='text-brown'>Products</Link></div></li>
-                <li><div className="dropdown-item"><Link to="/products" className='text-brown'>Wool</Link></div></li>
-                <li><div className="dropdown-item"><Link to="/products" className='text-brown'>Material</Link></div></li>
-                <li><div className="dropdown-item"><Link to="/products" className='text-brown'>Set</Link></div></li>
+                <li><div className="dropdown-item"><Link to="/products">Products</Link></div></li>
+                <li><div className="dropdown-item"><Link to="/products">Wool</Link></div></li>
+                <li><div className="dropdown-item"><Link to="/products">Material</Link></div></li>
+                <li><div className="dropdown-item"><Link to="/products">Set</Link></div></li>
               </ul>
             </li>
             <li className='nav-item'>
               <div className="mx-5"><Link to="/" className='text-brown'>MATERIAL</Link></div>
             </li>
             <li className='nav-item'>
-              <div className="mx-5"><Link to="/" className='text-brown'>SET</Link></div>
+              <div className="nav-link"><Link to="/">TOOL</Link></div>
             </li>
           </ul>
           <div className="d-flex ms-auto align-items-center">

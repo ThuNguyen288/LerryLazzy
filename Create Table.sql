@@ -69,6 +69,7 @@ CREATE TABLE Products (
     Price DECIMAL(10, 2),
     CategoryID INT,
     SubcategoryID INT,
+    Image VARBINARY(MAX),
     FOREIGN KEY (CategoryID) REFERENCES Categories(CategoryID),
     FOREIGN KEY (SubcategoryID) REFERENCES Subcategories(SubcategoryID)
 );

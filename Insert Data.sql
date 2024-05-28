@@ -4,7 +4,7 @@ INSERT INTO Categories (CategoryID, Name)
 VALUES (1, 'Wool'),
        (2, 'Product'),
        (3, 'Material'),
-       (4, 'Set');
+       (4, 'Tool');
 
 -- Insert data into Subcategories table
 INSERT INTO Subcategories (SubcategoryID, Name)
