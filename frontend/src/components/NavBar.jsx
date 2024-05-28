@@ -28,10 +28,10 @@ const NavBar = () => {
                 PRODUCTS
               </div>
               <ul className="dropdown-menu">
-                <li><div className="dropdown-item"><Link to="/products">Products</Link></div></li>
-                <li><div className="dropdown-item"><Link to="/products">Wool</Link></div></li>
-                <li><div className="dropdown-item"><Link to="/products">Material</Link></div></li>
-                <li><div className="dropdown-item"><Link to="/products">Set</Link></div></li>
+                <li><div className="dropdown-item"><Link to="/products" className='text-brown'>Products</Link></div></li>
+                <li><div className="dropdown-item"><Link to="/products" className='text-brown'>Wool</Link></div></li>
+                <li><div className="dropdown-item"><Link to="/products" className='text-brown'>Material</Link></div></li>
+                <li><div className="dropdown-item"><Link to="/products" className='text-brown'>Set</Link></div></li>
               </ul>
             </li>
             <li className='nav-item'>
