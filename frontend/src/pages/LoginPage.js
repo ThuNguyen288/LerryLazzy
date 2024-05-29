@@ -88,7 +88,7 @@ class LoginPage extends Component {
                 <div className="container py-5 h-100">
                     <div className="row d-flex justify-content-center align-items-center">
                         <div className="col-12 col-md-8 col-lg-6 col-xl-5">
-                            <div className="card bg-dark back-gound" style={{ borderRadius: '1rem' }}>
+                            <div className="card bg-dark back-ground" style={{ borderRadius: '1rem' }}>
                                 <div className="card-body p-5 ">
                                     <div className="mb-md-5 mt-md-4">
                                         <h2 className="fw-bold mb-2 text-uppercase text-center text-white">Login</h2>
@@ -101,7 +101,7 @@ class LoginPage extends Component {
                                                 id="typeUsername" 
                                                 name="username" 
                                                 placeholder="Username" 
-                                                className={"form-control form-control-lg" + (!this.state.isValid ? 'is-invalid' : '')}
+                                                className={"form-control form-control-lg " + (!this.state.isValid ? 'is-invalid' : '')}
                                                 value={username} 
                                                 onChange={this.handleOnChangeInput}
                                                 />

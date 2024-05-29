@@ -1,25 +1,28 @@
-.gradient-custom {
+.gradient-custom::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     background-image: url('../images/Background.png');
-    background-size: cover; 
+    background-size: cover;
+    background-repeat: no-repeat;
     background-position: center;
     opacity: 0.5;
-} 
+    z-index: -1;
+}
 
 p {
     font-weight: 400;
 }
 
-.backgound{
+.back-ground{
     height: 100%;
     background-color: rgba(255,255,255,0.13);
-    backdrop-filter: blur(20px);
+    opacity: .7;
     border: 2px solid rgba(255,255,255,0.1);
     box-shadow: 0 0 40px rgba(8,7,16,0.6);
-}
-
-.form-login {
-    opacity: 0.8;
-    background-color: #FAEAE3;
 }
 
 .form-floating input[id="typeUsername"] {
