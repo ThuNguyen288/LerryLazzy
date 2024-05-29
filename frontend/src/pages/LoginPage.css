@@ -19,27 +19,18 @@
     background-color: #FAEAE3;
 }
 
-.form-outline input[id="typeUsername"] {
+.form-floating input[id="typeUsername"] {
     font-size: 0.9rem;
     
 }
 
-.form-outline input[id="typePassword"] {
+.form-floating input[id="typePassword"] {
     font-size: 0.9rem;
 }
 
-input::placeholder {
-    font-style: italic;
-}
-
-.remember-me {
-    opacity: 0.7;
-    align-items: center;
-}
-
-.remember-me input[type="checkbox"] {
-    margin-right: 10px;
-    transform: scale(1.2);
+label {
+    font-size: 0.9rem;
+    font-weight: 300;
 }
 
 .form-control {
