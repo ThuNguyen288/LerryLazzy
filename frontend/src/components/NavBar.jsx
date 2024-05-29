@@ -1,50 +1,64 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import '../App.css';
-import logo from "../images/Logo(without backgound).png";
+import logo from "../images/Logo.png";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faUser, faShoppingCart, faHeart } from '@fortawesome/free-solid-svg-icons';
 
 const NavBar = () => {
   return (
-    <nav className="text-20 navbar navbar-expand-lg bg-5 w-100">
+    <nav className="navbar navbar-expand-lg w-100 menu bg-white">
       <div className="container-fluid">
-        <div className="navbar-brand w-25 ml-50 mr-0 w-auto">
-          <img src={logo} alt="logo" className="w-50" />
+        <div className="navbar-brand w-25 ml-30 mr-0 w-auto">
+          <Link to="/" className='text-brown'>
+          <img src={logo} alt="logo" className="logo" />
+          </Link>
         </div>
-        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        {/* <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
-        </button>
+        </button> */}
+        <div className='space'></div>
         <div className="collapse navbar-collapse mx-0" id="navbarSupportedContent">
           <ul className="navbar-nav mb-2 mb-lg-0 text-center mx-auto d-flex justify-content-center w-50">
             <li className="nav-item">
-              <div className="text-brown mx-5"><Link to="/" className='text-brown'>HOME</Link></div>
+              <div className="text-black mx-3">
+                <Link to="/" className='text-brown'>HOME</Link>
+              </div>
             </li>
             <li className='nav-item'>
-              <div className="text-brown mx-5"><Link to="/" className='text-brown'>WOOL</Link></div>
+              <div className="text-black mx-3">
+                <Link to="/product?categoryid" className='text-brown'>WOOL</Link>
+              </div>
             </li>
             <li className="nav-item dropdown">
-              <div className="text-brown mx-5 dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                PRODUCTS
+              <div className="text-black mx-3 dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <Link to="/product?categoryid" className='text-brown'>PRODUCT</Link>
               </div>
               <ul className="dropdown-menu">
-                <li><div className="dropdown-item"><Link to="/products" className='text-brown'>Products</Link></div></li>
-                <li><div className="dropdown-item"><Link to="/products" className='text-brown'>Wool</Link></div></li>
-                <li><div className="dropdown-item"><Link to="/products" className='text-brown'>Material</Link></div></li>
-                <li><div className="dropdown-item"><Link to="/products" className='text-brown'>Set</Link></div></li>
+                <li className="dropdown-item"><Link to="/product?subcategoryid" className='text-brown'>Animal</Link></li>
+                <li className="dropdown-item"><Link to="/product?subcategoryid" className='text-brown'>Plant</Link></li>
+                <li className="dropdown-item"><Link to="/product?subcategoryid" className='text-brown'>Food</Link></li>
+                <li className="dropdown-item"><Link to="/product?subcategoryid" className='text-brown'>Cloth</Link></li>
+                <li className="dropdown-item"><Link to="/product?subcategoryid" className='text-brown'>Accessory</Link></li>
+                <li className="dropdown-item"><Link to="/product?subcategoryid" className='text-brown'>Mochi</Link></li>
+                <li className="dropdown-item"><Link to="/product?subcategoryid" className='text-brown'>Other</Link></li>
               </ul>
             </li>
             <li className='nav-item'>
-              <div className="mx-5"><Link to="/" className='text-brown'>MATERIAL</Link></div>
+              <div className="text-black mx-3">
+                <Link to="/product?categoryid" className='text-brown'>MATERIAL</Link>
+              </div>
             </li>
             <li className='nav-item'>
-              <div className="mx-5"><Link to="/" className='text-brown'>TOOL</Link></div>
+              <div className="text-black mx-3">
+                <Link to="/product?categoryid" className='text-brown'>TOOL</Link>
+                </div>
             </li>
           </ul>
           <div className="d-flex ms-auto align-items-center">
             <div className="nav-item dropdown">
-              <FontAwesomeIcon icon={faSearch} className="text-brown mx-3 text-25" role="button" data-bs-toggle="dropdown" aria-expanded="false" />
-              <ul className="dropdown-menu border border-0 bg-transparent">
+              <FontAwesomeIcon icon={faSearch} className="text-brown mx-3" role="button" data-bs-toggle="dropdown" aria-expanded="false" />
+              {/* <ul className="dropdown-menu border border-0 bg-transparent">
                 <li className='search bg-white rounded-pill'>
                   <form className="d-flex mx-auto rounded" role="search">
                     <div className="input-group rounded">
@@ -55,23 +69,29 @@ const NavBar = () => {
                     </div>
                   </form>
                 </li>
+              </ul> */}
+            </div>
+            <div className="nav-item d-flex dropdown">
+              <div className="text-black" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <FontAwesomeIcon icon={faUser} className="text-brown mx-2" />
+              </div>
+              <ul className="dropdown-menu">
+                  <li className="dropdown-item"><Link to="/user?userid" className='text-brown'>Profile</Link></li>
+                  <li className="dropdown-item"><Link to="/user?userid" className='text-brown'>Change password</Link></li>
+                  <li className="dropdown-item"><Link to="/login" className='text-brown'>Sign out</Link></li>
               </ul>
             </div>
-            <div className="nav-item d-flex px-2">
-              <Link to="/login">
-                <FontAwesomeIcon icon={faUser} className="text-brown mx-3 text-25" />
-              </Link>
-            </div>
-            <div className="nav-item d-flex px-2">
+            <div className="nav-item d-flex">
               <Link to="/cart">
-                <FontAwesomeIcon icon={faShoppingCart} className="text-brown mx-3 text-25" />
+                <FontAwesomeIcon icon={faShoppingCart} className="text-brown mx-2" />
               </Link>
             </div>
-            <div className="nav-item d-flex px-2">
-              <Link to="/wishlist">
-                <FontAwesomeIcon icon={faHeart} className="text-danger mx-3 text-25" />
+            <div className="nav-item d-flex">
+              <Link to="/favorite">
+                <FontAwesomeIcon icon={faHeart} className="text-danger mx-2" />
               </Link>
             </div>
+            <div className='spacex'></div>
           </div>
         </div>
       </div>

@@ -8,6 +8,7 @@ import Items from "../components/Item";
 const HomePage = () => {
 
   return (
+    
     <div className="bg-img">
       <NavBar/>
       <Banner/>
