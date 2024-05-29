@@ -106,4 +106,42 @@
 
 .nav-item {
   font-family: "Roboto", sans-serif;
+  position: relative;
+}
+
+.nav-item a {
+  position: relative;
+  text-decoration: none;
+}
+
+.nav-item a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 1.5px;
+  display: block;
+  background: #333;
+  transition: width .3s  ease-in-out;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.nav-item a:hover::after {
+  width: 100%;
+  left: 0;
+  transform: translateX(0);
+}
+
+.nav-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px;
+  transition: box-shadow 0.3s ease;
+}
+
+.nav-icon:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 25%;
 }

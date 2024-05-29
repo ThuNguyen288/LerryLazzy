@@ -7,7 +7,7 @@ import { faSearch, faUser, faShoppingCart, faHeart } from '@fortawesome/free-sol
 
 const NavBar = () => {
   return (
-    <nav className="navbar navbar-expand-lg w-100 menu bg-white">
+    <nav className="navbar navbar-expand-lg sticky-top w-100 menu bg-white">
       <div className="container-fluid">
         <div className="navbar-brand w-25 ml-30 mr-0 w-auto">
           <Link to="/" className='text-brown'>
@@ -56,7 +56,7 @@ const NavBar = () => {
             </li>
           </ul>
           <div className="d-flex ms-auto align-items-center">
-            <div className="nav-item dropdown">
+            <div className="nav-icon dropdown">
               <FontAwesomeIcon icon={faSearch} className="text-brown mx-3" role="button" data-bs-toggle="dropdown" aria-expanded="false" />
               {/* <ul className="dropdown-menu border border-0 bg-transparent">
                 <li className='search bg-white rounded-pill'>
@@ -71,7 +71,7 @@ const NavBar = () => {
                 </li>
               </ul> */}
             </div>
-            <div className="nav-item d-flex dropdown">
+            <div className="nav-icon d-flex dropdown">
               <div className="text-black" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <FontAwesomeIcon icon={faUser} className="text-brown mx-2" />
               </div>
@@ -81,12 +81,12 @@ const NavBar = () => {
                   <li className="dropdown-item"><Link to="/login" className='text-brown'>Sign out</Link></li>
               </ul>
             </div>
-            <div className="nav-item d-flex">
+            <div className="nav-icon d-flex">
               <Link to="/cart">
                 <FontAwesomeIcon icon={faShoppingCart} className="text-brown mx-2" />
               </Link>
             </div>
-            <div className="nav-item d-flex">
+            <div className="nav-icon d-flex">
               <Link to="/favorite">
                 <FontAwesomeIcon icon={faHeart} className="text-danger mx-2" />
               </Link>
