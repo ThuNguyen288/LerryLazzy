@@ -30,8 +30,8 @@ const NavBar = () => {
                 <Link to="/product?categoryid" className='text-brown'>WOOL</Link>
               </div>
             </li>
-            <li className="nav-item dropdown">
-              <div className="text-black mx-3 dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <li className="dropdown">
+              <div className="nav-item text-black mx-3 dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <Link to="/product?categoryid" className='text-brown'>PRODUCT</Link>
               </div>
               <ul className="dropdown-menu">
@@ -84,11 +84,6 @@ const NavBar = () => {
             <div className="nav-icon d-flex">
               <Link to="/cart">
                 <FontAwesomeIcon icon={faShoppingCart} className="text-brown mx-2" />
-              </Link>
-            </div>
-            <div className="nav-icon d-flex">
-              <Link to="/favorite">
-                <FontAwesomeIcon icon={faHeart} className="text-danger mx-2" />
               </Link>
             </div>
             <div className='spacex'></div>
