@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { handleLoginApi } from '../services/userService';
-import { connect } from 'react-redux';
-import * as actions from "../store/actions";
 import './LoginPage.css';
 
 class LoginPage extends Component {
@@ -12,22 +10,43 @@ class LoginPage extends Component {
             password: '',
             showPassword: false,
             errMessage: '',
+            isValid: true,
+            isValidP: true,
+            errUsername: '',
+            errPassword: ''
         };
     }
 
     handleLogin = async (event) => {
         event.preventDefault();
-        this.setState({
-            errMessage: '',
-        });
+        const { username, password } = this.state;
+        if (username.trim() === '') {
+            this.setState({
+                isValid: false,
+                errUsername: 'Username is required'
+            });
+            return;
+        }
+        if (username.trim() !== '' && password.trim() === '') {
+            this.setState({
+                isValidP: false,
+                errPassword: 'Password is required'
+            });
+            return;
+        }
         try {
-            let data = await handleLoginApi(this.state.username, this.state.password);
-            if (data && data.errCode !== 0) {
+            let data = await handleLoginApi(username, password);
+            if (data && data.errCode === 1) {
                 this.setState({
-                errMessage: data.message,
-                isValid: true
+                isValid: false,
+                errUsername: data.message
                 });
-            } else if (data && data.errCode === 0) {
+            } else if (data && data.errCode === 3) {
+                this.setState({
+                    isValidP: false,
+                    errPassword: data.message
+                    });
+            } else {
                 // this.props.userLoginSuccess(data.user);
                 console.log("Login succeed!")
             }
@@ -47,7 +66,11 @@ class LoginPage extends Component {
         const { name, value } = event.target;
         console.log(value);
         this.setState({
-            [name]: value
+            [name]: value,
+            isValid: true,
+            isValidP: true,
+            errUsername: '',
+            errPassword: ''
         });
     }
 
@@ -65,53 +88,59 @@ class LoginPage extends Component {
                 <div className="container py-5 h-100">
                     <div className="row d-flex justify-content-center align-items-center">
                         <div className="col-12 col-md-8 col-lg-6 col-xl-5">
-                            <div className="card bg-dark" style={{ borderRadius: '1rem' }}>
-                                <div className="card-body p-5 text-center">
-                                    <div className="mb-md-5 mt-md-4 pb-5">
-                                        <h2 className="fw-bold mb-2 text-uppercase">Login</h2>
-                                        <p className="text-white-50 mb-5">Please enter your account and password!</p>
+                            <div className="card bg-dark back-gound" style={{ borderRadius: '1rem' }}>
+                                <div className="card-body p-5 ">
+                                    <div className="mb-md-5 mt-md-4">
+                                        <h2 className="fw-bold mb-2 text-uppercase text-center text-white">Login</h2>
+                                        <p className="text-white-50 mb-5 text-center">Please enter your account and password!</p>
 
                                         <form onSubmit={this.handleLogin}>
-                                            <div className="form-floating form-white mb-4">
+                                            <div className="form-floating mb-4">
                                                 <input 
                                                 type="text" 
                                                 id="typeUsername" 
                                                 name="username" 
                                                 placeholder="Username" 
-                                                className="form-control form-control-lg" 
+                                                className={"form-control form-control-lg" + (!this.state.isValid ? 'is-invalid' : '')}
                                                 value={username} 
                                                 onChange={this.handleOnChangeInput}
                                                 />
                                                 <label for="typeUsername">Username</label>
+                                                <div className="error-message">
+                                                    {this.state.errUsername}
+                                                </div>
                                             </div>
 
-                                            <div className="form-floating form-white mb-4 position-relative">
+                                            <div className="form-floating mb-4 position-relative">
                                                 <input 
                                                 type={this.state.showPassword ? "text" : "password"} 
                                                 id="typePassword" 
                                                 name="password" 
                                                 placeholder="Password" 
-                                                className={"form-control form-control-lg"} 
+                                                className="form-control form-control-lg" 
+                                                style={{borderColor: (this.state.isValidP ? '' : 'red')}}
                                                 value={password} 
                                                 onChange={this.handleOnChangeInput}
                                                 />
                                                 <label for="typePassword">Password</label>
                                                 <i
                                                 className={"fa " + (showPassword ? "fa-eye" : "fa-eye-slash") + " position-absolute"}
-                                                style={{ top: '50%', right: '10px', transform: 'translateY(-50%)', cursor: 'pointer', opacity: '0.7'}}
+                                                style={{ top: '23px', right: '10px', cursor: 'pointer', opacity: '0.7'}}
                                                 onClick={this.handleShowPassword}
                                                 ></i>
+                                                <div className="error-message">
+                                                    {this.state.errPassword}
+                                                </div>
                                             </div>
 
-                                            <div className="d-flex justify-content-between mb-4">
-                                                <p className="small mb-2 pb-lg-2"><a className="text-white-50" href="#!">Forgot password?</a></p>
+                                            <div className="d-flex justify-content-end mb-4">
+                                                <a className="small mb-2 pb-lg-2 text-white-50 forgot" href="#!">Forgot password?</a>
                                             </div>
                                             
-                                            <div className="form-outline mb-3 error-message">
-                                                {this.state.errMessage}
-                                            </div>
                                             
-                                            <button className="btn btn-outline-light btn-lg px-5" type="submit">Login</button>
+                                            <div className="d-flex justify-content-center align-items-center">
+                                                <button className="btn btn-outline-light btn-lg px-5 text-center" type="submit">Login</button>
+                                            </div>
                                         </form>
 
                                         <div className="d-flex justify-content-center text-center mt-4 pt-1">
@@ -122,7 +151,7 @@ class LoginPage extends Component {
                                     </div>
 
                                     <div>
-                                        <p className="mb-0">Don't have an account? <a href="#!" className="text-white-50 fw-bold">Sign Up</a></p>
+                                        <p className="mb-0 text-center text-white">Don't have an account? <a href="#!" className="text-white-50 fw-bold">Sign Up</a></p>
                                     </div>
                                 </div>
                             </div>

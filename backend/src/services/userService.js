@@ -39,7 +39,7 @@ let handleUserLogin = (username, password) => {
 
             } else {
                 userData.errCode = 1;
-                userData.errMessage = 'Username is not exist. Please try other username';
+                userData.errMessage = 'Username is not exist. Please try other username.';
             }
             
             resolve(userData);
