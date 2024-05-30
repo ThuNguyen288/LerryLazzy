@@ -57,7 +57,7 @@ const NavBar = () => {
           </ul>
           <div className="d-flex ms-auto align-items-center">
             <div className="nav-icon dropdown">
-              <FontAwesomeIcon icon={faSearch} className="text-brown mx-3" role="button" data-bs-toggle="dropdown" aria-expanded="false" />
+              <FontAwesomeIcon icon={faSearch} className="text-brown mx-2" role="button" data-bs-toggle="dropdown" aria-expanded="false" />
               {/* <ul className="dropdown-menu border border-0 bg-transparent">
                 <li className='search bg-white rounded-pill'>
                   <form className="d-flex mx-auto rounded" role="search">
