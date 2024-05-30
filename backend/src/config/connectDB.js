@@ -1,18 +1,25 @@
-import sql from "mssql";
+// import sql from "mssql";
 
-const config = {
-    user: 'sa',
-    password: '123456',
-    server: 'LAPTOPCUATUI',
-    database: 'WoolShop',
-    options: {
-        encrypt: true,
-        trustServerCertificate: true,
-        instancename: 'SQLEXPRESS'
-    },
-    logging: false,
-    port: 1433
-};
+// const config = {
+//     user: 'sa',
+//     password: '123456',
+//     server: 'LAPTOPCUATUI',
+//     database: 'WoolShop',
+//     options: {
+//         encrypt: true,
+//         trustServerCertificate: true,
+//         instancename: 'SQLEXPRESS'
+//     },
+//     logging: false,
+//     port: 1334
+// };
+
+import sql from "mysql";
+var con = sql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "2882002t"
+});
 
 let connectDB = async () => {
     try {

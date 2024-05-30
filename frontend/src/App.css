@@ -130,3 +130,11 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 25%;
 }
+
+section a {
+  text-decoration: none;
+}
+
+section a:hover {
+  text-decoration:underline grey 1px;
+}
