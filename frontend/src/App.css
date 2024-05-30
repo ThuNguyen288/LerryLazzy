@@ -26,7 +26,7 @@
 
 /* App.css */
 .text-brown {
-  color: #502E18;
+  color: #333;
   text-decoration: none;
 }
 
@@ -93,6 +93,8 @@
 .spacex{
   width: 30px;
 }
+
+
 
 .nav-item {
   font-family: "Roboto", sans-serif;
