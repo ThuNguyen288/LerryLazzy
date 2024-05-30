@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { handleLoginApi } from '../services/userService';
+import { handleLoginApi } from '../../services/userService';
 import './LoginPage.css';
 
 class LoginPage extends Component {
