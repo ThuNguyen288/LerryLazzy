@@ -1,31 +1,20 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import { handleLoginApi } from '../../services/userService';
-import './LoginPage.css';
+import './Login.css';
 
-const LoginPage = () => {
+const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [isValid, setIsValid] = useState(true);
     const [isValidP, setIsValidP] = useState(true);
-    const [errMessage, setErrMessage] = useState('');
     const [errUsername, setErrUsername] = useState('');
     const [errPassword, setErrPassword] = useState('');
 
     const { login } = useContext(AuthContext);
     const navigate = useNavigate();
-
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        const expirationTime = localStorage.getItem('expirationTime');
-        if (token && expirationTime && Date.now() < parseInt(expirationTime)) {
-            // Nếu token vẫn còn hiệu lực
-            login(token); // Tự động đăng nhập lại
-            localStorage.getItem('prevPath'); // Chuyển hướng đến trang chính
-        }
-    }, []);
 
     const handleLogin = async (event) => {
         event.preventDefault();
@@ -44,22 +33,16 @@ const LoginPage = () => {
             if (data && data.errCode === 1) {
                 setIsValid(false);
                 setErrUsername(data.message);
-                setErrMessage('Login failed, please check your username and password.');
             } else if (data && data.errCode === 3) {
                 setIsValidP(false);
                 setErrPassword(data.message);
-                setErrMessage('Login failed, please check your username and password.');
             } else {
                 const { token } = data;
-                const expirationTime = Date.now() + (5 * 60 * 1000); // 5 phút
-                localStorage.setItem('token', token);
-                localStorage.setItem('expirationTime', expirationTime);
                 login(token);
                 navigate('/');
             }
         } catch (error) {
             console.log(error);
-            setErrMessage('An error occurred during login, please try again later.');
         }
     };
     
@@ -145,11 +128,11 @@ const LoginPage = () => {
                                         </div>
                                     </form>
 
-                                    <div className="d-flex justify-content-center text-center mt-4 pt-1">
+                                    {/* <div className="d-flex justify-content-center text-center mt-4 pt-1">
                                     <a href="#!" className="text-white"><i className="fab fa-facebook-f fa-lg"></i></a>
                                     <a href="#!" className="text-white"><i className="fab fa-twitter fa-lg mx-4 px-2"></i></a>
                                     <a href="#!" className="text-white"><i className="fab fa-google fa-lg"></i></a>
-                                    </div>
+                                    </div> */}
                                 </div>
 
                                 <div>
@@ -164,4 +147,4 @@ const LoginPage = () => {
     );
 }
 
-export default (LoginPage);
+export default (Login);

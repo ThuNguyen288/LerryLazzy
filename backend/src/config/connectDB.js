@@ -11,7 +11,7 @@ const config = {
         instancename: 'SQLEXPRESS'
     },
     logging: false,
-    port: 1334
+    port: 1433
 };
 
 // import sql from "mysql";

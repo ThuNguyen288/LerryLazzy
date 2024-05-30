@@ -67,6 +67,11 @@ const NavBar = () => {
             </div>
             {isAuthenticated ? (
               <>
+                <div className="nav-icon d-flex">
+                  <Link to="/cart">
+                    <FontAwesomeIcon icon={faShoppingCart} className="text-brown mx-2" />
+                  </Link>
+                </div>
                 <div className="nav-icon d-flex dropdown">
                   <div className="text-black" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   <FontAwesomeIcon icon={faUser} className="text-brown mx-2" />
@@ -84,15 +89,10 @@ const NavBar = () => {
                   <button><Link to="/login" className='text-brown'>Log In</Link></button>
                 </div>
                 <div className='nav-icon d-flex'>
-                  <button><Link to="/register" className='text-brown'>Sign In</Link></button>
+                  <button><Link to="/register" className='text-brown'>Sign Up</Link></button>
                 </div>
               </>
             )}
-            <div className="nav-icon d-flex">
-              <Link to="/cart">
-                <FontAwesomeIcon icon={faShoppingCart} className="text-brown mx-2" />
-              </Link>
-            </div>
             <div className='spacex'></div>
           </div>
         </div>
