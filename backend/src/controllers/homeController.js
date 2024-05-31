@@ -1,5 +1,5 @@
 import db from '../models/index';
-import crudService from '../services/crudService';
+import userService from '../services/userService';
 
 let getHomePage = async(req, res) => {
     try {
@@ -17,13 +17,13 @@ let getCRUD = (req, res) => {
 }
 
 let postCRUD = async(req, res) => {
-    let message = await crudService.createNewUser(req.body);
+    let message = await userService.createNewUser(req.body);
     console.log(message);
     return res.send('post CRUD');
 }
 
 let displayCRUD = async(req, res) => {
-    let data = await crudService.getAllUsers();
+    let data = await userService.getAllUsers();
     console.log('------------------------------');
     console.log(data);
     console.log('------------------------------');
@@ -37,7 +37,7 @@ let editCRUD = async (req, res) => {
     if (!userId) {
         return res.send('User not found');
     } else {
-        let userData = await crudService.getUserInfoById(userId);
+        let userData = await userService.getUserInfoById(userId);
         console.log(userData);
         return res.render('test/editCRUD.ejs', {
             userData: userData
@@ -47,7 +47,7 @@ let editCRUD = async (req, res) => {
 
 let putCRUD = async (req, res) => {
     let data = req.body;
-    let allUsers = await crudService.updateUserData(data);
+    let allUsers = await userService.updateUserData(data);
     return res.render('test/displayCRUD.ejs', {
         dataUser: allUsers
     });
@@ -58,7 +58,7 @@ let deleteCRUD = async (req, res) => {
     if (!userId) {
         return res.send('User not found');
     } else {
-        await crudService.deleteUserById(userId);
+        await userService.deleteUserById(userId);
         return res.send("Delete user succeed!");
     }
 }

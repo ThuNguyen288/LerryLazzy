@@ -6,7 +6,7 @@ module.exports = {
       { CategoryID: 1, Name: 'Wool' },
       { CategoryID: 2, Name: 'Product' },
       { CategoryID: 3, Name: 'Material' },
-      { CategoryID: 4, Name: 'Set' }
+      { CategoryID: 4, Name: 'Tool' }
     ], {});
   },
 

@@ -1,10 +1,12 @@
 'use strict';
 const { Model } = require('sequelize');
 
+
 module.exports = (sequelize, DataTypes) => {
   class OrderItem extends Model {
     static associate(models) {
-      // define association here if needed
+      OrderItem.belongsTo(models.Product, { foreignKey: 'ProductID' });
+      OrderItem.belongsTo(models.Order, { foreignKey: 'OrderID' });
     }
   }
 

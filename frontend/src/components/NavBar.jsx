@@ -36,10 +36,11 @@ const NavBar = () => {
                 <Link to="/product?categoryid" className='text-brown'>WOOL</Link>
               </div>
             </li>
-            <li className="dropdown">
-              <div className="nav-item text-black mx-3 dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <li className="nav-item dropdown mx-3 d-flex align-item-center">
+              <div className="text-black">
                 <Link to="/product?categoryid" className='text-brown'>PRODUCT</Link>
               </div>
+              <div className='dropdown-toggle' role="button" data-bs-toggle="dropdown" aria-expanded="false"></div>
               <ul className="dropdown-menu">
                 <li className="dropdown-item"><Link to="/product?subcategoryid" className='text-brown'>Animal</Link></li>
                 <li className="dropdown-item"><Link to="/product?subcategoryid" className='text-brown'>Plant</Link></li>

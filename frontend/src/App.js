@@ -5,6 +5,7 @@ import PrivateRoute from './context/PrivateRoute';
 import Login from './pages/auth/Login';
 import HomePage from './pages/HomePage';
 import Register from './pages/auth/Register';
+import ProductPage from './pages/ProductPage';
 
 
 function App() {
@@ -13,9 +14,10 @@ function App() {
       <AuthProvider>
         <BrowserRouter>
           <Routes>
-            <Route exact path="/" element={<HomePage />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+            <Route exact path="/" element={ <HomePage/> }/>
+            <Route path="/login" element={ <Login/> }/>
+            <Route path="/register" element={ <Register/> }/>
+            <Route path="/product" element={ <ProductPage/> }/>
             <Route path="/" element={<PrivateRoute><HomePage /></PrivateRoute>} />
           </Routes>
           </BrowserRouter>

@@ -159,3 +159,46 @@ VALUES
     ('Clover Japanese Domestic Hook', 'Clover Japanese domestic crochet hooks are designed standardly and accurately from needle to handle to help prevent hand fatigue and slipping when crocheting continuously.', 180000, 4, NULL, '/images/tools/clover-crochet-hook.png'),
     ('Tulip Rose Etimo Hook', 'Tulip imitation crochet hook set There are two types of Tulip imitation crochet hook set : a dark pink set for crocheting wool, and a light pink set for crocheting yarn.', 160000, 4, NULL, '/images/tools/tulip-crochet-hook.png'),
     ('That Cham Phuong Domestic Hook', 'Tulip imitation crochet hook set There are two types of Tulip imitation crochet hook set : a dark pink set for crocheting wool, and a light pink set for crocheting yarn.', 160000, 4, NULL, '/images/tools/tcp-crochet-hook.png');
+
+-- Insert data into Reviews table
+INSERT INTO Reviews (ReviewID, UserID, ProductID, Rating, Comment, ReviewDate) 
+VALUES
+(1, 7, 14, 5, 'Great product, highly recommended!', '2024-05-31 08:00:00'),
+(2, 10, 33, 4, 'Good quality but a bit expensive.', '2024-05-30 12:00:00'),
+(3, 15, 42, 4, 'Works well, worth the price.', '2024-05-29 15:00:00'),
+(4, 18, 19, 3, 'Average product, nothing special.', '2024-05-28 10:00:00'),
+(5, 6, 52, 5, 'Love it! Best purchase ever.', '2024-05-27 09:00:00'),
+(6, 9, 1, 2, 'Disappointed with the quality.', '2024-05-26 11:00:00'),
+(7, 4, 26, 5, 'Absolutely fantastic!', '2024-05-25 14:00:00'),
+(8, 11, 37, 4, 'Great value for money.', '2024-05-24 13:00:00'),
+(9, 6, 8, 3, 'Decent product, could be better.', '2024-05-23 16:00:00'),
+(10, 8, 30, 5, 'Excellent product, highly recommended!', '2024-05-22 17:00:00'),
+(11, 20, 40, 4, 'Satisfied with the purchase.', '2024-05-09 19:00:00'),
+(12, 13, 55, 3, 'Not bad, but could be improved.', '2024-05-08 20:00:00'),
+(13, 12, 2, 4, 'Impressed with the quality.', '2024-05-07 21:00:00'),
+(14, 19, 49, 5, 'Highly recommend!', '2024-05-06 22:00:00'),
+(15, 5, 63, 2, 'Not satisfied with the product.', '2024-05-05 23:00:00');
+
+-- Example data for orders
+INSERT INTO Orders (OrderID, UserID, OrderDate, ShippingAddress, PaymentMethod, TotalPrice, CouponID) VALUES
+(1, 1, '2024-05-20 10:00:00', '123 Main St, City A', 'Credit Card', 80000, NULL),
+(2, 2, '2024-05-21 11:30:00', '456 Oak St, City B', 'PayPal', 150000, 1),
+(3, 3, '2024-05-22 14:45:00', '789 Pine St, City C', 'Credit Card', 110000, NULL),
+(4, 4, '2024-05-23 16:00:00', '321 Maple St, City D', 'Debit Card', 60000, 2),
+(5, 5, '2024-05-24 17:20:00', '654 Birch St, City E', 'Credit Card', 120000, NULL);
+
+-- Example data for order items
+INSERT INTO OrderItems (OrderItemID, OrderID, ProductID, Quantity, Price) VALUES
+(1, 1, 1, 1, 30000),  -- Susan Family 4
+(2, 1, 3, 2, 10000),  -- Cotton Milk
+(3, 2, 21, 1, 250000),  -- Crop-top With Floral Appliqué
+(4, 3, 6, 2, 43000),  -- Milk Cotton 125Gr
+(5, 3, 7, 1, 30000),  -- Simply Yarn
+(6, 4, 9, 1, 60000),  -- Capybara Wearing Orange
+(7, 5, 27, 1, 120000), -- Bear Oatmeal Milk Satchel
+(8, 5, 10, 1, 70000), -- Penguin Wearing Flower Hat
+(9, 5, 12, 2, 50000), -- Mini Cute Bear
+(10, 5, 5, 1, 22000); -- Baby Yarn
+
+
+

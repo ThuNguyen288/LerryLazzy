@@ -8,6 +8,10 @@
     "dialect": "mssql",
     "logging": true,
     "port": 1433,
+    "timezone": "+07:00",
+    "query": {
+      "raw": true
+    },
     "dialectOptions": {
       "options": {
         "encrypt": true,

@@ -17,12 +17,14 @@ let initWebRoutes = (app) => { //rest api
     router.get('/edit-crud', homeController.editCRUD);
     router.get('/delete-crud', homeController.deleteCRUD);
 
-    router.get('/product', productController.displayProducts)
 
     router.post('/post-crud', homeController.postCRUD);
     router.post('/put-crud', homeController.putCRUD);
     router.post('/api/login', userController.handleLogin);
 
+    // for product
+    router.get('/product', productController.displayProducts);
+    router.get('/product-detail', productController.displayProductDetails);
 
     return app.use("/", router);
 }
