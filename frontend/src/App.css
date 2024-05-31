@@ -145,3 +145,13 @@ section a {
 section a:hover {
   text-decoration:underline grey 1px;
 }
+
+.nav-button button{
+  width: 90px;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-button button:hover{
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
