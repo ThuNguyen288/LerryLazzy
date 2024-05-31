@@ -1,6 +1,6 @@
 import React from "react";
 import Footer from "../components/Footer";
-import Items from "../components/Item";
+import Item from "../components/Item";
 import NavBar from "../components/NavBar";
 
 const ProductPage = () => {
@@ -8,7 +8,7 @@ const ProductPage = () => {
         <div>
             <NavBar/>
             <div className="container my-5 ">
-                <Items/>
+                <Item/>
             </div>
             <Footer/>
         </div>

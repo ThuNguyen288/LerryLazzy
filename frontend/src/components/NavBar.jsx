@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../App.css';
-import logo from "../images/Logo.png";
 import { AuthContext } from '../context/AuthContext';
 
 const NavBar = () => {
@@ -20,7 +19,7 @@ const NavBar = () => {
       <div className="container-fluid">
         <div className="navbar-brand w-25 ml-30 mr-0 w-auto">
           <Link to="/" className='text-brown'>
-          <img src={logo} alt="logo" className="logo" />
+          <img src={`${process.env.PUBLIC_URL}/images/photos/logo.png`} alt="logo" className="logo" />
           </Link>
         </div>
         <div className='space'></div>
@@ -33,32 +32,32 @@ const NavBar = () => {
             </li>
             <li className='nav-item'>
               <div className="text-black mx-3">
-                <Link to="/product?categoryid" className='text-brown'>WOOL</Link>
+                <Link to="/api/product?categoryid=1" className='text-brown'>WOOL</Link>
               </div>
             </li>
             <li className="nav-item dropdown mx-3 d-flex align-item-center">
               <div className="text-black">
-                <Link to="/product?categoryid" className='text-brown'>PRODUCT</Link>
+                <Link to="/api/product?categoryid=2" className='text-brown'>PRODUCT</Link>
               </div>
               <div className='dropdown-toggle' role="button" data-bs-toggle="dropdown" aria-expanded="false"></div>
               <ul className="dropdown-menu">
-                <li className="dropdown-item"><Link to="/product?subcategoryid" className='text-brown'>Animal</Link></li>
-                <li className="dropdown-item"><Link to="/product?subcategoryid" className='text-brown'>Plant</Link></li>
-                <li className="dropdown-item"><Link to="/product?subcategoryid" className='text-brown'>Food</Link></li>
-                <li className="dropdown-item"><Link to="/product?subcategoryid" className='text-brown'>Cloth</Link></li>
-                <li className="dropdown-item"><Link to="/product?subcategoryid" className='text-brown'>Accessory</Link></li>
-                <li className="dropdown-item"><Link to="/product?subcategoryid" className='text-brown'>Mochi</Link></li>
-                <li className="dropdown-item"><Link to="/product?subcategoryid" className='text-brown'>Other</Link></li>
+                <li className="dropdown-item"><Link to="/api/product?subcategoryid=1" className='text-brown'>Animal</Link></li>
+                <li className="dropdown-item"><Link to="/api/product?subcategoryid=2" className='text-brown'>Plant</Link></li>
+                <li className="dropdown-item"><Link to="/api/product?subcategoryid=3" className='text-brown'>Food</Link></li>
+                <li className="dropdown-item"><Link to="/api/product?subcategoryid=4" className='text-brown'>Cloth</Link></li>
+                <li className="dropdown-item"><Link to="/api/product?subcategoryid=5" className='text-brown'>Accessory</Link></li>
+                <li className="dropdown-item"><Link to="/api/product?subcategoryid=6" className='text-brown'>Mochi</Link></li>
+                <li className="dropdown-item"><Link to="/api/product?subcategoryid=7" className='text-brown'>Other</Link></li>
               </ul>
             </li>
             <li className='nav-item'>
               <div className="text-black mx-3">
-                <Link to="/product?categoryid" className='text-brown'>MATERIAL</Link>
+                <Link to="/api/product?categoryid=3" className='text-brown'>MATERIAL</Link>
               </div>
             </li>
             <li className='nav-item'>
               <div className="text-black mx-3">
-                <Link to="/product?categoryid" className='text-brown'>TOOL</Link>
+                <Link to="/api/product?categoryid=4" className='text-brown'>TOOL</Link>
                 </div>
             </li>
           </ul>

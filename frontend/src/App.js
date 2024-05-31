@@ -17,7 +17,7 @@ function App() {
             <Route exact path="/" element={ <HomePage/> }/>
             <Route path="/login" element={ <Login/> }/>
             <Route path="/register" element={ <Register/> }/>
-            <Route path="/product" element={ <ProductPage/> }/>
+            <Route path="/api/product" element={ <ProductPage/> }/>
             <Route path="/" element={<PrivateRoute><HomePage /></PrivateRoute>} />
           </Routes>
           </BrowserRouter>

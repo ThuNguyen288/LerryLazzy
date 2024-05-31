@@ -23,7 +23,7 @@ let initWebRoutes = (app) => { //rest api
     router.post('/api/login', userController.handleLogin);
 
     // for product
-    router.get('/product', productController.displayProducts);
+    router.get('/api/product', productController.displayProducts);
     router.get('/product-detail', productController.displayProductDetails);
 
     return app.use("/", router);
