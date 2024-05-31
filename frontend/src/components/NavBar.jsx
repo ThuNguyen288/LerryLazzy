@@ -85,11 +85,11 @@ const NavBar = () => {
               </>
             ) : (
               <>
-                <div className='nav-icon d-flex'>
-                  <button><Link to="/login" className='text-brown'>Log In</Link></button>
+                <div className='nav-button d-flex mx-1'>
+                  <button className='btn rounded-pill border border-dark'><Link to="/login" className='text-brown'>Log In</Link></button>
                 </div>
-                <div className='nav-icon d-flex'>
-                  <button><Link to="/register" className='text-brown'>Sign Up</Link></button>
+                <div className='nav-button d-flex mx-1'>
+                  <button className='btn rounded-pill border border-dark'><Link to="/register" className='text-brown'>Sign Up</Link></button>
                 </div>
               </>
             )}
