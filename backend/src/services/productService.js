@@ -1,4 +1,4 @@
-import { where } from 'sequelize';
+import { where, group } from 'sequelize';
 import db from '../models/index';
 
 // Function to get all product by CategoryID
@@ -29,43 +29,69 @@ let getProductsBySubcategory = (subcategoryid) => {
     });
 }
 
-let getProductWithDetails = (productid) => {
+// Function to get product by id
+let getProductById = (productid) => {
     return new Promise(async (resolve, reject) => {
         try {
             let product = await db.Product.findOne({
                 where: { ProductID: productid },
-                include: [
-                    {
-                        model: db.Review,
-                        attributes: [[db.sequelize.fn('AVG', db.sequelize.col('Rating')), 'AverageRating']],
-                        required: false
-                    },
-                    {
-                        model: db.OrderItem,
-                        attributes: [[db.sequelize.fn('COUNT', db.sequelize.col('OrderID')), 'OrderCount']],
-                        required: false
-                    }
-                ],
-                group: ['Product.ProductID'],
-                raw: true
             });
             resolve(product);
         } catch (error) {
+            console.error('Error in getProductWithDetails function:', error);
             reject(error);
         }
     });
 };
 
-// Sử dụng hàm để tìm một sản phẩm cụ thể
-getProductWithDetails(1).then(product => {
-    console.log(product);
-}).catch(error => {
-    console.error(error);
-});
+// Function to calculate average rating of product
+let calAverageRating = (productid) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const result = await db.Review.findOne({
+                attributes: [
+                    [db.sequelize.fn('AVG', db.sequelize.col('Rating')), 'AverageRating']
+                ],
+                where: { ProductID: productid },
+                group: ['ProductID'],
+                order: ['ProductID']
+            });
 
+            resolve(result.AverageRating || 0);
+        } catch (error) {
+            console.error('Error in calculateAverageRating:', error);
+            reject(error);
+        }
+    });
+};
+
+
+// Function to calculate total ordered of product
+const calTotalOrders = (productid) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const result = await db.OrderItem.findOne({
+                attributes: [
+                    [db.sequelize.fn('COUNT', db.sequelize.col('OrderItem.OrderID')), 'OrderCount']
+                ],
+                where: { ProductID: productid },
+                group: ['ProductID'],
+                order: ['ProductID']
+            });
+
+            resolve(result.OrderCount || 0);
+        } catch (error) {
+            console.error('Error in calculateTotalOrders:', error);
+            reject(error);
+        }
+    });
+};
 
 module.exports = {
     getProductsByCategory: getProductsByCategory,
     getProductsBySubcategory: getProductsBySubcategory,
-    getProductWithDetails: getProductWithDetails
+    getProductById: getProductById,
+    calAverageRating: calAverageRating,
+    calTotalOrders: calTotalOrders
 };
+
