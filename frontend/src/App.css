@@ -253,3 +253,20 @@ section a:hover {
 .product-price {
   position: relative;
 }
+
+
+/* Sidebar */
+.sidebar-item {
+    border-top:solid 1px grey;
+    padding: 20px 0 20px 0;
+}
+
+/* Order */
+.miniImg{
+    width: 75px;
+    height: 75px;
+    border: solid 1px;
+}
+.bg-grey{
+    background-color: rgb(215, 206, 206);
+}

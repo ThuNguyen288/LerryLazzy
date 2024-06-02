@@ -69,19 +69,20 @@ const NavBar = () => {
               <FontAwesomeIcon icon={faSearch} className="text-brown mx-2" role="button" data-bs-toggle="dropdown" aria-expanded="false" />
             </div>
             {isAuthenticated ? (
-              <>
+               <>
                 <div className="nav-icon d-flex">
                   <Link to="/cart">
                     <FontAwesomeIcon icon={faShoppingCart} className="text-brown mx-2" />
                   </Link>
                 </div>
-                <div className="nav-icon d-flex dropdown">
+                <div className="nav-icon dropdown">
                   <div className="text-black" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   <FontAwesomeIcon icon={faUser} className="text-brown mx-2" />
                   </div>
-                  <ul className="dropdown-menu">
+                  <ul className=" dropdown-menu dropdown-menu-end">
                       <li className="dropdown-item"><Link to="/user?userid" className='text-brown'>Profile</Link></li>
                       <li className="dropdown-item"><Link to="/user?userid" className='text-brown'>Change password</Link></li>
+                      <li className='dropdown-item'><Link to="/account" className='text-brown'>Account</Link></li>
                       <li className="dropdown-item" onClick={handleLogout}>Sign out</li>
                   </ul>
                 </div>
