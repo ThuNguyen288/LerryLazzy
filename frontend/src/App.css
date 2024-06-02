@@ -39,6 +39,21 @@
   color: black; /* Optional: Darker shade on hover */
   text-decoration: none;
 }
+
+.nav-item:hover .dropdown-menu,
+.dropdown-menu:hover {
+  display: block;
+}
+
+.dropdown-menu {
+  display: none;
+  position: relative;
+  top: 26px;
+  left: 0;
+  z-index: 1000;
+  width: 80% !important;
+}
+
 .text-20{
   font-size: 20px;
 }

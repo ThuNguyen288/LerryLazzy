@@ -42,7 +42,7 @@ const NavBar = () => {
               <div className="text-black px-1">
                 <Link to="/product/product" className='text-brown'>PRODUCT</Link>
               </div>
-              <div className='dropdown-toggle' role="button" data-bs-toggle="dropdown" aria-expanded="false"></div>
+              <div className='dropdown-toggle' role="button" data-bs-toggle="dropdown" aria-expanded="false" onmouseover="showDropdownMenu()"></div>
               <ul className="dropdown-menu">
                 <li className="dropdown-item"><Link to="/product/product/animal" className='text-brown'>Animal</Link></li>
                 <li className="dropdown-item"><Link to="/product/product/plant" className='text-brown'>Plant</Link></li>
@@ -89,10 +89,10 @@ const NavBar = () => {
             ) : (
               <>
                 <div className='nav-button d-flex mx-1'>
-                  <button className='btn rounded-pill border border-dark'><Link to="/login" className='text-brown'>Log In</Link></button>
+                  <button className='btn rounded-pill border border-dark'><Link to="/login" className='text-brown'>Sign In</Link></button>
                 </div>
                 <div className='nav-button d-flex mx-1'>
-                  <button className='btn rounded-pill border border-dark'><Link to="/register" className='text-brown'>Sign Up</Link></button>
+                  <button className='btn rounded-pill border border-dark'><Link to="/register" className='text-brown'><b>Sign Up</b></Link></button>
                 </div>
               </>
             )}
