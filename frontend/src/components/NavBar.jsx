@@ -1,13 +1,16 @@
 import { faSearch, faShoppingCart, faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import '../App.css';
 import { AuthContext } from '../context/AuthContext';
 
 const NavBar = () => {
   const {isAuthenticated, logout } = useContext(AuthContext);
   const navigate = useNavigate();
+  const { category, subcategory } = useParams();
+  
+  console.log(category, subcategory);
 
   const handleLogout = () => {
     logout();
@@ -32,32 +35,32 @@ const NavBar = () => {
             </li>
             <li className='nav-item'>
               <div className="text-black mx-3">
-                <Link to="/api/product?categoryid=1" className='text-brown'>WOOL</Link>
+                <Link to="/product/wool" className='text-brown'>WOOL</Link>
               </div>
             </li>
             <li className="nav-item dropdown mx-3 d-flex align-item-center">
-              <div className="text-black">
-                <Link to="/api/product?categoryid=2" className='text-brown'>PRODUCT</Link>
+              <div className="text-black px-1">
+                <Link to="/product/product" className='text-brown'>PRODUCT</Link>
               </div>
               <div className='dropdown-toggle' role="button" data-bs-toggle="dropdown" aria-expanded="false"></div>
               <ul className="dropdown-menu">
-                <li className="dropdown-item"><Link to="/api/product?subcategoryid=1" className='text-brown'>Animal</Link></li>
-                <li className="dropdown-item"><Link to="/api/product?subcategoryid=2" className='text-brown'>Plant</Link></li>
-                <li className="dropdown-item"><Link to="/api/product?subcategoryid=3" className='text-brown'>Food</Link></li>
-                <li className="dropdown-item"><Link to="/api/product?subcategoryid=4" className='text-brown'>Cloth</Link></li>
-                <li className="dropdown-item"><Link to="/api/product?subcategoryid=5" className='text-brown'>Accessory</Link></li>
-                <li className="dropdown-item"><Link to="/api/product?subcategoryid=6" className='text-brown'>Mochi</Link></li>
-                <li className="dropdown-item"><Link to="/api/product?subcategoryid=7" className='text-brown'>Other</Link></li>
+                <li className="dropdown-item"><Link to="/product/product/animal" className='text-brown'>Animal</Link></li>
+                <li className="dropdown-item"><Link to="/product/product/plant" className='text-brown'>Plant</Link></li>
+                <li className="dropdown-item"><Link to="/product/product/food" className='text-brown'>Food</Link></li>
+                <li className="dropdown-item"><Link to="/product/product/cloth" className='text-brown'>Cloth</Link></li>
+                <li className="dropdown-item"><Link to="/product/product/accessory" className='text-brown'>Accessory</Link></li>
+                <li className="dropdown-item"><Link to="/product/product/mochi" className='text-brown'>Mochi</Link></li>
+                <li className="dropdown-item"><Link to="/product/product/other" className='text-brown'>Other</Link></li>
               </ul>
             </li>
             <li className='nav-item'>
               <div className="text-black mx-3">
-                <Link to="/api/product?categoryid=3" className='text-brown'>MATERIAL</Link>
+                <Link to="/product/material" className='text-brown'>MATERIAL</Link>
               </div>
             </li>
             <li className='nav-item'>
               <div className="text-black mx-3">
-                <Link to="/api/product?categoryid=4" className='text-brown'>TOOL</Link>
+                <Link to="/product/tool" className='text-brown'>TOOL</Link>
                 </div>
             </li>
           </ul>

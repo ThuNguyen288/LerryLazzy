@@ -7,21 +7,21 @@ import HomePage from './pages/HomePage';
 import Register from './pages/auth/Register';
 import ProductPage from './pages/ProductPage';
 
-
 function App() {
   return (
     <div className='outfit text-brown bg-img'>
       <AuthProvider>
         <BrowserRouter>
           <Routes>
-            <Route exact path="/" element={ <HomePage/> }/>
-            <Route path="/login" element={ <Login/> }/>
-            <Route path="/register" element={ <Register/> }/>
-            <Route path="/api/product" element={ <ProductPage/> }/>
-            <Route path="/" element={<PrivateRoute><HomePage /></PrivateRoute>} />
+            <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/product/:category" element={<ProductPage />} />
+            <Route path="/product/product/:subcategory" element={<ProductPage />} />
+            <Route path="/private" element={<PrivateRoute><HomePage /></PrivateRoute>} />
           </Routes>
-          </BrowserRouter>
-        </AuthProvider>
+        </BrowserRouter>
+      </AuthProvider>
     </div>
   );
 }
