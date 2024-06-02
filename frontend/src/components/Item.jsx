@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faShoppingCart, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { displayProductsByCategory, displayProductsBySubcategory } from "../services/productService";
 
 const Item = ({ categoryid, subcategoryid }) => {
@@ -40,13 +43,21 @@ const Item = ({ categoryid, subcategoryid }) => {
         <div className="row row-cols-1 row-cols-md-4 g-4">
             {products.map(product => (
                 <div key={product.ProductID} className="col">
-                    <div className="card h-100">
-                        <img src={`${process.env.PUBLIC_URL}${product.Image}`} className="card-img-top container" alt="..." />
-                        <div className="card-body">
-                            <h5 className="card-title">{product.Name}</h5>
-                            <p className="card-text">{product.Description}</p>
-                            <p className="card-text"><strong>Price: </strong>{product.Price}đ</p>
-                            <p className="card-text"><strong>Rating: </strong>{product.AvgRating}</p>
+                    <div className="card h-100 product-box">
+                        <div className="product-image">
+                            <img src={`${process.env.PUBLIC_URL}${product.Image}`} className="card-img" alt={product.Name} />
+                            <div className="product-action">
+                                <Link to="/cart">
+                                    <FontAwesomeIcon icon={faShoppingCart} className="text-brown mx-2" />
+                                </Link>
+                                <Link to="/favorite">
+                                    <FontAwesomeIcon icon={faHeart} className="text-brown mx-2" />
+                                </Link>
+                            </div>
+                        </div>
+                        <div className="product-content">
+                            <h3 className="product-title fw-bold"><a href="/">{product.Name}</a></h3>
+                            <span className="product-price">{product.Price} đ</span>
                         </div>
                     </div>
                 </div>

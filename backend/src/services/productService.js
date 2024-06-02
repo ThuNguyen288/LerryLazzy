@@ -7,7 +7,6 @@ let getProductsByCategory = (categoryid) => {
         try {
             let products = await db.Product.findAll({
                 where: { CategoryID: categoryid },
-                raw: true
             });
             resolve(products);
         } catch (error) {
@@ -22,7 +21,6 @@ let getProductsBySubcategory = (subcategoryid) => {
         try {
             let products = await db.Product.findAll({
                 where: { SubcategoryID: subcategoryid },
-                raw: true
             });
             resolve(products);
         } catch (error) {
@@ -36,16 +34,18 @@ let getProductWithDetails = (productid) => {
         try {
             let product = await db.Product.findOne({
                 where: { ProductID: productid },
-                include: [{
-                    model: db.Review,
-                    attributes: [[db.sequelize.fn('AVG', db.sequelize.col('Rating')), 'AverageRating']],
-                    required: false
-                },
-                {
-                    model: db.OrderItem,
-                    attributes: [[db.sequelize.fn('COUNT', db.sequelize.col('OrderID')), 'OrderCount']],
-                    required: false
-                }],
+                include: [
+                    {
+                        model: db.Review,
+                        attributes: [[db.sequelize.fn('AVG', db.sequelize.col('Rating')), 'AverageRating']],
+                        required: false
+                    },
+                    {
+                        model: db.OrderItem,
+                        attributes: [[db.sequelize.fn('COUNT', db.sequelize.col('OrderID')), 'OrderCount']],
+                        required: false
+                    }
+                ],
                 group: ['Product.ProductID'],
                 raw: true
             });
@@ -55,6 +55,14 @@ let getProductWithDetails = (productid) => {
         }
     });
 };
+
+// Sử dụng hàm để tìm một sản phẩm cụ thể
+getProductWithDetails(1).then(product => {
+    console.log(product);
+}).catch(error => {
+    console.error(error);
+});
+
 
 module.exports = {
     getProductsByCategory: getProductsByCategory,

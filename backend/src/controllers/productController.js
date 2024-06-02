@@ -25,18 +25,18 @@ let displayProducts = async (req, res) => {
 };
 
 let displayProductDetails = async (req, res) => {
-    try {
-        let productId = req.query.productid;
-        let productInfo = await productService.getProductWithDetails(productId)
-        console.log(productId);
-        return res.status(200).json({
-            errCode: 0,
-            data: productInfo
-        })
-    } catch (error) {
-        console.error(error);
-        return res.status(500).send('An error occurred while retrieving products.');
-    }
+    // try {
+    //     let productId = req.query.productid;
+    //     let productInfo = await productService.getProductWithDetails(productId)
+    //     console.log(productId);
+    //     return res.status(200).json({
+    //         errCode: 0,
+    //         data: productInfo
+    //     })
+    // } catch (error) {
+    //     console.error(error);
+    //     return res.status(500).send('An error occurred while retrieving products.');
+    // }
 }
 
 module.exports = {
