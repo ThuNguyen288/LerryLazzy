@@ -11,20 +11,29 @@ module.exports = (sequelize, DataTypes) => {
   OrderStatus.init({
     StatusID: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      primaryKey: true,
       autoIncrement: true,
-      primaryKey: true
+      allowNull: false
     },
     StatusName: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(50),
       allowNull: false
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW
     }
   }, {
     sequelize,
     modelName: 'OrderStatus',
     tableName: 'OrderStatus',
-    timestamps: false
+    timestamps: true
   });
-
   return OrderStatus;
 };

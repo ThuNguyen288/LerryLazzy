@@ -1,4 +1,5 @@
 import productService from '../services/productService';
+import db from '../models/index';
 
 let displayProducts = async (req, res) => {
     try {
@@ -30,9 +31,9 @@ let displayProducts = async (req, res) => {
             let totalOrders = await productService.calTotalOrders(productid);
             console.log('Total Orders:', totalOrders);
     
-            // Add average rating and total orders to productInfo
             products.AverageRating = averageRating;
             products.TotalOrders = totalOrders;
+
         }
         return res.status(200).json({
             errCode: 0,
@@ -44,6 +45,25 @@ let displayProducts = async (req, res) => {
     }
 };
 
+let displayTopRating = async (req,res) => {
+    let limit = req.query.limit;
+    if (!limit) limit = 8;
+
+    try {
+        const products = await productService.getAllProducts();
+        console.log(products);
+        return products;
+    } catch (error) {
+        console.error('Error: ', error);
+        return res.status(200).json({
+            errCode: -1,
+            message: 'Failed to fetch products.'
+        })
+    }
+};
+
+
 module.exports = {
     displayProducts,
+    displayTopRating
 };

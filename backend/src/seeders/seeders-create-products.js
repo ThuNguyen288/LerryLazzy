@@ -1,7 +1,22 @@
 'use strict';
 
+const fs = require('fs');
+const path = require('path');
+
+const readImageFileToBuffer = (filePath) => {
+  try {
+    const absolutePath = path.join(__dirname, '../images', filePath);
+    const imageBuffer = fs.readFileSync(absolutePath);
+    return imageBuffer;
+  } catch (error) {
+    console.error('Error reading image file:', error);
+    return null;
+  }
+};
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
+    const currentDate = new Date();
     try {
       await queryInterface.bulkInsert('Products', [
         {
@@ -10,7 +25,9 @@ module.exports = {
           Price: 30000,
           CategoryID: 1,
           SubcategoryID: null,
-          Image: '/images/wools/susan-family-4.png'
+          Image: readImageFileToBuffer('/wools/susan-family-4.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Susan Family 5',
@@ -18,7 +35,9 @@ module.exports = {
           Price: 50000,
           CategoryID: 1,
           SubcategoryID: null,
-          Image: '/images/wools/susan-family-5.png'
+          Image: readImageFileToBuffer('/wools/susan-family-5.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Cotton Milk',
@@ -26,15 +45,19 @@ module.exports = {
           Price: 10000,
           CategoryID: 1, 
           SubcategoryID: null,
-          Image: '/images/wools/cotton-milk.png'
+          Image: readImageFileToBuffer('/wools/cotton-milk.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
-          Name: 'Milk Cotton Poly (Cow Milk)',
+          Name: 'Milk Cotton Poly',
           Description: 'Cow milk wool is a type of wool that is quite soft, spongy, and easy to work with. It is available in a variety of colors...',
           Price: 14000,
           CategoryID: 1,
           SubcategoryID: null,
-          Image: '/images/wools/cow-milk.png'
+          Image: readImageFileToBuffer('/wools/cow-milk.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Baby Yarn',
@@ -42,7 +65,9 @@ module.exports = {
           Price: 22000,
           CategoryID: 1,
           SubcategoryID: null,
-          Image: '/images/wools/baby-yarn.png'
+          Image: readImageFileToBuffer('/wools/baby-yarn.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Milk Cotton 125Gr',
@@ -50,7 +75,9 @@ module.exports = {
           Price: 43000,
           CategoryID: 1,
           SubcategoryID: null,
-          Image: '/images/wools/milk-cotton-125gr.png'
+          Image: readImageFileToBuffer('/wools/milk-cotton-125gr.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Simply Yarn',
@@ -58,7 +85,9 @@ module.exports = {
           Price: 30000,
           CategoryID: 1,
           SubcategoryID: null,
-          Image: '/images/wools/simply-yarn.png'
+          Image: readImageFileToBuffer('/wools/simply-yarn.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Liliarge Cotton',
@@ -66,7 +95,9 @@ module.exports = {
           Price: 15000,
           CategoryID: 1,
           SubcategoryID: null,
-          Image: '/images/wools/liliarge-cotton.png'
+          Image: readImageFileToBuffer('/wools/liliarge-cotton.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Capybara Wearing Orange',
@@ -74,7 +105,9 @@ module.exports = {
           Price: 60000,
           CategoryID: 2,
           SubcategoryID: 1,
-          Image: '/images/products/animal/capybara-wear-orange.png'
+          Image: readImageFileToBuffer('/products/animal/capybara-wear-orange.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Penguin Wearing Flower Hat',
@@ -82,7 +115,9 @@ module.exports = {
           Price: 70000,
           CategoryID: 2,
           SubcategoryID: 1,
-          Image: '/images/products/animal/penguin-wear-flower-hat.png'
+          Image: readImageFileToBuffer('/products/animal/penguin-wear-flower-hat.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Black Cat Cute',
@@ -90,7 +125,9 @@ module.exports = {
           Price: 55000,
           CategoryID: 2,
           SubcategoryID: 1,
-          Image: '/images/products/animal/black-cat.png'
+          Image: readImageFileToBuffer('/products/animal/black-cat.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Mini Cute Bear',
@@ -98,7 +135,9 @@ module.exports = {
           Price: 50000,
           CategoryID: 2,
           SubcategoryID: 1,
-          Image: '/images/products/animal/mini-bear.png'
+          Image: readImageFileToBuffer('/products/animal/mini-bear.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Tulip',
@@ -106,7 +145,9 @@ module.exports = {
           Price: 25000,
           CategoryID: 2,
           SubcategoryID: 2,
-          Image: '/images/products/plant/tulip.png'
+          Image: readImageFileToBuffer('/products/plant/tulip.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Red Rose',
@@ -114,7 +155,9 @@ module.exports = {
           Price: 30000,
           CategoryID: 2,
           SubcategoryID: 2,
-          Image: '/images/products/plant/red-rose.png'
+          Image: readImageFileToBuffer('/products/plant/red-rose.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Cactus',
@@ -122,7 +165,9 @@ module.exports = {
           Price: 30000,
           CategoryID: 2,
           SubcategoryID: 2,
-          Image: '/images/products/plant/cactus.png'
+          Image: readImageFileToBuffer('/products/plant/cactus.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Carrot Garden',
@@ -130,7 +175,9 @@ module.exports = {
           Price: 70000,
           CategoryID: 2,
           SubcategoryID: 2,
-          Image: '/images/products/plant/carrot-garden.png'
+          Image: readImageFileToBuffer('/products/plant/carrot-garden.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Thai Pineapple Fried Rice',
@@ -138,7 +185,9 @@ module.exports = {
           Price: 50000,
           CategoryID: 2,
           SubcategoryID: 3,
-          Image: '/images/products/food/thai-pinapple-fried-rice.png'
+          Image: readImageFileToBuffer('/products/food/thai-pinapple-fried-rice.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Mango Cake Roll',
@@ -146,7 +195,9 @@ module.exports = {
           Price: 60000,
           CategoryID: 2,
           SubcategoryID: 3,
-          Image: '/images/products/food/mango-cake-roll.png'
+          Image: readImageFileToBuffer('/products/food/mango-cake-roll.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Sea Salt Oreo Cake Roll',
@@ -154,7 +205,9 @@ module.exports = {
           Price: 60000,
           CategoryID: 2,
           SubcategoryID: 3,
-          Image: '/images/products/food/oreo-cake-roll.png'
+          Image: readImageFileToBuffer('/products/food/oreo-cake-roll.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Matcha Strawberry Cake Roll',
@@ -162,7 +215,9 @@ module.exports = {
           Price: 60000,
           CategoryID: 2,
           SubcategoryID: 3,
-          Image: '/images/products/food/matcha-strawberry-cake-roll.png'
+          Image: readImageFileToBuffer('/products/food/matcha-strawberry-cake-roll.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Crop-top With Floral Appliqué',
@@ -170,7 +225,9 @@ module.exports = {
           Price: 250000,
           CategoryID: 2,
           SubcategoryID: 4,
-          Image: '/images/products/cloth/croptop-floral.png'
+          Image: readImageFileToBuffer('/products/cloth/croptop-floral.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Rose Halter Top',
@@ -178,7 +235,9 @@ module.exports = {
           Price: 280000,
           CategoryID: 2,
           SubcategoryID: 4,
-          Image: '/images/products/cloth/rose-halter-top.png'
+          Image: readImageFileToBuffer('/products/cloth/rose-halter-top.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Bear Face Hamburger Dress Set',
@@ -186,7 +245,9 @@ module.exports = {
           Price: 600000,
           CategoryID: 2,
           SubcategoryID: 4,
-          Image: '/images/products/cloth/hamburger-dress-set.png'
+          Image: readImageFileToBuffer('/products/cloth/hamburger-dress-set.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Vintage Cardigan',
@@ -194,7 +255,9 @@ module.exports = {
           Price: 450000,
           CategoryID: 2,
           SubcategoryID: 4,
-          Image: '/images/products/cloth/vintage-cardigan.png'
+          Image: readImageFileToBuffer('/products/cloth/vintage-cardigan.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Capybara Hair Clip',
@@ -202,7 +265,9 @@ module.exports = {
           Price: 20000,
           CategoryID: 2,
           SubcategoryID: 5,
-          Image: '/images/products/accessory/capybara-hair-clip.png'
+          Image: readImageFileToBuffer('/products/accessory/capybara-hair-clip.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Hangyodon Hair Clip',
@@ -210,7 +275,9 @@ module.exports = {
           Price: 20000,
           CategoryID: 2,
           SubcategoryID: 5,
-          Image: '/images/products/accessory/hangyodon-hair-clip.png'
+          Image: readImageFileToBuffer('/products/accessory/hangyodon-hair-clip.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Milky Woven Bag',
@@ -218,7 +285,9 @@ module.exports = {
           Price: 150000,
           CategoryID: 2,
           SubcategoryID: 5,
-          Image: '/images/products/accessory/milky-woven-bag.png'
+          Image: readImageFileToBuffer('/products/accessory/milky-woven-bag.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Bear Oatmeal Milk Satchel',
@@ -226,7 +295,9 @@ module.exports = {
           Price: 120000,
           CategoryID: 2,
           SubcategoryID: 5,
-          Image: '/images/products/accessory/bear-oatmeal-milk-satchel.png'
+          Image: readImageFileToBuffer('/products/accessory/bear-oatmeal-milk-satchel.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Christmas Dumpling',
@@ -234,7 +305,9 @@ module.exports = {
           Price: 75000,
           CategoryID: 2,
           SubcategoryID: 6,
-          Image: '/images/products/mochi/christmas-dumpling.png'
+          Image: readImageFileToBuffer('/products/mochi/christmas-dumpling.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Christmas Hat Candy Dumpling',
@@ -242,7 +315,9 @@ module.exports = {
           Price: 65000,
           CategoryID: 2,
           SubcategoryID: 6,
-          Image: '/images/products/mochi/christmas-hat-candy-dumpling.png'
+          Image: readImageFileToBuffer('/products/mochi/christmas-hat-candy-dumpling.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Christmas Tree Dumpling',
@@ -250,23 +325,29 @@ module.exports = {
           Price: 80000,
           CategoryID: 2,
           SubcategoryID: 6,
-          Image: '/images/products/mochi/christmas-tree-dumpling.png'
+          Image: readImageFileToBuffer('/products/mochi/christmas-tree-dumpling.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
-          Name: 'Christmas Tree Dumpling (Ver2)',
+          Name: 'Christmas Tree Dumpling (Ver 2)',
           Description: '...',
           Price: 65000,
           CategoryID: 2,
           SubcategoryID: 6,
-          Image: '/images/products/mochi/christmas-tree-dumpling-ver2.png'
+          Image: readImageFileToBuffer('/products/mochi/christmas-tree-dumpling-ver2.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
-          Name: 'Christmas Tree Dumpling (Ver3)',
+          Name: 'Christmas Tree Dumpling (Ver 3)',
           Description: '...',
           Price: 60000,
           CategoryID: 2,
           SubcategoryID: 6,
-          Image: '/images/products/mochi/christmas-tree-dumpling-ver3.png'
+          Image: readImageFileToBuffer('/products/mochi/christmas-tree-dumpling-ver3.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Christmas Wreath Dumpling',
@@ -274,7 +355,9 @@ module.exports = {
           Price: 60000,
           CategoryID: 2,
           SubcategoryID: 6,
-          Image: '/images/products/mochi/christmas-wreath-dumpling.png'
+          Image: readImageFileToBuffer('/products/mochi/christmas-wreath-dumpling.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Elk Dumpling',
@@ -282,7 +365,9 @@ module.exports = {
           Price: 55000,
           CategoryID: 2,
           SubcategoryID: 6,
-          Image: '/images/products/mochi/elk-dumpling.png'
+          Image: readImageFileToBuffer('/products/mochi/elk-dumpling.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Fortune Boy Dumpling',
@@ -290,7 +375,9 @@ module.exports = {
           Price: 65000,
           CategoryID: 2,
           SubcategoryID: 6,
-          Image: '/images/products/mochi/fortune-boy-dumpling.png'
+          Image: readImageFileToBuffer('/products/mochi/fortune-boy-dumpling.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Frog Dumpling',
@@ -298,7 +385,9 @@ module.exports = {
           Price: 55000,
           CategoryID: 2,
           SubcategoryID: 6,
-          Image: '/images/products/mochi/frog-dumpling.png'
+          Image: readImageFileToBuffer('/products/mochi/frog-dumpling.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'God Of Wealth Dumpling',
@@ -306,7 +395,9 @@ module.exports = {
           Price: 50000,
           CategoryID: 2,
           SubcategoryID: 6,
-          Image: '/images/products/mochi/god-of-wealth-dumpling.png'
+          Image: readImageFileToBuffer('/products/mochi/god-of-wealth-dumpling.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Lantern Dumpling',
@@ -314,7 +405,9 @@ module.exports = {
           Price: 50000,
           CategoryID: 2,
           SubcategoryID: 6,
-          Image: '/images/products/mochi/lantern-dumpling.png'
+          Image: readImageFileToBuffer('/products/mochi/lantern-dumpling.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Lion-Dance Head Dumpling',
@@ -322,7 +415,9 @@ module.exports = {
           Price: 80000,
           CategoryID: 2,
           SubcategoryID: 6,
-          Image: '/images/products/mochi/lion-dance-head-dumpling.png'
+          Image: readImageFileToBuffer('/products/mochi/lion-dance-head-dumpling.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Lucky Bag Dumpling',
@@ -330,7 +425,9 @@ module.exports = {
           Price: 60000,
           CategoryID: 2,
           SubcategoryID: 6,
-          Image: '/images/products/mochi/lucky-bag-dumpling.png'
+          Image: readImageFileToBuffer('/products/mochi/lucky-bag-dumpling.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'New Year Dragon Dumpling',
@@ -338,7 +435,9 @@ module.exports = {
           Price: 95000,
           CategoryID: 2,
           SubcategoryID: 6,
-          Image: '/images/products/mochi/new-year-dragon-dumpling.png'
+          Image: readImageFileToBuffer('/products/mochi/new-year-dragon-dumpling.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'New Year Dumpling',
@@ -346,7 +445,9 @@ module.exports = {
           Price: 50000,
           CategoryID: 2,
           SubcategoryID: 6,
-          Image: '/images/products/mochi/new-year-dumpling.png'
+          Image: readImageFileToBuffer('/products/mochi/new-year-dumpling.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Peach Dumpling',
@@ -354,7 +455,9 @@ module.exports = {
           Price: 50000, 
           CategoryID: 2,
           SubcategoryID: 6,
-          Image: '/images/products/mochi/peach-dumpling.png'
+          Image: readImageFileToBuffer('/products/mochi/peach-dumpling.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Poppy Dumpling',
@@ -362,7 +465,9 @@ module.exports = {
           Price: 70000,
           CategoryID: 2,
           SubcategoryID: 6,
-          Image: '/images/products/mochi/poppy-dumpling.png'
+          Image: readImageFileToBuffer('/products/mochi/poppy-dumpling.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Sailor Moon Dumpling',
@@ -370,7 +475,9 @@ module.exports = {
           Price: 55000,
           CategoryID: 2,
           SubcategoryID: 6,
-          Image: '/images/products/mochi/sailor-moon-dumpling.png'
+          Image: readImageFileToBuffer('/products/mochi/sailor-moon-dumpling.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Santa Claus Dumpling',
@@ -378,15 +485,19 @@ module.exports = {
           Price: 70000,
           CategoryID: 2,
           SubcategoryID: 6,
-          Image: '/images/products/mochi/santa-claus-dumpling.png'
+          Image: readImageFileToBuffer('/products/mochi/santa-claus-dumpling.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
-          Name: 'Santa Claus Dumpling (Ver2)',
+          Name: 'Santa Claus Dumpling (Ver 2)',
           Description: '...',
           Price: 60000,
           CategoryID: 2,
           SubcategoryID: 6,
-          Image: '/images/products/mochi/santa-claus-dumpling-ver2.png'
+          Image: readImageFileToBuffer('/products/mochi/santa-claus-dumpling-ver2.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Snowman Dumpling',
@@ -394,7 +505,9 @@ module.exports = {
           Price: 60000,
           CategoryID: 2,
           SubcategoryID: 6,
-          Image: '/images/products/mochi/snowman-dumpling.png'
+          Image: readImageFileToBuffer('/products/mochi/snowman-dumpling.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Spend Money Bag Dumpling',
@@ -402,7 +515,9 @@ module.exports = {
           Price: 60000,
           CategoryID: 2,
           SubcategoryID: 6,
-          Image: '/images/products/mochi/spend-money-bag-dumpling.png'
+          Image: readImageFileToBuffer('/products/mochi/spend-money-bag-dumpling.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Spend Money Flower Dumpling',
@@ -410,7 +525,9 @@ module.exports = {
           Price: 70000,
           CategoryID: 2,
           SubcategoryID: 6,
-          Image: '/images/products/mochi/spend-money-flower-dumpling.png'
+          Image: readImageFileToBuffer('/products/mochi/spend-money-flower-dumpling.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Tuxedo Mask Dumpling',
@@ -418,7 +535,9 @@ module.exports = {
           Price: 60000,
           CategoryID: 2,
           SubcategoryID: 6,
-          Image: '/images/products/mochi/tuxedo-mask-dumpling.png'
+          Image: readImageFileToBuffer('/products/mochi/tuxedo-mask-dumpling.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Phone Case With Floral Pattern',
@@ -426,7 +545,9 @@ module.exports = {
           Price: 80000,
           CategoryID: 2,
           SubcategoryID: 7,
-          Image: '/images/products/other/phone-case-flower.png'
+          Image: readImageFileToBuffer('/products/other/phone-case-flower.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Flower Shaped Coaster',
@@ -434,7 +555,9 @@ module.exports = {
           Price: 25000,
           CategoryID: 2,
           SubcategoryID: 7,
-          Image: '/images/products/other/flower-shaped-coaster.png'
+          Image: readImageFileToBuffer('/products/other/flower-shaped-coaster.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Toilet Paper Keychain',
@@ -442,7 +565,9 @@ module.exports = {
           Price: 15000,
           CategoryID: 2,
           SubcategoryID: 7,
-          Image: '/images/products/other/toilet-paper-keychain.png'
+          Image: readImageFileToBuffer('/products/other/toilet-paper-keychain.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Angel And Devil Heart',
@@ -450,7 +575,9 @@ module.exports = {
           Price: 40000,
           CategoryID: 2,
           SubcategoryID: 7,
-          Image: '/images/products/other/angel-devil-heart.png'
+          Image: readImageFileToBuffer('/products/other/angel-devil-heart.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Wool Sewing Needle',
@@ -458,7 +585,9 @@ module.exports = {
           Price: 2000,
           CategoryID: 3,
           SubcategoryID: null,
-          Image: '/images/materials/wool-sewing.png'
+          Image: readImageFileToBuffer('/materials/wool-sewing.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Silver Teardrop Clip',
@@ -466,7 +595,9 @@ module.exports = {
           Price: 10000,
           CategoryID: 3,
           SubcategoryID: null,
-          Image: '/images/materials/teardrop-clip.png'
+          Image: readImageFileToBuffer('/materials/teardrop-clip.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Tape Needle Mark',
@@ -474,15 +605,19 @@ module.exports = {
           Price: 5000,
           CategoryID: 3,
           SubcategoryID: null,
-          Image: '/images/materials/tape-needle-mark.png'
+          Image: readImageFileToBuffer('/materials/tape-needle-mark.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
-          Name: 'Animal Eyes With Safety Latch (10 Pairs Including Latch)',
+          Name: 'Animal Eyes With Safety Latch',
           Description: 'Animal eyes are made of plastic material, which is used to make crocheted animal eyes very convenient.',
           Price: 10000,
           CategoryID: 3,
           SubcategoryID: null,
-          Image: '/images/materials/animal-eye.png'
+          Image: readImageFileToBuffer('/materials/animal-eye.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'SKC Flexible Crochet Hook',
@@ -490,7 +625,9 @@ module.exports = {
           Price: 30000,
           CategoryID: 4,
           SubcategoryID: null,
-          Image: '/images/tools/skc-crochet-hook.png'
+          Image: readImageFileToBuffer('/tools/skc-crochet-hook.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Clover Japanese Domestic Hook',
@@ -498,7 +635,9 @@ module.exports = {
           Price: 180000,
           CategoryID: 4,
           SubcategoryID: null,
-          Image: '/images/tools/clover-crochet-hook.png'
+          Image: readImageFileToBuffer('/tools/clover-crochet-hook.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'Tulip Rose Etimo Hook',
@@ -506,15 +645,19 @@ module.exports = {
           Price: 160000,
           CategoryID: 4,
           SubcategoryID: null,
-          Image: '/images/tools/tulip-crochet-hook.png'
+          Image: readImageFileToBuffer('/tools/tulip-crochet-hook.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
         {
           Name: 'That Cham Phuong Domestic Hook',
-          Description: 'Tulip imitation crochet hook set There are two types of Tulip imitation crochet hook set : a dark pink set for crocheting wool, and a light pink set for crocheting yarn.',
-          Price: 160000,
+          Description: '...',
+          Price: 200000,
           CategoryID: 4,
           SubcategoryID: null,
-          Image: '/images/tools/tcp-crochet-hook.png'
+          Image: readImageFileToBuffer('/tools/tcp-crochet-hook.png'),
+          createdAt: currentDate,
+          updatedAt: currentDate
         },
       ], {});
       console.log('Products inserted successfully.');

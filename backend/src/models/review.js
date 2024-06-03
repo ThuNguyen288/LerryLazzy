@@ -4,25 +4,33 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Review extends Model {
     static associate(models) {
-      Review.belongsTo(models.User, { foreignKey: 'UserID' });
-      Review.belongsTo(models.Product, { foreignKey: 'ProductID' });
+      Review.belongsTo(models.User, { foreignKey: 'UserID', as: 'user' });
+      Review.belongsTo(models.Product, { foreignKey: 'ProductID', as: 'product' });
     }
   }
 
   Review.init({
     ReviewID: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      primaryKey: true,
       autoIncrement: true,
-      primaryKey: true
+      allowNull: false
     },
     UserID: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      references: {
+        model: 'Users',
+        key: 'UserID'
+      }
     },
     ProductID: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      references: {
+        model: 'Products',
+        key: 'ProductID'
+      }
     },
     Rating: {
       type: DataTypes.INTEGER,
@@ -36,13 +44,22 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
       allowNull: false,
       defaultValue: DataTypes.NOW
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW
     }
   }, {
     sequelize,
     modelName: 'Review',
     tableName: 'Reviews',
-    timestamps: false
+    timestamps: true
   });
-
   return Review;
 };

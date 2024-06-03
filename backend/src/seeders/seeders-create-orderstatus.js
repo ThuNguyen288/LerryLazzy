@@ -2,12 +2,33 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
+    const currentDate = new Date();
     await queryInterface.bulkInsert('OrderStatus', [
-      { StatusID: 1, StatusName: 'Pending Confirmation' },
-      { StatusID: 2, StatusName: 'Pending Pickup' },
-      { StatusID: 3, StatusName: 'Pending Delivery' },
-      { StatusID: 4, StatusName: 'Delivered' },
-      { StatusID: 5, StatusName: 'Cancelled' }
+      { 
+        StatusName: 'Pending Confirmation',
+        createdAt: currentDate,
+        updatedAt: currentDate
+      },
+      { 
+        StatusName: 'Pending Pickup',
+        createdAt: currentDate,
+        updatedAt: currentDate
+      },
+      { 
+        StatusName: 'Pending Delivery',
+        createdAt: currentDate,
+        updatedAt: currentDate
+      },
+      { 
+        StatusName: 'Delivered',
+        createdAt: currentDate,
+        updatedAt: currentDate
+      },
+      { 
+        StatusName: 'Cancelled',
+        createdAt: currentDate,
+        updatedAt: currentDate
+      }
     ], {});
   },
 

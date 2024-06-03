@@ -5,23 +5,25 @@ module.exports = (sequelize, DataTypes) => {
   class Product extends Model {
     static associate(models) {
       Product.hasMany(models.OrderItem, { foreignKey: 'ProductID' });
-      Product.hasMany(models.Review, { foreignKey: 'ProductID' });
+      Product.hasMany(models.Review, { foreignKey: 'ProductID', as: 'Reviews'});
       Product.hasMany(models.Cart, { foreignKey: 'ProductID' });
       Product.hasMany(models.Favorite, { foreignKey: 'ProductID' });
+
+      Product.belongsTo(models.Category, { foreignKey: 'CategoryID', as: 'category' });
+      Product.belongsTo(models.Subcategory, { foreignKey: 'SubcategoryID', as: 'subcategory' });
     }
   }
 
   Product.init({
     ProductID: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      primaryKey: true,
       autoIncrement: true,
-      primaryKey: true
+      allowNull: false
     },
     Name: {
       type: DataTypes.STRING,
-      allowNull: false,
-      unique: true
+      allowNull: false
     },
     Description: {
       type: DataTypes.TEXT,
@@ -33,22 +35,39 @@ module.exports = (sequelize, DataTypes) => {
     },
     CategoryID: {
       type: DataTypes.INTEGER,
-      allowNull: true
+      allowNull: false,
+      references: {
+        model: 'Categories',
+        key: 'CategoryID'
+      }
     },
     SubcategoryID: {
       type: DataTypes.INTEGER,
-      allowNull: true
+      allowNull: true,
+      references: {
+        model: 'Subcategories',
+        key: 'SubcategoryID'
+      }
     },
     Image: {
-      type: DataTypes.STRING,
+      type: DataTypes.BLOB,
       allowNull: true
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW
     }
   }, {
     sequelize,
     modelName: 'Product',
     tableName: 'Products',
-    timestamps: false
+    timestamps: true
   });
-
   return Product;
 };

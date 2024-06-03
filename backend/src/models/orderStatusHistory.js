@@ -4,16 +4,17 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class OrderStatusHistory extends Model {
     static associate(models) {
-      // define association here if needed
+      OrderStatusHistory.belongsTo(models.Order, { foreignKey: 'OrderID', as: 'order' });
+      OrderStatusHistory.belongsTo(models.OrderStatus, { foreignKey: 'StatusID', as: 'status' });
     }
   }
 
   OrderStatusHistory.init({
     OrderStatusID: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      primaryKey: true,
       autoIncrement: true,
-      primaryKey: true
+      allowNull: false
     },
     OrderID: {
       type: DataTypes.INTEGER,
@@ -26,13 +27,22 @@ module.exports = (sequelize, DataTypes) => {
     StatusDate: {
       type: DataTypes.DATE,
       allowNull: false
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW
     }
   }, {
     sequelize,
     modelName: 'OrderStatusHistory',
     tableName: 'OrderStatusHistory',
-    timestamps: false
+    timestamps: true
   });
-
   return OrderStatusHistory;
 };

@@ -1,11 +1,19 @@
 import axios from '../axios';
 
-const displayProductsByCategory =(categoryid) => {
+let getProductsByCategory = (categoryid) => {
     return axios.get(`/api/product?categoryid=${categoryid}`);
 }
 
-const displayProductsBySubcategory =(subcategoryid) => {
+let getProductsBySubcategory = (subcategoryid) => {
     return axios.get(`/api/product?subcategoryid=${subcategoryid}`);
 }
 
-export {displayProductsByCategory, displayProductsBySubcategory}
+let getProductsById = (productid) => {
+    return axios.get(`/api/product?productid=${productid}`);
+}
+
+export {
+    getProductsByCategory, 
+    getProductsBySubcategory,
+    getProductsById,
+}

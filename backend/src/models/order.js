@@ -14,9 +14,9 @@ module.exports = (sequelize, DataTypes) => {
   Order.init({
     OrderID: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      primaryKey: true,
       autoIncrement: true,
-      primaryKey: true
+      allowNull: false
     },
     UserID: {
       type: DataTypes.INTEGER,
@@ -27,11 +27,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     ShippingAddress: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(255),
       allowNull: false
     },
     PaymentMethod: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(100),
       allowNull: false
     },
     TotalPrice: {
@@ -41,13 +41,22 @@ module.exports = (sequelize, DataTypes) => {
     CouponID: {
       type: DataTypes.INTEGER,
       allowNull: true
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW
     }
   }, {
     sequelize,
     modelName: 'Order',
     tableName: 'Orders',
-    timestamps: false
+    timestamps: true
   });
-
   return Order;
 };

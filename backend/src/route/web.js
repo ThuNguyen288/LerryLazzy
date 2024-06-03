@@ -24,6 +24,7 @@ let initWebRoutes = (app) => { //rest api
 
     // for product
     router.get('/api/product', productController.displayProducts);
+    router.get('/api/top-rate-product', productController.displayTopRating);
 
     return app.use("/", router);
 }

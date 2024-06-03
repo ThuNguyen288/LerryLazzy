@@ -5,9 +5,9 @@ module.exports = {
     await queryInterface.createTable('Orders', {
       OrderID: {
         type: Sequelize.INTEGER,
+        primaryKey: true,
         allowNull: false,
         autoIncrement: true,
-        primaryKey: true
       },
       UserID: {
         type: Sequelize.INTEGER,
@@ -17,23 +17,23 @@ module.exports = {
           key: 'UserID'
         },
         onUpdate: 'CASCADE',
-        onDelete: 'SET NULL'
+        onDelete: 'CASCADE'
       },
       OrderDate: {
         type: Sequelize.DATE,
-        allowNull: false
+        allowNull: false,
       },
       ShippingAddress: {
         type: Sequelize.STRING(255),
-        allowNull: false
+        allowNull: false,
       },
       PaymentMethod: {
         type: Sequelize.STRING(100),
-        allowNull: false
+        allowNull: false,
       },
       TotalPrice: {
         type: Sequelize.DECIMAL(10, 2),
-        allowNull: false
+        allowNull: false,
       },
       CouponID: {
         type: Sequelize.INTEGER,
@@ -44,9 +44,20 @@ module.exports = {
         },
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL'
+      },
+      createdAt: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.NOW,
+      },
+      updatedAt: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.NOW,
       }
     });
   },
+
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('Orders');
   }

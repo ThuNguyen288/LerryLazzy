@@ -14,48 +14,58 @@ module.exports = (sequelize, DataTypes) => {
   User.init({
     UserID: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      primaryKey: true,
       autoIncrement: true,
-      primaryKey: true
+      allowNull: false
     },
     Username: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true
+      type: DataTypes.STRING(50),
+      allowNull: false
     },
     Password: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(50),
       allowNull: false
     },
     Firstname: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(50),
       allowNull: false
     },
     Lastname: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(50),
       allowNull: false
     },
     Phone: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(20),
       allowNull: false
     },
     Email: {
-      type: DataTypes.STRING,
-      allowNull: true
+      type: DataTypes.STRING(100),
+      allowNull: false,
+      unique: true
     },
     Address: {
-      type: DataTypes.STRING,
-      allowNull: true
+      type: DataTypes.STRING(255),
+      allowNull: false
     },
     Role: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(50),
       allowNull: false
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW
     }
   }, {
     sequelize,
     modelName: 'User',
     tableName: 'Users',
-    timestamps: false
+    timestamps: true
   });
 
   return User;

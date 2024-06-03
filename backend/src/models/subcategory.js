@@ -4,27 +4,36 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Subcategory extends Model {
     static associate(models) {
-      // define association here if needed
+      Subcategory.hasMany(models.Product, { foreignKey: 'SubcategoryID', as: 'products' });
     }
   }
 
   Subcategory.init({
     SubcategoryID: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      primaryKey: true,
       autoIncrement: true,
-      primaryKey: true
+      allowNull: false
     },
     Name: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW
     }
   }, {
     sequelize,
     modelName: 'Subcategory',
     tableName: 'Subcategories',
-    timestamps: false
+    timestamps: true
   });
-
   return Subcategory;
 };

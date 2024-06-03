@@ -2,17 +2,78 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
+    const currentDate = new Date();
     await queryInterface.bulkInsert('Coupons', [
-      { CouponID: 1, Code: 'SAVE10', Discount: 10.00, ExpiryDate: '2024-06-30' },
-      { CouponID: 2, Code: 'GET15OFF', Discount: 15.00, ExpiryDate: '2024-07-15' },
-      { CouponID: 3, Code: 'SPRING20', Discount: 20.00, ExpiryDate: '2024-05-31' },
-      { CouponID: 4, Code: 'FREESHIP', Discount: 0.00, ExpiryDate: '2024-06-15' },
-      { CouponID: 5, Code: 'HALFOFF', Discount: 50.00, ExpiryDate: '2024-06-30' },
-      { CouponID: 6, Code: 'SUMMER25', Discount: 25.00, ExpiryDate: '2024-08-31' },
-      { CouponID: 7, Code: 'WELCOME5', Discount: 5.00, ExpiryDate: '2024-07-31' },
-      { CouponID: 8, Code: 'SALE20', Discount: 20.00, ExpiryDate: '2024-06-30' },
-      { CouponID: 9, Code: 'JULY10', Discount: 10.00, ExpiryDate: '2024-07-31' },
-      { CouponID: 10, Code: 'LABORDAY', Discount: 30.00, ExpiryDate: '2024-09-05' }
+      { 
+        Code: 'SAVE10',
+        Discount: 10.00,
+        ExpiryDate: '2024-06-30',
+        createdAt: currentDate,
+        updatedAt: currentDate
+      },
+      { 
+        Code: 'GET15OFF',
+        Discount: 15.00,
+        ExpiryDate: '2024-07-15',
+        createdAt: currentDate,
+        updatedAt: currentDate
+      },
+      { 
+        Code: 'SPRING20',
+        Discount: 20.00,
+        ExpiryDate: '2024-05-31',
+        createdAt: currentDate,
+        updatedAt: currentDate
+      },
+      { 
+        Code: 'FREESHIP',
+        Discount: 0.00,
+        ExpiryDate: '2024-06-15',
+        createdAt: currentDate,
+        updatedAt: currentDate
+      },
+      { 
+        Code: 'HALFOFF',
+        Discount: 50.00,
+        ExpiryDate: '2024-06-30',
+        createdAt: currentDate,
+        updatedAt: currentDate
+      },
+      { 
+        Code: 'SUMMER25',
+        Discount: 25.00,
+        ExpiryDate: '2024-08-31',
+        createdAt: currentDate,
+        updatedAt: currentDate
+      },
+      { 
+        Code: 'WELCOME5',
+        Discount: 5.00,
+        ExpiryDate: '2024-07-31',
+        createdAt: currentDate,
+        updatedAt: currentDate
+      },
+      { 
+        Code: 'SALE20',
+        Discount: 20.00,
+        ExpiryDate: '2024-06-30',
+        createdAt: currentDate,
+        updatedAt: currentDate
+      },
+      { 
+        Code: 'JULY10',
+        Discount: 10.00,
+        ExpiryDate: '2024-07-31',
+        createdAt: currentDate,
+        updatedAt: currentDate
+      },
+      { 
+        Code: 'LABORDAY',
+        Discount: 30.00,
+        ExpiryDate: '2024-09-05',
+        createdAt: currentDate,
+        updatedAt: currentDate
+      }
     ], {});
   },
 

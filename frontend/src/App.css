@@ -1,27 +1,27 @@
 .App {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
 }
 
 .bg-img{
-  min-height: 100vh;
-  flex-direction: column;
-  align-items: center;
+    min-height: 100vh;
+    flex-direction: column;
+    align-items: center;
 }
 
 .bg-1{
-  background-color: #C38D95;
+    background-color: #C38D95;
 }
 .text-darkbrown{
-  color: #4E4649;
+    color: #4E4649;
 }
 .bg-3{
-  background-color: #E4948D;
+    background-color: #E4948D;
 }
 
 .bg-5{
-  background-color:#e8e5dc;
+    background-color:#e8e5dc;
 }
 
 /* NavBar.css */
@@ -128,7 +128,7 @@
     content: '';
     position: absolute;
     width: 0;
-    height: 1.5px;
+    height: 2px;
     display: block;
     background: #333;
     transition: width .3s  ease-in-out;
@@ -203,7 +203,7 @@ section a:hover {
 }
 
 .product-action a {
-    color: #fff;
+    color: #f2f2f2;
     padding: 0.5rem;
     font-size: 15px;
     text-decoration: none;

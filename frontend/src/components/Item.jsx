@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart, faHeart } from '@fortawesome/free-solid-svg-icons';
-import { displayProductsByCategory, displayProductsBySubcategory } from "../services/productService";
+import { getProductsByCategory, getProductsBySubcategory } from "../services/productService";
 
 const Item = ({ categoryid, subcategoryid }) => {
     const [products, setProducts] = useState([]);
@@ -14,9 +14,9 @@ const Item = ({ categoryid, subcategoryid }) => {
             try {
                 let response;
                 if (categoryid) {
-                    response = await displayProductsByCategory(categoryid);
+                    response = await getProductsByCategory(categoryid);
                 } else if (subcategoryid) {
-                    response = await displayProductsBySubcategory(subcategoryid);
+                    response = await getProductsBySubcategory(subcategoryid);
                 }
                 console.log('Display products from backend: ', response.data);
                 setProducts(response.data);
@@ -47,16 +47,16 @@ const Item = ({ categoryid, subcategoryid }) => {
                         <div className="product-image">
                             <img src={`${process.env.PUBLIC_URL}${product.Image}`} className="card-img" alt={product.Name} />
                             <div className="product-action">
-                                <Link to="/cart">
-                                    <FontAwesomeIcon icon={faShoppingCart} className="text-brown mx-2" />
+                                <Link to="/">
+                                    <FontAwesomeIcon icon={faShoppingCart} className="mx-2" />
                                 </Link>
-                                <Link to="/favorite">
-                                    <FontAwesomeIcon icon={faHeart} className="text-brown mx-2" />
+                                <Link to="/">
+                                    <FontAwesomeIcon icon={faHeart} className="mx-2" />
                                 </Link>
                             </div>
                         </div>
                         <div className="product-content">
-                            <h3 className="product-title fw-bold"><a href="/">{product.Name}</a></h3>
+                            <h3 className="product-title fw-bold"><Link to={`/product/${product.ProductID}`}>{product.Name}</Link></h3>
                             <span className="product-price">{product.Price} đ</span>
                         </div>
                     </div>

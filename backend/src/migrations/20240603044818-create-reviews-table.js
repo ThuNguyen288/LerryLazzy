@@ -5,44 +5,52 @@ module.exports = {
     await queryInterface.createTable('Reviews', {
       ReviewID: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        primaryKey: true,
         autoIncrement: true,
-        primaryKey: true
+        allowNull: false,
       },
       UserID: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
           model: 'Users',
-          key: 'UserID'
+          key: 'UserID',
         },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
       },
       ProductID: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
           model: 'Products',
-          key: 'ProductID'
+          key: 'ProductID',
         },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
       },
       Rating: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: false,
       },
       Comment: {
         type: Sequelize.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       ReviewDate: {
         type: Sequelize.DATE,
-        allowNull: false
-      }
+        allowNull: false,
+        defaultValue: Sequelize.NOW,
+      },
+      createdAt: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.NOW,
+      },
+      updatedAt: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.NOW,
+      },
     });
   },
+
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('Reviews');
   }

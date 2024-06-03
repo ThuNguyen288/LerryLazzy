@@ -1,4 +1,3 @@
-import { where, group } from 'sequelize';
 import db from '../models/index';
 
 // Function to get all product by CategoryID
@@ -44,6 +43,23 @@ let getProductById = (productid) => {
     });
 };
 
+// Function to get all products
+const getAllProducts = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let products = await db.Product.findAll({
+                include: [{
+                    model: db.Review,
+                }],
+            });
+            console.log('Get all products: ', products);
+            resolve(products);
+        } catch (error) {
+            reject(error);
+        }
+    });
+};
+
 // Function to calculate average rating of product
 let calAverageRating = (productid) => {
     return new Promise(async (resolve, reject) => {
@@ -64,7 +80,6 @@ let calAverageRating = (productid) => {
         }
     });
 };
-
 
 // Function to calculate total ordered of product
 const calTotalOrders = (productid) => {
@@ -91,7 +106,8 @@ module.exports = {
     getProductsByCategory: getProductsByCategory,
     getProductsBySubcategory: getProductsBySubcategory,
     getProductById: getProductById,
+    getAllProducts: getAllProducts,
     calAverageRating: calAverageRating,
-    calTotalOrders: calTotalOrders
+    calTotalOrders: calTotalOrders,
 };
 

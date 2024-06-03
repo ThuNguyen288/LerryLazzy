@@ -5,9 +5,9 @@ module.exports = {
     await queryInterface.createTable('OrderStatusHistory', {
       OrderStatusID: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        primaryKey: true,
         autoIncrement: true,
-        primaryKey: true
+        allowNull: false,
       },
       OrderID: {
         type: Sequelize.INTEGER,
@@ -17,7 +17,7 @@ module.exports = {
           key: 'OrderID'
         },
         onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
       },
       StatusID: {
         type: Sequelize.INTEGER,
@@ -27,14 +27,25 @@ module.exports = {
           key: 'StatusID'
         },
         onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
       },
       StatusDate: {
         type: Sequelize.DATE,
-        allowNull: false
+        allowNull: false,
+      },
+      createdAt: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.NOW,
+      },
+      updatedAt: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.NOW,
       }
     });
   },
+
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('OrderStatusHistory');
   }

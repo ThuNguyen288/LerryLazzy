@@ -2,20 +2,21 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
+    const currentDate = new Date();
     await queryInterface.bulkInsert('Users', [
       { 
-        UserID: 1,
         Username: 'tramyvu6603',
         Password: '123456789',
         Firstname: 'Tra My',
         Lastname: 'Vu',
         Phone: '334280050',
-        Email: 'tramyvu6603@example.com',
+        Email: 'tramyvu6603@gmail.com',
         Address: '123 Hoang Huu Nam Street',
-        Role: 'admin'
+        Role: 'admin',
+        createdAt: currentDate,
+        updatedAt: currentDate
       },
       { 
-        UserID: 2,
         Username: 'thuthu',
         Password: '987654321',
         Firstname: 'Kim Thu',
@@ -23,10 +24,11 @@ module.exports = {
         Phone: '123456789',
         Email: 'thuthu@example.com',
         Address: '456 Demo Street',
-        Role: 'admin'
+        Role: 'admin',
+        createdAt: currentDate,
+        updatedAt: currentDate
       },
       { 
-        UserID: 3,
         Username: 'john_doe',
         Password: 'password_123',
         Firstname: 'John',
@@ -34,10 +36,11 @@ module.exports = {
         Phone: '123456789',
         Email: 'john.doe@example.com',
         Address: '123 Main St, City',
-        Role: 'customer'
+        Role: 'customer',
+        createdAt: currentDate,
+        updatedAt: currentDate
       },
       { 
-        UserID: 4,
         Username: 'jane_smith',
         Password: 'pass123',
         Firstname: 'Jane',
@@ -45,10 +48,11 @@ module.exports = {
         Phone: '987654321',
         Email: 'jane.smith@example.com',
         Address: '456 Elm St, Town',
-        Role: 'customer'
+        Role: 'customer',
+        createdAt: currentDate,
+        updatedAt: currentDate
       },
       { 
-        UserID: 5,
         Username: 'michael_johnson',
         Password: 'mike1234',
         Firstname: 'Michael',
@@ -56,10 +60,11 @@ module.exports = {
         Phone: '555123456',
         Email: 'michael.johnson@example.com',
         Address: '789 Oak St, Village',
-        Role: 'customer'
+        Role: 'customer',
+        createdAt: currentDate,
+        updatedAt: currentDate
       },
-      { 
-        UserID: 6,
+      {
         Username: 'emily_brown',
         Password: 'emily_pass',
         Firstname: 'Emily',
@@ -67,10 +72,11 @@ module.exports = {
         Phone: '111222333',
         Email: 'emily.brown@example.com',
         Address: '101 Pine St, Hamlet',
-        Role: 'customer'
+        Role: 'customer',
+        createdAt: currentDate,
+        updatedAt: currentDate
       },
       { 
-        UserID: 7,
         Username: 'sarah_davis',
         Password: 'sarah@pass',
         Firstname: 'Sarah',
@@ -78,10 +84,11 @@ module.exports = {
         Phone: '444555666',
         Email: 'sarah.davis@example.com',
         Address: '202 Cedar St, Borough',
-        Role: 'customer'
+        Role: 'customer',
+        createdAt: currentDate,
+        updatedAt: currentDate
       },
-      { 
-        UserID: 8,
+      {
         Username: 'david_garcia',
         Password: 'garcia123',
         Firstname: 'David',
@@ -89,10 +96,11 @@ module.exports = {
         Phone: '777888999',
         Email: 'david.garcia@example.com',
         Address: '303 Maple St, Township',
-        Role: 'customer'
+        Role: 'customer',
+        createdAt: currentDate,
+        updatedAt: currentDate
       },
       { 
-        UserID: 9,
         Username: 'jessica_martinez',
         Password: 'jess_pass',
         Firstname: 'Jessica',
@@ -100,10 +108,11 @@ module.exports = {
         Phone: '999888777',
         Email: 'jessica.martinez@example.com',
         Address: '404 Birch St, District',
-        Role: 'customer'
+        Role: 'customer',
+        createdAt: currentDate,
+        updatedAt: currentDate
       },
       { 
-        UserID: 10,
         Username: 'matthew_rodriguez',
         Password: 'matt456',
         Firstname: 'Matthew',
@@ -111,10 +120,11 @@ module.exports = {
         Phone: '666333111',
         Email: 'matthew.rodriguez@example.com',
         Address: '505 Walnut St, Territory',
-        Role: 'customer'
+        Role: 'customer',
+        createdAt: currentDate,
+        updatedAt: currentDate
       },
       { 
-        UserID: 11,
         Username: 'andrew_wilson',
         Password: 'andrewww',
         Firstname: 'Andrew',
@@ -122,10 +132,11 @@ module.exports = {
         Phone: '222333444',
         Email: 'andrew.wilson@example.com',
         Address: '606 Oak St, Province',
-        Role: 'customer'
+        Role: 'customer',
+        createdAt: currentDate,
+        updatedAt: currentDate
       },
-      { 
-        UserID: 12,
+      {
         Username: 'emma_anderson',
         Password: 'emma_pass',
         Firstname: 'Emma',
@@ -133,10 +144,11 @@ module.exports = {
         Phone: '444333222',
         Email: 'emma.anderson@example.com',
         Address: '707 Pine St, Sector',
-        Role: 'customer'
+        Role: 'customer',
+        createdAt: currentDate,
+        updatedAt: currentDate
       },
       { 
-        UserID: 13,
         Username: 'james_taylor',
         Password: 'jamest_pass',
         Firstname: 'James',
@@ -144,10 +156,11 @@ module.exports = {
         Phone: '999111444',
         Email: 'james.taylor@example.com',
         Address: '808 Cedar St, Division',
-        Role: 'customer'
+        Role: 'customer',
+        createdAt: currentDate,
+        updatedAt: currentDate
       },
       { 
-        UserID: 14,
         Username: 'olivia_thomas',
         Password: 'olivia_pass',
         Firstname: 'Olivia',
@@ -155,10 +168,11 @@ module.exports = {
         Phone: '888222555',
         Email: 'olivia.thomas@example.com',
         Address: '909 Elm St, Precinct',
-        Role: 'customer'
+        Role: 'customer',
+        createdAt: currentDate,
+        updatedAt: currentDate
       },
       { 
-        UserID: 15,
         Username: 'william_hernandez',
         Password: 'will123',
         Firstname: 'William',
@@ -166,10 +180,11 @@ module.exports = {
         Phone: '555777999',
         Email: 'william.hernandez@example.com',
         Address: '123 Oak Ave, Municipality',
-        Role: 'customer'
+        Role: 'customer',
+        createdAt: currentDate,
+        updatedAt: currentDate
       },
       { 
-        UserID: 16,
         Username: 'ava_moore',
         Password: 'ava456',
         Firstname: 'Ava',
@@ -177,10 +192,11 @@ module.exports = {
         Phone: '333777111',
         Email: 'ava.moore@example.com',
         Address: '456 Pine Ave, Parish',
-        Role: 'customer'
+        Role: 'customer',
+        createdAt: currentDate,
+        updatedAt: currentDate
       },
       { 
-        UserID: 17,
         Username: 'daniel_martin',
         Password: 'daniel_pass',
         Firstname: 'Daniel',
@@ -188,10 +204,11 @@ module.exports = {
         Phone: '222444666',
         Email: 'daniel.martin@example.com',
         Address: '789 Elm Ave, Canton',
-        Role: 'customer'
+        Role: 'customer',
+        createdAt: currentDate,
+        updatedAt: currentDate
       },
       { 
-        UserID: 18,
         Username: 'sophia_gonzalez',
         Password: 'sophia_pass',
         Firstname: 'Sophia',
@@ -199,10 +216,11 @@ module.exports = {
         Phone: '111999333',
         Email: 'sophia.gonzalez@example.com',
         Address: '101 Maple Ave, Shire',
-        Role: 'customer'
+        Role: 'customer',
+        createdAt: currentDate,
+        updatedAt: currentDate
       },
       { 
-        UserID: 19,
         Username: 'benjamin_white',
         Password: 'white_pass',
         Firstname: 'Benjamin',
@@ -210,10 +228,11 @@ module.exports = {
         Phone: '888444222',
         Email: 'benjamin.white@example.com',
         Address: '202 Birch Ave, Dominion',
-        Role: 'customer'
+        Role: 'customer',
+        createdAt: currentDate,
+        updatedAt: currentDate
       },
       { 
-        UserID: 20,
         Username: 'isabella_hall',
         Password: 'hall@pass',
         Firstname: 'Isabella',
@@ -221,10 +240,11 @@ module.exports = {
         Phone: '777555333',
         Email: 'isabella.hall@example.com',
         Address: '303 Oak Ave, Commonwealth',
-        Role: 'customer'
+        Role: 'customer',
+        createdAt: currentDate,
+        updatedAt: currentDate
       },
       { 
-        UserID: 21,
         Username: 'alexander_allen',
         Password: 'alex123',
         Firstname: 'Alexander',
@@ -232,10 +252,11 @@ module.exports = {
         Phone: '444666888',
         Email: 'alexander.allen@example.com',
         Address: '404 Pine Ave, Territory',
-        Role: 'customer'
+        Role: 'customer',
+        createdAt: currentDate,
+        updatedAt: currentDate
       },
       { 
-        UserID: 22,
         Username: 'mia_young',
         Password: 'mia456',
         Firstname: 'Mia',
@@ -243,7 +264,9 @@ module.exports = {
         Phone: '111222333',
         Email: 'mia.young@example.com',
         Address: '505 Elm Ave, Region',
-        Role: 'customer'
+        Role: 'customer',
+        createdAt: currentDate,
+        updatedAt: currentDate
       }
     ], {});
   },

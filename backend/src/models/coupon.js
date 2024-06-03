@@ -11,12 +11,12 @@ module.exports = (sequelize, DataTypes) => {
   Coupon.init({
     CouponID: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      primaryKey: true,
       autoIncrement: true,
-      primaryKey: true
+      allowNull: false
     },
     Code: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(50),
       allowNull: false
     },
     Discount: {
@@ -26,12 +26,22 @@ module.exports = (sequelize, DataTypes) => {
     ExpiryDate: {
       type: DataTypes.DATE,
       allowNull: false
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW
     }
   }, {
     sequelize,
     modelName: 'Coupon',
     tableName: 'Coupons',
-    timestamps: false
+    timestamps: true
   });
 
   return Coupon;

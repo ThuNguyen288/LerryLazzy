@@ -5,25 +5,35 @@ module.exports = {
     await queryInterface.createTable('Coupons', {
       CouponID: {
         type: Sequelize.INTEGER,
+        primaryKey: true,
         allowNull: false,
         autoIncrement: true,
-        primaryKey: true
       },
       Code: {
         type: Sequelize.STRING(50),
         allowNull: false,
-        unique: true
       },
       Discount: {
         type: Sequelize.DECIMAL(5, 2),
-        allowNull: false
+        allowNull: false,
       },
       ExpiryDate: {
         type: Sequelize.DATE,
-        allowNull: false
+        allowNull: false,
+      },
+      createdAt: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.NOW,
+      },
+      updatedAt: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.NOW,
       }
     });
   },
+
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('Coupons');
   }
