@@ -20,7 +20,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     Username: {
       type: DataTypes.STRING(50),
-      allowNull: false
+      allowNull: false,
+      unique: true,
     },
     Password: {
       type: DataTypes.STRING(255),
@@ -36,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     Phone: {
       type: DataTypes.STRING(20),
-      allowNull: false
+      allowNull: true
     },
     Email: {
       type: DataTypes.STRING(100),
@@ -45,7 +46,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     Address: {
       type: DataTypes.STRING(255),
-      allowNull: false
+      allowNull: true
     },
     Role: {
       type: DataTypes.STRING(50),

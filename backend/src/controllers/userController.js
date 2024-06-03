@@ -1,5 +1,18 @@
 import userService from "../services/userService";
 
+let handleSignup = async (req, res) => {
+    try {
+        let message = await userService.createNewUser(req.body);
+        console.log(message);
+        return res.status(200).json(message);
+    } catch (error) {
+        return res.status(500).json({
+            errCode: -1,
+            message: 'An internal server error occurred.',
+        });
+    }
+}
+
 let handleLogin = async (req, res) => {
     let username = req.body.username;
     let password = req.body.password; 
@@ -24,14 +37,50 @@ let handleLogin = async (req, res) => {
         });
     } catch (error) {
         return res.status(500).json({
-            errCode: 1,
+            errCode: -1,
             message: 'An internal server error occurred.',
             error: error.message,
         });
     }
 };
 
+let hanldeChangeProfile = async (req, res) => {
+    try {
+        let data = req.body;
+        let message = await userService.updateProfile(data);
+        return res.status(200).json(message);
+    } catch (error) {
+        console.error('Error handling profile change request: ', error);
+        return res.status(500).json({
+            errCode: -1,
+            message: 'An internal server error occurred.'
+        });
+    }
+}
+
+let handleDeleteAccount = async (req, res) => {
+    try {
+        if (!req.body.id) {
+            return res.status(400).json({
+                errCode: 1,
+                message: 'Missing required parameter!'
+            });
+        }
+        let message = await userService.deleteAccount(req.body.id);
+        return res.status(200).json(message);
+    } catch (error) {
+        console.error('Error handling delete account request: ', error);
+        return res.status(500).json({
+            errCode: -1,
+            message: 'An internal server error occurred.'
+        });
+    }
+}
+
 module.exports = {
-    handleLogin: handleLogin
+    handleLogin: handleLogin,
+    handleSignup: handleSignup,
+    hanldeChangeProfile: hanldeChangeProfile,
+    handleDeleteAccount: handleDeleteAccount
 };
 

@@ -4,7 +4,7 @@ import db from '../models/index';
 const saltRounds = 10;
 
 // Function to encode password
-const hashUserPassword = (password) => {
+let hashUserPassword = (password) => {
     return new Promise((resolve, reject) => {
         bcrypt.hash(password, saltRounds, (err, hash) => {
             if (err) {
@@ -16,57 +16,33 @@ const hashUserPassword = (password) => {
 };
 
 // Function to create new user
-const createNewUser = (data, res) => {
+let createNewUser = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let hashPasswordFromBcrypt = await hashUserPassword(data.password);
-            await db.User.create({
-                Username: data.username,
-                Password: hashPasswordFromBcrypt,
-                Firstname: data.firstname,
-                Lastname: data.lastname,
-                Phone: data.phone,
-                Email: data.email,
-                Address: data.address,
-                Role: data.role || 'customer' 
-            });
-            resolve({
-                errCode: 0,
-                message: 'Create new user successfully!'
-                });
-        } catch (error) {
-            reject(error);
-        }
-    });
-};
-
-// Function to get all users
-let getAllUsers = () => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            let users = await db.User.findAll({ raw: true });
-            resolve(users);
-        } catch (error) {
-            reject(error);
-        }
-    });
-};
-
-// Function to get user information by id
-let getUserInfoById = (id) => {
-    return new Promise( async (resolve, reject) => {
-        try {
-            let user = await db.User.findOne({
-                where: {UserID: id}, 
-                raw: true
-            });
-            if (!user) {
+            // check username exists
+            let check = await checkUsername(data.username);
+            if (check === true) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'User not found!'
+                    message: 'Username already exists.'
+                });
+            } else {
+                let hashPasswordFromBcrypt = await hashUserPassword(data.password);
+                await db.User.create({
+                    Username: data.username,
+                    Password: hashPasswordFromBcrypt,
+                    Firstname: data.firstname,
+                    Lastname: data.lastname,
+                    Phone: data.phone,
+                    Email: data.email,
+                    Address: data.address,
+                    Role: data.role || 'customer' 
+                });
+                resolve({
+                    errCode: 0,
+                    message: 'Create new user successfully!'
                 });
             }
-            resolve(user);
         } catch (error) {
             reject(error);
         }
@@ -101,31 +77,6 @@ let updateUserData = async (data) => {
     });
 };
 
-// Funtion to detele user
-let deleteUserById = (userId) => {
-    return new Promise(async(resolve, reject) => {
-        try {
-            let user = await db.User.findOne({
-                where: { UserID: userId }
-            });
-            if (!user) {
-                resolve({
-                    errCode: 1,
-                    errMessage: 'User not found!'
-                });
-            } else {
-                await user.destroy();
-                resolve({
-                    errCode: 0,
-                    errMessage: 'User deleted successfully!'
-                })
-            }
-        } catch (error) {
-            reject(error);
-        }
-    });
-};
-
 // Function to handle user login
 let handleUserLogin = (username, password) => {
     return new Promise (async (resolve, reject) => {
@@ -139,7 +90,6 @@ let handleUserLogin = (username, password) => {
                 let user = await db.User.findOne({
                     attributes: ['Username', 'Password', 'Role'],
                     where: { Username : username },
-                    raw: true
                 });
 
                 if (user) {
@@ -180,7 +130,6 @@ let checkUsername = (username) => {
         try {
             let user = await db.User.findOne({
                 where: { Username: username },
-                raw: true
             }); 
             if (!user) {
                 resolve(false);
@@ -193,12 +142,81 @@ let checkUsername = (username) => {
     });
 };
 
+// Function to update profile
+let updateProfile = (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if(!data.id) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'User ID is required!'
+                });
+            }
+            let user = await db.User.findOne({
+                where: { UserID: data.id }
+            });
+            if (!user) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'User not found!'
+                });
+            } else {
+                let hashPassword = await hashUserPassword(data.password);
+                await db.User.update({
+                    Password: hashPassword,
+                    Firstname: data.firstname,
+                    Lastname: data.lastname,
+                    Phone: data.phone,
+                    Email: data.email,
+                    Address: data.address
+                }, {
+                    where: { UserID: data.id }
+                });
+
+                resolve({
+                    errCode: 0,
+                    message: 'Profile updated successfully!'
+                });
+            }
+        } catch (error) {
+            reject(error);
+        }
+    });
+};
+
+// Function to delete account
+let deleteAccount = (id) => {
+    return new Promise (async (resolve, reject) => {
+        try {
+            let user = await db.User.findOne({
+                where: { UserID: id }
+            })
+            if (!user) {
+                resolve({
+                    errCode: 2,
+                    errMessage: "Account not found"
+                });
+            } else {
+                await db.User.destroy({
+                    where: { UserID: id }
+                });
+                resolve({
+                    errCode: 0,
+                    message: "Account deleted successfully"
+                });
+            }
+            console.log(user);
+        } catch (error) {
+            reject(error);
+        }
+    });
+};
+
 module.exports = {
-    createNewUser: createNewUser,
-    getAllUsers: getAllUsers,
-    getUserInfoById : getUserInfoById,
     updateUserData: updateUserData,
-    deleteUserById: deleteUserById,
     handleUserLogin: handleUserLogin,
     checkUsername: checkUsername,
+    createNewUser: createNewUser,
+    updateProfile: updateProfile,
+    deleteAccount: deleteAccount
 };

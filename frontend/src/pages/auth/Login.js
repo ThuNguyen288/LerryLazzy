@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import { handleLoginApi } from '../../services/userService';
-import './Login.css';
+import './Form.css';
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -28,6 +28,7 @@ const Login = () => {
             setErrPassword('Password is required');
             return;
         }
+        
         try {
             let data = await handleLoginApi(username, password);
             if (data && data.errCode === 1) {
@@ -86,7 +87,7 @@ const Login = () => {
                                             id="typeUsername" 
                                             name="username" 
                                             placeholder="Username" 
-                                            className={"form-control form-control-lg " + (!isValid ? 'is-invalid' : '')}
+                                            className={"form-control form-control-lg input " + (!isValid ? 'is-invalid' : '')}
                                             value={username} 
                                             onChange={handleOnChangeInput}
                                             />
@@ -102,7 +103,7 @@ const Login = () => {
                                             id="typePassword" 
                                             name="password" 
                                             placeholder="Password" 
-                                            className="form-control form-control-lg" 
+                                            className="form-control form-control-lg input" 
                                             style={{borderColor: (isValidP ? '' : 'red')}}
                                             value={password} 
                                             onChange={handleOnChangeInput}
