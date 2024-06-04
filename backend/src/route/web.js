@@ -5,16 +5,14 @@ let router = express.Router();
 
 let initWebRoutes = (app) => { //rest api
 
-    // for user
+
+    // Routes for user
     router.post('/register', userController.handleRegister);
     router.post('/login', userController.handleLogin);
-    
-
-    router.put('/change-profile', userController.hanldeChangeProfile);
-
+    router.put('/change-profile', userController.handleChangeProfile);
     router.delete('/delete-account', userController.handleDeleteAccount);
 
-    // for product
+    // Routes for product
     router.get('/product', productController.displayProducts);
     router.get('/product-image/:id', productController.displayProductImage);
 

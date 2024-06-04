@@ -1,8 +1,8 @@
 import userService from "../services/userService";
 
 let handleLogin = async (req, res) => {
-    let username = req.body.username;
-    let password = req.body.password; 
+
+    let { username, password } = req.body;
     // Check username exists
     // Compare password
     // Return user info
@@ -38,12 +38,13 @@ let handleRegister = async (req, res) => {
         return res.status(200).json({
             errCode: userData.errCode,
             message: userData.errMessage,
-            data: userData
+            token: userData.token,
+            user: userData.user
         });
     } catch (error) {
         console.error(error);
         return res.status(500).json({
-            success: false,
+            errCode: -1,
             message: 'An internal server error occurred.'
         });
     }
@@ -51,7 +52,7 @@ let handleRegister = async (req, res) => {
 
 let handleShowProfile = async (req, res) => {
     try {
-        let user = await userService.getUserById(req.userId);
+        let user = await userService.getUserByUsername(req.username);
         return res.status(200).json({
             errCode: 0,
             message: 'Get user profile successfully!',
@@ -63,9 +64,9 @@ let handleShowProfile = async (req, res) => {
             message: 'An internal server error occurred.'
         });
     }
-}
+};
 
-let hanldeChangeProfile = async (req, res) => {
+let handleChangeProfile = async (req, res) => {
     try {
         let data = req.body;
         let message = await userService.updateProfile(data);
@@ -102,7 +103,7 @@ module.exports = {
     handleLogin: handleLogin,
     handleRegister: handleRegister,
     handleShowProfile: handleShowProfile,
-    hanldeChangeProfile: hanldeChangeProfile,
+    handleChangeProfile: handleChangeProfile,
     handleDeleteAccount: handleDeleteAccount
 };
 

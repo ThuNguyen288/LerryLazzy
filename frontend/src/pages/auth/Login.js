@@ -19,9 +19,9 @@ const Login = () => {
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
-            navigate('/');
+            navigate('/home');
         }
-    }, []);
+    }, [navigate]);
 
     const handleLogin = async (event) => {
         event.preventDefault();
@@ -30,26 +30,44 @@ const Login = () => {
             setErrUsername('Username is required');
             return;
         }
-        if (username.trim() !== '' && password.trim() === '') {
+        if (password.trim() === '') {
             setIsValidP(false);
             setErrPassword('Password is required');
             return;
         }
         
         try {
-            let data = await handleLoginApi(username, password);
-            if (data && data.errCode === 1) {
-                setIsValid(false);
-                setErrUsername(data.message);
-            } else if (data && data.errCode === 3) {
-                setIsValidP(false);
-                setErrPassword(data.message);
+            const response = await handleLoginApi(username, password);
+            console.log("API response:", response);
+
+            if (response && response.data) {
+                const data = response.data;
+                console.log("Login data:", data);
+
+                if (data.errCode === 0) {
+                    const { token, user } = data;
+                    if (token && user) {
+                        console.log("Login successful:", token, user);
+                        login(token, user);
+                        navigate('/home');
+                        alert(data.message);
+                    } else {
+                        throw new Error('Invalid response: missing token or user');
+                    }
+                } else if (data.errCode === 1) {
+                    setIsValid(false);
+                    setErrUsername(data.message);
+                } else if (data.errCode === 3) {
+                    setIsValidP(false);
+                    setErrPassword(data.message);
+                } else {
+                    console.error('Unhandled API error:', data);
+                }
             } else {
-                localStorage.setItem('token', data);
-                navigate('/home');
+                throw new Error('No response data');
             }
         } catch (error) {
-            console.log(error);
+            console.error('Login error:', error);
         }
     };
     
@@ -93,7 +111,7 @@ const Login = () => {
                                             id="typeUsername" 
                                             name="username" 
                                             placeholder="Username" 
-                                            className={"form-control form-control-lg input " + (!isValid ? 'is-invalid' : '')}
+                                            className={`form-control form-control-lg input ${!isValid ? 'is-invalid' : ''}`}
                                             value={username} 
                                             onChange={handleOnChangeInput}
                                             />

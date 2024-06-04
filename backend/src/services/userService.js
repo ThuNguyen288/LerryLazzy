@@ -36,13 +36,14 @@ let handleUserLogin = (username, password) => {
                     let isPasswordValid = await bcrypt.compareSync(password, user.Password);
 
                     if (isPasswordValid) {
+                        const token = createToken(user);
                         userData.errCode = 0;
                         userData.errMessage = 'Login successfully!';
+                        userData.token = token;
+
                         delete user.Password; 
                         userData.user = user;
-
-                        let token = jwt.sign({ userId: user.UserID }, process.env.JWT_SECRET, { expiresIn: '30s' });
-                        userData.token = token;
+                        
                     } else {
                         userData.errCode = 3;
                         userData.errMessage = 'Incorrect password. Please try again.';
@@ -75,7 +76,7 @@ let handleUserRegister = (data) => {
 
             if (!isUsernameExist) {
                 let hashPassword = await hashUserPassword(data.password);
-                await db.User.create({
+                let newUser = await db.User.create({
                     Username: data.username,
                     Password: hashPassword,
                     Firstname: data.firstname,
@@ -83,6 +84,16 @@ let handleUserRegister = (data) => {
                     Email: data.email,
                     Role: 'customer' 
                 });
+
+                const token = createToken(newUser);
+                userData.token = token;
+                userData.user = {
+                    username: newUser.Username,
+                    password: newUser.Password,
+                    firstname: newUser.Firstname,
+                    lastname: newUser.Lastname,
+                    email: newUser.Email,
+                };
 
                 userData.errCode = 0;
                 userData.errMessage = 'Create account successfully';
@@ -96,6 +107,13 @@ let handleUserRegister = (data) => {
             reject(error);
         }
     });
+};
+
+// Function to create token
+let createToken = (user) => {
+    const payload = { username: user.Username, role: user.Role, };
+    const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
+    return token;
 };
 
 // Function to check username exists
@@ -116,19 +134,19 @@ let checkUsername = (username) => {
     });
 };
 
-// Function to get user by id
-let getUserById = (userId) => {
+// Function to get user by username
+let getUserByUsername = (username) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let user = await db.User.findById({
-                where: { UserID: userId }
+            let user = await db.User.findOne({
+                where: { Username: username }
             });
             if (!user) {
-                reject({
+                return reject({
                     errCode: 1,
                     errMessage: 'User not found!'
                 });
-            } 
+            }
             resolve(user);
         } catch (error) {
             reject(error);
@@ -209,8 +227,9 @@ let deleteAccount = (id) => {
 module.exports = {
     handleUserLogin: handleUserLogin,
     handleUserRegister: handleUserRegister,
+    createToken, createToken,
     checkUsername: checkUsername,
-    getUserById: getUserById,
+    getUserByUsername: getUserByUsername,
     updateProfile: updateProfile,
     deleteAccount: deleteAccount
 };

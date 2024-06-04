@@ -1,62 +1,45 @@
-// context/AuthContext.js
-import React, { createContext, useState, useEffect } from 'react';
-import axios from 'axios';
+import { createContext, useState, useEffect } from 'react';
 
-const AuthContext = createContext({
-  isAuthenticated: false,
-  user: null,
-  login: () => {},
-  logout: () => {},
-  register: () => {},
-});
+const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState(null);
+    const [isAuthenticated, setIsAuthenticated] = useState({
+        token: null,
+        user: null,
+    });
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      axios.post('/api/verify-token', { token })
-        .then(response => {
-          setIsAuthenticated(true);
-          setUser(response.data.user);
-        })
-        .catch(error => {
-          console.error('Token verification failed:', error);
-          logout(); 
-        });
-    }
-  }, []);
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        const user = localStorage.getItem('user');
 
-  const login = (token, userInfo) => {
-    localStorage.setItem('token', token);
-    setIsAuthenticated(true);
-    setUser(userInfo);
-  };
+        if (token && user) {
+            try {
+                const parsedUser = JSON.parse(user);
+                setIsAuthenticated({ token, user: parsedUser });
+            } catch (error) {
+                console.error('Failed to parse user from localStorage', error);
+                setIsAuthenticated({ token: null, user: null });
+            }
+        }
+    }, []);
 
-  const logout = () => {
-    localStorage.removeItem('token');
-    setIsAuthenticated(false);
-    setUser(null);
-  };
+    const login = (token, user) => {
+        setIsAuthenticated({ token, user });
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify(user));
+    };
 
-  const register = async (userData) => {
-    try {
-      setIsAuthenticated(true);
-      const response = await axios.post('/api/register', userData);
-      const { token, user } = response.data;
-      login(token, user);
-    } catch (error) {
-      console.error('Signup error:', error);
-    }
-  };
+    const logout = () => {
+        setIsAuthenticated({ token: null, user: null });
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+    };
 
-  return (
-    <AuthContext.Provider value={{ isAuthenticated, user, login, logout, register }}>
-      {children}
-    </AuthContext.Provider>
-  );
+    return (
+        <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+            {children}
+        </AuthContext.Provider>
+    );
 };
 
 export { AuthProvider, AuthContext };

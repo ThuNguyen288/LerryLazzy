@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
-import { handleRegisterApi } from '../../services/userService';
+import { handleRegisterApi, handleLoginApi } from '../../services/userService';
 import './Form.css';
 
 const Register = () => {
@@ -26,19 +26,11 @@ const Register = () => {
     const [errPassword, setErrPassword] = useState('');
     const [errConfPass, setErrConfPass] = useState('');
 
-    const { register } = useContext(AuthContext);
+    const { login } = useContext(AuthContext);
     const navigate = useNavigate();
     
     const handleRegister = async (event) => {
         event.preventDefault();
-
-        const userData = {
-            username,
-            firstname,
-            lastname,
-            email,
-            password,
-        };
 
         if (username.trim() === '') {
             setUsernameValid(false);
@@ -87,19 +79,28 @@ const Register = () => {
             return;
         }
 
-        console.log(userData);
+        const userData = {
+            username,
+            firstname,
+            lastname,
+            email,
+            password,
+        };
 
         try {
             let data = await handleRegisterApi(userData);
-            console.log('Response from API:', data);
-            if (data && data.errCode === 1) {
+            
+            if (data && data.data.errCode === 1) {
                 setUsernameValid(false);
-                setErrUsername(data.message);
-            } else {
-                const { token } = data;
-                register(token);
-                alert(data.message);
-                navigate('/');
+                setErrUsername(data.data.errMessage);
+            } else if (data && data.data.errCode === 0) {
+                let loginResponse = await handleLoginApi(username, password);
+                if (loginResponse && loginResponse.data.errCode === 0) {
+                    const { token, user } = loginResponse.data;
+                    login(token, user);
+                    navigate('/home');
+                    alert(data.data.message);
+                }
             }
         } catch (error) {
             console.error(error);
@@ -108,35 +109,37 @@ const Register = () => {
 
     const handleOnChangeInput = (event) => {
         const { name, value } = event.target;
-        if (name === 'username') {
-            setUsername(value);
-            setUsernameValid(true);
-            setErrUsername('');
 
-        } else if (name === 'password') {
-            setPassword(value);
-            setPasswordValid(true);
-            setErrPassword('');
-
-        } else if (name === 'confPass') {
-            setConfPass(value);
-            setConfPassValid(true);
-            setErrConfPass('');
-
-        } else if (name === 'firstname') {
-            setFirstname(value);
-            setFullnameValid(true);
-            setErrFullname('');
-
-        } else if (name === 'lastname') {
-            setLastname(value);
-            setFullnameValid(true);
-            setErrFullname('');
-
-        } else if (name === 'email') {
-            setEmail(value);
-            setEmailValid(true);
-            setErrEmail('');
+        switch (name) {
+            case 'username':
+                setUsername(value);
+                setUsernameValid(true);
+                setErrUsername('');
+                break;
+            case 'firstname':
+            case 'lastname':
+                if (name === 'firstname') setFirstname(value);
+                if (name === 'lastname') setLastname(value);
+                setFullnameValid(true);
+                setErrFullname('');
+                break;
+            case 'email':
+                setEmail(value);
+                setEmailValid(true);
+                setErrEmail('');
+                break;
+            case 'password':
+                setPassword(value);
+                setPasswordValid(true);
+                setErrPassword('');
+                break;
+            case 'confPass':
+                setConfPass(value);
+                setConfPassValid(true);
+                setErrConfPass('');
+                break;
+            default:
+                break;
         }
     };
 
@@ -163,7 +166,7 @@ const Register = () => {
                                                 id="typeUsername" 
                                                 name="username" 
                                                 placeholder="Username" 
-                                                className={"form-control form-control-lg input " + (!usernameValid ? 'is-invalid' : '')}
+                                                className={`form-control form-control-lg input ${(!usernameValid ? 'is-invalid' : '')}`}
                                                 value={username} 
                                                 onChange={handleOnChangeInput}
                                             />
@@ -181,7 +184,7 @@ const Register = () => {
                                                         id="typeFirstname" 
                                                         name="firstname" 
                                                         placeholder="First name" 
-                                                        className={"form-control form-control-lg input " + (!fullnameValid ? 'is-invalid' : '')}
+                                                        className={`form-control form-control-lg input ${(!fullnameValid ? 'is-invalid' : '')}`}
                                                         value={firstname} 
                                                         onChange={handleOnChangeInput} 
                                                     />
@@ -196,7 +199,7 @@ const Register = () => {
                                                         id="typeLastname" 
                                                         name="lastname" 
                                                         placeholder="Last name" 
-                                                        className={"form-control form-control-lg input " + (!fullnameValid ? 'is-invalid' : '')}
+                                                        className={`form-control form-control-lg input ${(!fullnameValid ? 'is-invalid' : '')}`}
                                                         value={lastname} 
                                                         onChange={handleOnChangeInput} 
                                                     />
@@ -216,7 +219,7 @@ const Register = () => {
                                                 placeholder="Email" 
                                                 value={email} 
                                                 onChange={handleOnChangeInput} 
-                                                className={"form-control form-control-lg input " + (!emailValid ? 'is-invalid' : '')}
+                                                className={`form-control form-control-lg input ${(!emailValid ? 'is-invalid' : '')}`}
                                             />
                                             <label htmlFor="typeEmail">Email</label>
                                             <div className="error-message">
@@ -231,7 +234,7 @@ const Register = () => {
                                                 name="password"
                                                 placeholder="Password"
                                                 value={password} 
-                                                className={"form-control form-control-lg input " + (!passwordValid ? 'is-invalid' : '')}
+                                                className={`form-control form-control-lg input ${(!passwordValid ? 'is-invalid' : '')}`}
                                                 onChange={handleOnChangeInput} 
                                             />
                                             <label htmlFor="typePpassword">Password</label>
@@ -247,7 +250,7 @@ const Register = () => {
                                                 name="confPass"
                                                 placeholder="Confirm password"
                                                 value={confPass} 
-                                                className={"form-control form-control-lg input " + (!confPassValid ? 'is-invalid' : '')}
+                                                className={`form-control form-control-lg input ${(!confPassValid ? 'is-invalid' : '')}`}
                                                 onChange={handleOnChangeInput} 
                                             />
                                             <label htmlFor="confirmPassword">Confirm password</label>
@@ -261,7 +264,7 @@ const Register = () => {
                                                 id="terms"
                                                 className='mx-2 form-check-input'
                                                 onChange={handleCheckboxChange}/>
-                                            <label htmlFor="terms" className={"form-check-label terms " + (!termValid ? 'text-danger' : 'text-white-50')}>
+                                            <label htmlFor="terms" className={`form-check-label terms ${(!termValid ? 'text-danger' : 'text-white-50')}`}>
                                                 I agree to the <u className='fw-bold'>Terms & Conditions</u>
                                             </label>
                                         </div>

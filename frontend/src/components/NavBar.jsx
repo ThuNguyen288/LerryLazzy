@@ -68,7 +68,7 @@ const NavBar = () => {
             <div className="nav-icon dropdown">
               <FontAwesomeIcon icon={faSearch} className="text-brown mx-2" role="button" data-bs-toggle="dropdown" aria-expanded="false" />
             </div>
-            {isAuthenticated ? (
+            {isAuthenticated.token ? (
                <>
                 <div className="nav-icon d-flex">
                   <Link to="/cart">
