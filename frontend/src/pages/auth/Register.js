@@ -1,38 +1,148 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext';
+import { handleRegisterApi } from '../../services/userService';
+import './Form.css';
 
-const RegisterPage = () => {
+const Register = () => {
+    const [username, setUsername] = useState('');
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const [phone, setPhone] = useState('');
     const [email, setEmail] = useState('');
-    const [showPassword, setShowPassword] = useState(false);
-    const [errMessage, setErrMessage] = useState('');
+    const [password, setPassword] = useState('');
+    const [confPass, setConfPass] = useState('');
+    const [agreeTerms, setAgreeTerms] = useState(false);
 
+    const [usernameValid, setUsernameValid] = useState(true);
+    const [emailValid, setEmailValid] = useState(true);
+    const [fullnameValid, setFullnameValid] = useState(true);
+    const [passwordValid, setPasswordValid] = useState(true);
+    const [confPassValid, setConfPassValid] = useState(true);
+    const [termValid, setTermValid] = useState(true);
+
+    const [errUsername, setErrUsername] = useState('');
+    const [errFullname, setErrFullname] = useState('');
+    const [errEmail, setErrEmail] = useState('');
+    const [errPassword, setErrPassword] = useState('');
+    const [errConfPass, setErrConfPass] = useState('');
+
+    const { register } = useContext(AuthContext);
     const navigate = useNavigate();
-
+    
     const handleRegister = async (event) => {
         event.preventDefault();
 
-        if (password !== confirmPassword) {
-            setErrMessage('Passwords do not match');
+        const userData = {
+            username,
+            firstname,
+            lastname,
+            email,
+            password,
+        };
+
+        if (username.trim() === '') {
+            setUsernameValid(false);
+            setErrUsername('Please enter your username');
             return;
         }
 
+        if (firstname.trim() === '' || lastname.trim() === '') {
+            setFullnameValid(false);
+            setErrFullname('Please enter your name');
+            return;
+        }
+
+        if (email.trim() === '') {
+            setEmailValid(false);
+            setErrEmail('Please enter your email');
+            return;
+        }
+
+        if (password.trim() === '') {
+            setPasswordValid(false);
+            setErrPassword('Please enter your password');
+            return;
+        }
+
+        if (password.trim().length < 8) {
+            setPasswordValid(false);
+            setErrPassword('Password must be at least 8 characters long');
+            return;
+        }
+
+        if (confPass.trim() === '') {
+            setConfPassValid(false);
+            setErrConfPass('Please confirm your password');
+            return;
+        }
+
+        if (password !== confPass) {
+            setConfPassValid(false);
+            setErrConfPass('Passwords do not match');
+            return;
+        }
+
+        if (!agreeTerms) {
+            setTermValid(false);
+            return;
+        }
+
+        console.log(userData);
+
         try {
-            
-            
+            let data = await handleRegisterApi(userData);
+            console.log('Response from API:', data);
+            if (data && data.errCode === 1) {
+                setUsernameValid(false);
+                setErrUsername(data.message);
+            } else {
+                const { token } = data;
+                register(token);
+                alert(data.message);
+                navigate('/');
+            }
         } catch (error) {
-            console.log(error);
-            setErrMessage('An error occurred during registration, please try again later.');
+            console.error(error);
         }
     };
 
-    const handleShowPassword = () => {
-        setShowPassword(!showPassword);
+    const handleOnChangeInput = (event) => {
+        const { name, value } = event.target;
+        if (name === 'username') {
+            setUsername(value);
+            setUsernameValid(true);
+            setErrUsername('');
+
+        } else if (name === 'password') {
+            setPassword(value);
+            setPasswordValid(true);
+            setErrPassword('');
+
+        } else if (name === 'confPass') {
+            setConfPass(value);
+            setConfPassValid(true);
+            setErrConfPass('');
+
+        } else if (name === 'firstname') {
+            setFirstname(value);
+            setFullnameValid(true);
+            setErrFullname('');
+
+        } else if (name === 'lastname') {
+            setLastname(value);
+            setFullnameValid(true);
+            setErrFullname('');
+
+        } else if (name === 'email') {
+            setEmail(value);
+            setEmailValid(true);
+            setErrEmail('');
+        }
+    };
+
+    const handleCheckboxChange = (event) => {
+        setAgreeTerms(event.target.checked);
+        setTermValid(true);
     };
 
     return (
@@ -41,135 +151,131 @@ const RegisterPage = () => {
                 <div className="row d-flex justify-content-center align-items-center">
                     <div className="col-12 col-md-8 col-lg-6 col-xl-5">
                         <div className="card bg-dark back-ground" style={{ borderRadius: '1rem' }}>
-                            <div className="card-body p-5">
-                                <div className="mb-md-5 mt-md-4">
+                            <div className="card-body px-5 py-4 back-ground-2">
+                                <div className="mb-md-3">
                                     <h2 className="fw-bold mb-2 text-uppercase text-center text-white">Register</h2>
-                                    <p className="text-white-50 mb-5 text-center">Please fill in the form to create an account!</p>
+                                    <p className="text-white-50 mb-4 text-center">Please enter your details to register!</p>
 
                                     <form onSubmit={handleRegister}>
-                                        <div className="row">
-                                            <div className="col-md-6 mb-4">
-                                                <div className="form-floating">
-                                                    <input
-                                                        type="text"
-                                                        id="typeFirstname"
-                                                        name="firstname"
-                                                        placeholder="First Name"
-                                                        className="form-control form-control-lg"
-                                                        value={firstname}
-                                                        onChange={(e) => setFirstname(e.target.value)}
-                                                    />
-                                                    <label htmlFor="typeFirstname">First Name</label>
-                                                </div>
-                                            </div>
-
-                                            <div className="col-md-6 mb-4">
-                                                <div className="form-floating">
-                                                    <input
-                                                        type="text"
-                                                        id="typeLastname"
-                                                        name="lastname"
-                                                        placeholder="Last Name"
-                                                        className="form-control form-control-lg"
-                                                        value={lastname}
-                                                        onChange={(e) => setLastname(e.target.value)}
-                                                    />
-                                                    <label htmlFor="typeLastname">Last Name</label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div className="form-floating mb-4">
-                                            <input
-                                                type="text"
-                                                id="typeUsername"
-                                                name="username"
-                                                placeholder="Username"
-                                                className="form-control form-control-lg"
-                                                value={username}
-                                                onChange={(e) => setUsername(e.target.value)}
+                                        <div className="form-floating mb-3">
+                                            <input 
+                                                type="text" 
+                                                id="typeUsername" 
+                                                name="username" 
+                                                placeholder="Username" 
+                                                className={"form-control form-control-lg input " + (!usernameValid ? 'is-invalid' : '')}
+                                                value={username} 
+                                                onChange={handleOnChangeInput}
                                             />
                                             <label htmlFor="typeUsername">Username</label>
+                                            <div className="error-message">
+                                                {errUsername}
+                                            </div>
                                         </div>
 
-                                        <div className="form-floating mb-4 position-relative">
-                                            <input
-                                                type={showPassword ? "text" : "password"}
-                                                id="typePassword"
-                                                name="password"
-                                                placeholder="Password"
-                                                className="form-control form-control-lg"
-                                                value={password}
-                                                onChange={(e) => setPassword(e.target.value)}
-                                            />
-                                            <label htmlFor="typePassword">Password</label>
-                                            <i
-                                                className={"fa " + (showPassword ? "fa-eye" : "fa-eye-slash") + " position-absolute"}
-                                                style={{ top: '23px', right: '10px', cursor: 'pointer', opacity: '0.7' }}
-                                                onClick={handleShowPassword}
-                                            ></i>
+                                        <div className="row position-relative mb-3">
+                                            <div className='col-md-6'>
+                                                <div className="form-floating">
+                                                    <input 
+                                                        type="text" 
+                                                        id="typeFirstname" 
+                                                        name="firstname" 
+                                                        placeholder="First name" 
+                                                        className={"form-control form-control-lg input " + (!fullnameValid ? 'is-invalid' : '')}
+                                                        value={firstname} 
+                                                        onChange={handleOnChangeInput} 
+                                                    />
+                                                    <label htmlFor="typeFirstname">First name</label>
+                                                </div>
+                                            </div>
+
+                                            <div className='col-md-6'>
+                                                <div className='form-floating'>
+                                                    <input 
+                                                        type="text" 
+                                                        id="typeLastname" 
+                                                        name="lastname" 
+                                                        placeholder="Last name" 
+                                                        className={"form-control form-control-lg input " + (!fullnameValid ? 'is-invalid' : '')}
+                                                        value={lastname} 
+                                                        onChange={handleOnChangeInput} 
+                                                    />
+                                                    <label htmlFor="typeLastname">Last name</label>
+                                                </div>
+                                            </div>
+                                            <div className="error-message">
+                                                {errFullname}
+                                            </div>
                                         </div>
 
-                                        <div className="form-floating mb-4">
-                                            <input
-                                                type="password"
-                                                id="typeConfirmPassword"
-                                                name="confirmPassword"
-                                                placeholder="Confirm Password"
-                                                className="form-control form-control-lg"
-                                                value={confirmPassword}
-                                                onChange={(e) => setConfirmPassword(e.target.value)}
-                                            />
-                                            <label htmlFor="typeConfirmPassword">Confirm Password</label>
-                                        </div>
-
-                                        <div className="form-floating mb-4">
-                                            <input
-                                                type="text"
-                                                id="typePhone"
-                                                name="phone"
-                                                placeholder="Phone"
-                                                className="form-control form-control-lg"
-                                                value={phone}
-                                                onChange={(e) => setPhone(e.target.value)}
-                                            />
-                                            <label htmlFor="typePhone">Phone</label>
-                                        </div>
-
-                                        <div className="form-floating mb-4">
-                                            <input
-                                                type="email"
+                                        <div className="form-floating mb-3">
+                                            <input 
+                                                type="email" 
                                                 id="typeEmail"
                                                 name="email"
-                                                placeholder="Email"
-                                                className="form-control form-control-lg"
-                                                value={email}
-                                                onChange={(e) => setEmail(e.target.value)}
+                                                placeholder="Email" 
+                                                value={email} 
+                                                onChange={handleOnChangeInput} 
+                                                className={"form-control form-control-lg input " + (!emailValid ? 'is-invalid' : '')}
                                             />
                                             <label htmlFor="typeEmail">Email</label>
-                                        </div>
-
-                                        {errMessage && (
-                                            <div className="alert alert-danger" role="alert">
-                                                {errMessage}
+                                            <div className="error-message">
+                                                {errEmail}
                                             </div>
-                                        )}
-
-                                        <div className="d-flex justify-content-center align-items-center">
-                                            <button className="btn btn-outline-light btn-lg px-5 text-center" type="submit">Register</button>
                                         </div>
-                                    </form>
 
-                                    <div className="d-flex justify-content-center text-center mt-4 pt-1">
-                                        <a href="#!" className="text-white"><i className="fab fa-facebook-f fa-lg"></i></a>
-                                        <a href="#!" className="text-white"><i className="fab fa-twitter fa-lg mx-4 px-2"></i></a>
-                                        <a href="#!" className="text-white"><i className="fab fa-google fa-lg"></i></a>
-                                    </div>
+                                        <div className="form-floating mb-3">
+                                            <input 
+                                                type="password"
+                                                id="typePassword" 
+                                                name="password"
+                                                placeholder="Password"
+                                                value={password} 
+                                                className={"form-control form-control-lg input " + (!passwordValid ? 'is-invalid' : '')}
+                                                onChange={handleOnChangeInput} 
+                                            />
+                                            <label htmlFor="typePpassword">Password</label>
+                                            <div className="error-message">
+                                                {errPassword}
+                                            </div>
+                                        </div>
+
+                                        <div className="form-floating mb-2">
+                                            <input 
+                                                type="password" 
+                                                id="confirmPassword" 
+                                                name="confPass"
+                                                placeholder="Confirm password"
+                                                value={confPass} 
+                                                className={"form-control form-control-lg input " + (!confPassValid ? 'is-invalid' : '')}
+                                                onChange={handleOnChangeInput} 
+                                            />
+                                            <label htmlFor="confirmPassword">Confirm password</label>
+                                            <div className="error-message">
+                                                {errConfPass}
+                                            </div>
+                                        </div>
+                                        <div className="mb-4">
+                                            <input 
+                                                type='checkbox' 
+                                                id="terms"
+                                                className='mx-2 form-check-input'
+                                                onChange={handleCheckboxChange}/>
+                                            <label htmlFor="terms" className={"form-check-label terms " + (!termValid ? 'text-danger' : 'text-white-50')}>
+                                                I agree to the <u className='fw-bold'>Terms & Conditions</u>
+                                            </label>
+                                        </div>
+                                        
+                                        <div className="d-flex justify-content-center align-items-center pt-2">
+                                            <button className="btn btn-outline-light btn-lg px-5 text-center" type="submit">Register</button>
+                                        </div>                                       
+                                    </form>
                                 </div>
 
                                 <div>
-                                    <p className="mb-0 text-center text-white">Already have an account? <a href="/login" className="text-white-50 fw-bold">Login</a></p>
+                                    <p className="mb-0 text-center text-white">Have an account? <a href="/login" className="text-white-50 fw-bold"><u>Sign In</u></a></p>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -177,6 +283,6 @@ const RegisterPage = () => {
             </div>
         </section>
     );
-}
+};
 
-export default RegisterPage;
+export default Register;

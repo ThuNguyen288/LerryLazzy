@@ -5,11 +5,11 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: url('../../images/Background.png');
+    background-image: url('../../../public/Background.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    opacity: .3;
+    opacity: .4;
     z-index: -1;
 }
 
@@ -23,20 +23,21 @@ p {
     opacity: .7;
     border: 2px solid rgba(255,255,255,0.1);
     box-shadow: 0 0 40px rgba(8,7,16,0.6);
+    z-index: 0;
 }
 
-.form-floating input[id="typeUsername"] {
-    font-size: 0.9rem;
-
+.back-ground-2{
+    z-index: 1;
 }
 
-.form-floating input[id="typePassword"] {
-    font-size: 0.9rem;
+.form-floating .input {
+    font-size: 0.8rem;
+
 }
 
 label {
     font-size: 0.9rem;
-    font-weight: 300;
+    font-weight: 400;
 }
 
 .form-control {
@@ -45,9 +46,16 @@ label {
 
 .error-message {
     color: red;
-    margin-top: 10px;
+    margin-left: 5px;
+    margin-top: 5px;
     font-size: 14px;
     font-weight: 500;
+    z-index: 100;
+}
+
+.terms {
+    font-size: 14px;
+    font-weight: 400;
 }
 
 .forgot {
@@ -57,3 +65,4 @@ label {
 .btn {
     border-color: #333;
 }
+

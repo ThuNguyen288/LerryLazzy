@@ -60,6 +60,26 @@ const getAllProducts = () => {
     });
 };
 
+// Function to get image of product
+let getProductImage = (productid) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        let product = await db.Product.findOne({
+          where: { ProductID: productid },
+          attributes: ['Image'],
+        });
+  
+        if (product && product.Image) {
+          resolve(product.Image);
+        } else {
+          reject(new Error('Product not found or image not available'));
+        }
+      } catch (error) {
+        reject(error);
+      }
+    });
+  };
+
 // Function to calculate average rating of product
 let calAverageRating = (productid) => {
     return new Promise(async (resolve, reject) => {
@@ -109,5 +129,6 @@ module.exports = {
     getAllProducts: getAllProducts,
     calAverageRating: calAverageRating,
     calTotalOrders: calTotalOrders,
+    getProductImage: getProductImage
 };
 

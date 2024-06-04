@@ -1,32 +1,24 @@
 import express from "express";
-import homeController from '../controllers/homeController';
-import userController from '../controllers/userController';
 import productController from '../controllers/productController';
-
+import userController from '../controllers/userController';
 let router = express.Router();
 
-//create == post
-//read == get
-//edit == update
-//delete == delete
-
 let initWebRoutes = (app) => { //rest api
-    router.get('/', homeController.getHomePage);
-    router.get('/crud', homeController.getCRUD);
-    router.get('/get-crud', homeController.displayCRUD);
-    router.get('/edit-crud', homeController.editCRUD);
-    router.get('/delete-crud', homeController.deleteCRUD);
 
+    // for user
+    router.post('/register', userController.handleRegister);
+    router.post('/login', userController.handleLogin);
+    
 
-    router.post('/post-crud', homeController.postCRUD);
-    router.post('/put-crud', homeController.putCRUD);
-    router.post('/api/login', userController.handleLogin);
+    router.put('/change-profile', userController.hanldeChangeProfile);
+
+    router.delete('/delete-account', userController.handleDeleteAccount);
 
     // for product
-    router.get('/api/product', productController.displayProducts);
-    router.get('/api/top-rate-product', productController.displayTopRating);
+    router.get('/product', productController.displayProducts);
+    router.get('/product-image/:id', productController.displayProductImage);
 
-    return app.use("/", router);
+    return app.use("/api", router);
 }
 
 module.exports = initWebRoutes;
