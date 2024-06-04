@@ -1,6 +1,6 @@
 import React from "react";
-import NavBar from "../components/NavBar";
-import QuantityForm from "../components/Quantity";
+import NavBar from "./NavBar";
+import QuantityForm from "./Quantity";
 const Cart = () => {
     return (
         <div>

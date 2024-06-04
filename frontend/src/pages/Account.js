@@ -44,7 +44,8 @@ const Account = () => {
             <NavBar/>
             <div  className="container">
                 <h3 className="text-center p-5">My Account</h3>
-                <SideBar/>  
+                <SideBar/>
+                  
             </div>
         </div>
     );

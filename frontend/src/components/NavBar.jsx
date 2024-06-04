@@ -4,6 +4,7 @@ import React, { useContext } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import '../App.css';
 import { AuthContext } from '../context/AuthContext';
+import Search from './Search';
 
 const NavBar = () => {
   const {isAuthenticated, logout } = useContext(AuthContext);
@@ -65,8 +66,10 @@ const NavBar = () => {
             </li>
           </ul>
           <div className="d-flex ms-auto align-items-center">
-            <div className="nav-icon dropdown">
-              <FontAwesomeIcon icon={faSearch} className="text-brown mx-2" role="button" data-bs-toggle="dropdown" aria-expanded="false" />
+            <div className="dropdown">
+              <div className='' role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <Search/>
+              </div>
             </div>
             {isAuthenticated ? (
                <>
@@ -80,9 +83,8 @@ const NavBar = () => {
                   <FontAwesomeIcon icon={faUser} className="text-brown mx-2" />
                   </div>
                   <ul className=" dropdown-menu dropdown-menu-end">
-                      <li className="dropdown-item"><Link to="/user?userid" className='text-brown'>Profile</Link></li>
-                      <li className="dropdown-item"><Link to="/user?userid" className='text-brown'>Change password</Link></li>
                       <li className='dropdown-item'><Link to="/account" className='text-brown'>Account</Link></li>
+                      <li className="dropdown-item"><Link to="/user?userid" className='text-brown'>Change password</Link></li>
                       <li className="dropdown-item" onClick={handleLogout}>Sign out</li>
                   </ul>
                 </div>

@@ -266,3 +266,28 @@ section a:hover {
 .bg-grey{
     background-color: rgb(215, 206, 206);
 }
+
+/* Search */
+.search-box{
+    background-color: transparent;
+}
+input{
+    width: 0px;
+    transition: 0.8s;
+    font-size: 16px;
+}
+
+.search-box:hover input{
+    width: 200px;
+}
+.search-box:hover{
+    border: #333;
+}
+.search-box button {
+    padding: 10px;
+    border: none;
+    background-color: transparent;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+}

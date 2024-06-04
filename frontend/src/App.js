@@ -9,9 +9,8 @@ import ProductPage from './pages/ProductPage';
 import Account from './pages/Account';
 import Order from './components/Order';
 import WishList from './components/WishList';
-import PaymentMethod from './components/PaymentMethod';
-import PersonalInfo from './components/PersonalInfo';
-import Address from './components/Address';
+import Cart from './components/Cart';
+import Profile from './components/Profile';
 
 function App() {
   return (
@@ -28,9 +27,8 @@ function App() {
             <Route path="/account/*" element={<Account/>} />
             <Route path="order" element={<Order/>} />
             <Route path="wishlist" element={<WishList/>} />
-            <Route path="address" element={<Address/>} />
-            <Route path="info" element={<PersonalInfo/>} />
-            <Route path="payment" element={<PaymentMethod/>} />
+            <Route path="cart" element={<Cart/>} />
+            <Route path="profile" index element={<Profile/>} />
           </Routes>
         </BrowserRouter>
       </AuthProvider>
