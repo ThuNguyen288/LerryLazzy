@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import { handleLoginApi } from '../../services/userService';
@@ -15,6 +15,13 @@ const Login = () => {
 
     const { login } = useContext(AuthContext);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            navigate('/');
+        }
+    }, []);
 
     const handleLogin = async (event) => {
         event.preventDefault();
@@ -38,8 +45,10 @@ const Login = () => {
                 setIsValidP(false);
                 setErrPassword(data.message);
             } else {
-                const { token } = data;
-                login(token);
+                const { token, user } = data;
+                console.log(data);
+                login(token, user);
+                alert(data.message);
                 navigate('/');
             }
         } catch (error) {
@@ -75,7 +84,7 @@ const Login = () => {
                 <div className="row d-flex justify-content-center align-items-center">
                     <div className="col-12 col-md-8 col-lg-6 col-xl-5">
                         <div className="card bg-dark back-ground" style={{ borderRadius: '1rem' }}>
-                            <div className="card-body p-5 ">
+                            <div className="card-body px-5 py-4">
                                 <div className="mb-md-5 mt-md-4">
                                     <h2 className="fw-bold mb-2 text-uppercase text-center text-white">Login</h2>
                                     <p className="text-white-50 mb-5 text-center">Please enter your account and password!</p>
@@ -91,7 +100,7 @@ const Login = () => {
                                             value={username} 
                                             onChange={handleOnChangeInput}
                                             />
-                                            <label for="typeUsername">Username</label>
+                                            <label htmlFor="typeUsername">Username</label>
                                             <div className="error-message">
                                                 {errUsername}
                                             </div>
@@ -108,7 +117,7 @@ const Login = () => {
                                             value={password} 
                                             onChange={handleOnChangeInput}
                                             />
-                                            <label for="typePassword">Password</label>
+                                            <label htmlFor="typePassword">Password</label>
                                             <i
                                             className={"fa " + (showPassword ? "fa-eye" : "fa-eye-slash") + " position-absolute"}
                                             style={{ top: '23px', right: '10px', cursor: 'pointer', opacity: '0.7'}}
@@ -120,7 +129,7 @@ const Login = () => {
                                         </div>
 
                                         <div className="d-flex justify-content-end mb-4">
-                                            <a className="small mb-2 pb-lg-2 text-white-50 forgot" href="#!">Forgot password?</a>
+                                            <a className="small mb-2 pb-lg-2 text-secondary forgot" href="#!">Forgot password?</a>
                                         </div>
                                         
                                         
@@ -129,15 +138,15 @@ const Login = () => {
                                         </div>
                                     </form>
 
-                                    {/* <div className="d-flex justify-content-center text-center mt-4 pt-1">
+                                    <div className="d-flex justify-content-center text-center mt-4 pt-1">
                                     <a href="#!" className="text-white"><i className="fab fa-facebook-f fa-lg"></i></a>
                                     <a href="#!" className="text-white"><i className="fab fa-twitter fa-lg mx-4 px-2"></i></a>
                                     <a href="#!" className="text-white"><i className="fab fa-google fa-lg"></i></a>
-                                    </div> */}
+                                    </div> 
                                 </div>
 
                                 <div>
-                                    <p className="mb-0 text-center text-white">Don't have an account? <a href="#!" className="text-white-50 fw-bold">Sign Up</a></p>
+                                    <p className="mb-0 text-center text-white">Don't have an account? <a href="/register" className="text-white-50 fw-bold"><u>Sign Up</u></a></p>
                                 </div>
                             </div>
                         </div>

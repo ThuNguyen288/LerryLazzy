@@ -266,3 +266,9 @@ section a:hover {
 .bg-grey{
     background-color: rgb(215, 206, 206);
 }
+
+/* Alert */
+.alertMessage {
+    min-width: 200px;
+    justify-content: space-between;
+}

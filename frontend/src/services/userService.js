@@ -8,7 +8,6 @@ const handleRegisterApi = (userData) => {
     return axios.post('/api/register', userData);
 };
 
-
 export {
     handleLoginApi,
     handleRegisterApi

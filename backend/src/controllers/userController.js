@@ -1,18 +1,5 @@
 import userService from "../services/userService";
 
-let handleSignup = async (req, res) => {
-    try {
-        let message = await userService.createNewUser(req.body);
-        console.log(message);
-        return res.status(200).json(message);
-    } catch (error) {
-        return res.status(500).json({
-            errCode: -1,
-            message: 'An internal server error occurred.',
-        });
-    }
-}
-
 let handleLogin = async (req, res) => {
     let username = req.body.username;
     let password = req.body.password; 
@@ -39,10 +26,28 @@ let handleLogin = async (req, res) => {
         return res.status(500).json({
             errCode: -1,
             message: 'An internal server error occurred.',
-            error: error.message,
         });
     }
 };
+
+let handleRegister = async (req, res) => {
+    try {
+        let userData = await userService.handleUserRegister(req.body);
+        console.log(userData);
+        return res.status(200).json({
+            errCode: userData.errCode,
+            message: userData.errMessage,
+            data: userData
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: 'An internal server error occurred.'
+        });
+    }
+};
+
 
 let hanldeChangeProfile = async (req, res) => {
     try {
@@ -79,7 +84,7 @@ let handleDeleteAccount = async (req, res) => {
 
 module.exports = {
     handleLogin: handleLogin,
-    handleSignup: handleSignup,
+    handleRegister: handleRegister,
     hanldeChangeProfile: hanldeChangeProfile,
     handleDeleteAccount: handleDeleteAccount
 };

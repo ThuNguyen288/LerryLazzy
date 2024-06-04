@@ -1,6 +1,7 @@
 import express from "express";
 import userController from '../controllers/userController';
 import productController from '../controllers/productController';
+import authController from '../controllers/authController'
 
 let router = express.Router();
 
@@ -10,9 +11,10 @@ let router = express.Router();
 //delete == delete
 
 let initWebRoutes = (app) => { //rest api
+    router.post('/api/verify-token', authController.verifyToken);
 
     // for user
-    router.post('/api/register', userController.handleSignup);
+    router.post('/api/register', userController.handleRegister);
     router.post('/api/login', userController.handleLogin);
 
     router.put('/api/change-profile', userController.hanldeChangeProfile);

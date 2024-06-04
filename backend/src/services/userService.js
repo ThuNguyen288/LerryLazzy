@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs';
 import db from '../models/index';
+import jwt from 'jsonwebtoken';
 
 const saltRounds = 10;
 
@@ -12,68 +13,6 @@ let hashUserPassword = (password) => {
             }
             resolve(hash);
         });
-    });
-};
-
-// Function to create new user
-let createNewUser = (data) => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            // check username exists
-            let check = await checkUsername(data.username);
-            if (check === true) {
-                resolve({
-                    errCode: 1,
-                    message: 'Username already exists.'
-                });
-            } else {
-                let hashPasswordFromBcrypt = await hashUserPassword(data.password);
-                await db.User.create({
-                    Username: data.username,
-                    Password: hashPasswordFromBcrypt,
-                    Firstname: data.firstname,
-                    Lastname: data.lastname,
-                    Phone: data.phone,
-                    Email: data.email,
-                    Address: data.address,
-                    Role: data.role || 'customer' 
-                });
-                resolve({
-                    errCode: 0,
-                    message: 'Create new user successfully!'
-                });
-            }
-        } catch (error) {
-            reject(error);
-        }
-    });
-};
-
-// Function to update user information
-let updateUserData = async (data) => {
-    return new Promise(async(resolve, reject) => {
-        try {
-            let user = await db.User.findOne({
-                where: { UserID: data.UserID }
-            });
-            if (!user) {
-                resolve({
-                    errCode: 1,
-                    errMessage: 'User not found!'
-                });
-            } else {
-                await user.update({
-                    Firstname: req.body.Firstname,
-                    Lastname: req.body.Lastname,
-                    Phone: req.body.Phone,
-                    Address: req.body.Address
-                });
-            }
-            let allUsers = await db.User.findAll({ raw: true });
-            resolve(allUsers);
-        } catch (error) {
-            reject(error);
-        }
     });
 };
 
@@ -101,7 +40,8 @@ let handleUserLogin = (username, password) => {
                         userData.errMessage = 'Login successfully!';
                         delete user.Password;
                         userData.user = user;
-
+                        const token = jwt.sign(user,process.env.ACCESS_TOKEN_SECRET, { expiresIn: '45s' });
+                        console.log(token);
                     } else {
                         userData.errCode = 3;
                         userData.errMessage = 'Incorrect password. Please try again.';
@@ -117,6 +57,38 @@ let handleUserLogin = (username, password) => {
                 userData.errMessage = 'Username is not exist. Please try other username.';
             }
             
+            resolve(userData);
+        } catch (error) {
+            reject(error);
+        }
+    });
+}
+
+let handleUserRegister = (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let userData = {};
+
+            let isUsernameExist = await checkUsername(data.username);
+
+            if (!isUsernameExist) {
+                let hashPassword = await hashUserPassword(data.password);
+                await db.User.create({
+                    Username: data.username,
+                    Password: hashPassword,
+                    Firstname: data.firstname,
+                    Lastname: data.lastname,
+                    Email: data.email,
+                    Role: 'customer' 
+                });
+
+                userData.errCode = 0;
+                userData.errMessage = 'Create account successfully';
+            } else {
+                userData.errCode = 1;
+                userData.errMessage = 'Username already exists. Please try again';
+            }
+
             resolve(userData);
         } catch (error) {
             reject(error);
@@ -213,10 +185,9 @@ let deleteAccount = (id) => {
 };
 
 module.exports = {
-    updateUserData: updateUserData,
     handleUserLogin: handleUserLogin,
+    handleUserRegister: handleUserRegister,
     checkUsername: checkUsername,
-    createNewUser: createNewUser,
     updateProfile: updateProfile,
     deleteAccount: deleteAccount
 };
