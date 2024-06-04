@@ -11,9 +11,9 @@ const QuantityForm = () => {
   };
 
   return (
-    <form>
+    <form className='bg-secondary'>
         <input
-          className='col-3 text-center'
+          className='text-center rounded-pill w-10'
           type="number"
           value={quantity}
           onChange={handleChange}

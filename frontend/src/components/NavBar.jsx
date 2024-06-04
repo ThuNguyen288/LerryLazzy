@@ -21,14 +21,13 @@ const NavBar = () => {
   return (
     <nav className="navbar navbar-expand-lg sticky-top w-100 menu bg-white">
       <div className="container-fluid">
-        <div className="navbar-brand w-25 ml-30 mr-0 w-auto">
+        <div className="navbar-brand ml-30 mr-0 w-400">
           <Link to="/" className='text-brown'>
           <img src={`${process.env.PUBLIC_URL}/images/photos/logo.png`} alt="logo" className="logo" />
           </Link>
         </div>
-        <div className='space'></div>
         <div className="collapse navbar-collapse mx-0" id="navbarSupportedContent">
-          <ul className="navbar-nav mb-2 mb-lg-0 text-center mx-auto d-flex justify-content-center w-50">
+          <ul className="navbar-nav mb-2 mb-lg-0 text-center mx-auto d-flex justify-content-center">
             <li className="nav-item">
               <div className="text-black mx-3">
                 <Link to="/" className='text-brown'>HOME</Link>
@@ -65,41 +64,41 @@ const NavBar = () => {
                 </div>
             </li>
           </ul>
-          <div className="d-flex ms-auto align-items-center">
-            <div className="dropdown">
-              <div className='' role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <Search/>
-              </div>
-            </div>
-            {isAuthenticated ? (
-               <>
-                <div className="nav-icon d-flex">
-                  <Link to="/cart">
-                    <FontAwesomeIcon icon={faShoppingCart} className="text-brown mx-2" />
-                  </Link>
+          <div className='w-400'>
+            <div className="d-flex float-end">
+                <div className='' role="button" aria-expanded="false">
+                  <Search/>
                 </div>
-                <div className="nav-icon dropdown">
-                  <div className="text-black" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  <FontAwesomeIcon icon={faUser} className="text-brown mx-2" />
+              {isAuthenticated ? (
+                <>
+                  <div className="nav-icon d-flex">
+                    <Link to="/cart">
+                      <FontAwesomeIcon icon={faShoppingCart} className="text-brown mx-2" />
+                    </Link>
                   </div>
-                  <ul className=" dropdown-menu dropdown-menu-end">
-                      <li className='dropdown-item'><Link to="/account" className='text-brown'>Account</Link></li>
-                      <li className="dropdown-item"><Link to="/user?userid" className='text-brown'>Change password</Link></li>
-                      <li className="dropdown-item" onClick={handleLogout}>Sign out</li>
-                  </ul>
-                </div>
-              </>
-            ) : (
-              <>
-                <div className='nav-button d-flex mx-1'>
-                  <button className='btn rounded-pill border border-dark'><Link to="/login" className='text-brown'>Sign In</Link></button>
-                </div>
-                <div className='nav-button d-flex mx-1'>
-                  <button className='btn rounded-pill border border-dark'><Link to="/register" className='text-brown'><b>Sign Up</b></Link></button>
-                </div>
-              </>
-            )}
-            <div className='spacex'></div>
+                  <div className="nav-icon dropdown">
+                    <div className="text-black" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <FontAwesomeIcon icon={faUser} className="text-brown mx-2" />
+                    </div>
+                    <ul className=" dropdown-menu dropdown-menu-end">
+                        <li><Link to="/account" className='text-brown dropdown-item'>Account</Link></li>
+                        <li><Link to="/user?userid" className='text-brown dropdown-item'>Change password</Link></li>
+                        <li><hr class="dropdown-divider"/></li>
+                        <li className="dropdown-item" onClick={handleLogout}>Sign out</li>
+                    </ul>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className='nav-button mx-1'>
+                    <button className='btn rounded-pill border border-dark'><Link to="/login" className='text-brown'>Sign In</Link></button>
+                  </div>
+                  <div className='nav-button mx-1'>
+                    <button className='btn rounded-pill border border-dark'><Link to="/register" className='text-brown'><b>Sign Up</b></Link></button>
+                  </div>
+                </>
+              )}
+            </div>
           </div>
         </div>
       </div>
