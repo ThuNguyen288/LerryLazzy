@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
-import db from '../models/index';
 import jwt from 'jsonwebtoken';
+import db from '../models/index';
 
 const saltRounds = 10;
 
@@ -38,10 +38,11 @@ let handleUserLogin = (username, password) => {
                     if (isPasswordValid) {
                         userData.errCode = 0;
                         userData.errMessage = 'Login successfully!';
-                        delete user.Password;
+                        delete user.Password; 
                         userData.user = user;
-                        const token = jwt.sign(user,process.env.ACCESS_TOKEN_SECRET, { expiresIn: '45s' });
-                        console.log(token);
+
+                        let token = jwt.sign({ userId: user.UserID }, process.env.JWT_SECRET, { expiresIn: '30s' });
+                        userData.token = token;
                     } else {
                         userData.errCode = 3;
                         userData.errMessage = 'Incorrect password. Please try again.';
@@ -62,8 +63,9 @@ let handleUserLogin = (username, password) => {
             reject(error);
         }
     });
-}
+};
 
+// Function to handle user register
 let handleUserRegister = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -94,20 +96,40 @@ let handleUserRegister = (data) => {
             reject(error);
         }
     });
-}
+};
 
 // Function to check username exists
 let checkUsername = (username) => {
     return new Promise(async (resolve, reject) => {
         try {
             let user = await db.User.findOne({
-                where: { Username: username },
+                where: { Username: username }
             }); 
             if (!user) {
                 resolve(false);
             } else {
                 resolve(true);
             }
+        } catch (error) {
+            reject(error);
+        }
+    });
+};
+
+// Function to get user by id
+let getUserById = (userId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let user = await db.User.findById({
+                where: { UserID: userId }
+            });
+            if (!user) {
+                reject({
+                    errCode: 1,
+                    errMessage: 'User not found!'
+                });
+            } 
+            resolve(user);
         } catch (error) {
             reject(error);
         }
@@ -188,6 +210,7 @@ module.exports = {
     handleUserLogin: handleUserLogin,
     handleUserRegister: handleUserRegister,
     checkUsername: checkUsername,
+    getUserById: getUserById,
     updateProfile: updateProfile,
     deleteAccount: deleteAccount
 };

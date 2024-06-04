@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import { handleLoginApi } from '../../services/userService';
@@ -45,11 +45,8 @@ const Login = () => {
                 setIsValidP(false);
                 setErrPassword(data.message);
             } else {
-                const { token, user } = data;
-                console.log(data);
-                login(token, user);
-                alert(data.message);
-                navigate('/');
+                localStorage.setItem('token', data);
+                navigate('/home');
             }
         } catch (error) {
             console.log(error);

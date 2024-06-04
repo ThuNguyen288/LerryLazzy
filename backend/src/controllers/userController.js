@@ -16,11 +16,12 @@ let handleLogin = async (req, res) => {
         }
 
         let userData = await userService.handleUserLogin(username, password);
-
+        
         return res.status(200).json({
             errCode: userData.errCode,
             message: userData.errMessage,
-            user: userData.user ? userData.user : {}
+            user: userData.user ? userData.user : {},
+            token: userData.token
         });
     } catch (error) {
         return res.status(500).json({
@@ -48,6 +49,21 @@ let handleRegister = async (req, res) => {
     }
 };
 
+let handleShowProfile = async (req, res) => {
+    try {
+        let user = await userService.getUserById(req.userId);
+        return res.status(200).json({
+            errCode: 0,
+            message: 'Get user profile successfully!',
+            profile: user
+        });
+    } catch (error) {
+        return res.status(500).json({
+            errCode: -1,
+            message: 'An internal server error occurred.'
+        });
+    }
+}
 
 let hanldeChangeProfile = async (req, res) => {
     try {
@@ -85,6 +101,7 @@ let handleDeleteAccount = async (req, res) => {
 module.exports = {
     handleLogin: handleLogin,
     handleRegister: handleRegister,
+    handleShowProfile: handleShowProfile,
     hanldeChangeProfile: hanldeChangeProfile,
     handleDeleteAccount: handleDeleteAccount
 };

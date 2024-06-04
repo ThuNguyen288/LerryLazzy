@@ -1,10 +1,10 @@
 import axios from '../axios';
 
-const handleLoginApi = (username, password) => {
+let handleLoginApi = (username, password) => {
     return axios.post('/api/login', { username, password });
 }
 
-const handleRegisterApi = (userData) => {
+let handleRegisterApi = (userData) => {
     return axios.post('/api/register', userData);
 };
 
