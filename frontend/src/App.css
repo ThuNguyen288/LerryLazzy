@@ -87,9 +87,15 @@
 .w-50 {
     width: 50%;
 }
+.w-400{
+    width: 400px;
+}
 
 .ml-30{
     margin-left: 30px;
+}
+.mr-30{
+    margin-right: 30px;
 }
 
 .menu {
@@ -164,8 +170,11 @@ section a:hover {
     width: 90px;
     justify-content: center;
     align-items: center;
+    height: fit-content;
 }
-
+.nav-button{
+    display: flex;
+}
 .nav-button button:hover{
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
@@ -267,8 +276,48 @@ section a:hover {
     background-color: rgb(215, 206, 206);
 }
 
+/* Search */
+.search-box{
+    background-color: transparent;
+    padding: 0 3px 0 3px;
+    position: relative;
+    margin-right: 5px;
+}
+.search-box:hover{
+    border: solid 1px;
+    border-radius: 32px;
+    transition: ease;
+    background-color: #e8e5dc;
+}
+.search-box input{
+    width: 0px;
+    transition: 1s ease;
+    font-size: 16px;
+    border: transparent;
+    background-color: transparent;
+    outline: none;
+}
+
+.search-box:hover input{
+    width: 150px;
+
+}
+.search-box button {
+    padding: 5px 5px 5px 2px;
+    border: none;
+    background-color: transparent;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+}
 /* Alert */
 .alertMessage {
     min-width: 200px;
     justify-content: space-between;
+}
+
+/* CART */
+/* QUANTITY*/
+.w100{
+    width: 100px;
 }

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import '../App.css';
     
     const SideBar = () => {
-        const [iframeUrl, setIframeUrl] = useState("");
+        const [iframeUrl, setIframeUrl] = useState("/profile");
     
         const handleLinkClick = (url) => {
             setIframeUrl(url);
@@ -13,19 +13,16 @@ import '../App.css';
             <div className="w-25 float-start my-5">
                 <div className="d-flex flex-column h-100 p-3 text-white bg-transparent">
                     <div className="sidebar-item">
-                        <Link to="order" className="text-decoration-none text-brown" onClick={() => handleLinkClick("/order")}>Order</Link>
+                        <Link to="profile" className="text-decoration-none text-brown" onClick={() => handleLinkClick("/profile")}>Profile</Link>
+                    </div>
+                    <div className="sidebar-item">
+                        <Link to="cart" className="text-decoration-none text-brown" onClick={() => handleLinkClick("/cart")}>Cart</Link>
                     </div>
                     <div className="sidebar-item">
                         <Link to="wishlist" className="text-decoration-none text-brown" onClick={() => handleLinkClick("/wishlist")}>Wish List</Link>
                     </div>
                     <div className="sidebar-item">
-                        <Link to="address" className="text-decoration-none text-brown" onClick={() => handleLinkClick("/address")}>Address</Link>
-                    </div>
-                    <div className="sidebar-item">
-                        <Link to="info" className="text-decoration-none text-brown" onClick={() => handleLinkClick("/info")}>Personal Info</Link>
-                    </div>
-                    <div className="sidebar-item border-bottom border-secondary">
-                        <Link to="payment" className="text-decoration-none text-brown" onClick={() => handleLinkClick("/payment")}>Payment Method</Link>
+                        <Link to="order" className="text-decoration-none text-brown" onClick={() => handleLinkClick("/order")}>Order</Link>
                     </div>
                 </div>
             </div>
