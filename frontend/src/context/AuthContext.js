@@ -1,6 +1,10 @@
 import { createContext, useState, useEffect } from 'react';
 
-const AuthContext = createContext();
+const AuthContext = createContext({
+    isAuthenticated: { token: null, user: null },
+    login: () => {},
+    logout: () => {}
+});
 
 const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState({

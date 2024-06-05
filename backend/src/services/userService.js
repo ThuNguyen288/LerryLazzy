@@ -227,7 +227,7 @@ let deleteAccount = (id) => {
 module.exports = {
     handleUserLogin: handleUserLogin,
     handleUserRegister: handleUserRegister,
-    createToken, createToken,
+    createToken: createToken,
     checkUsername: checkUsername,
     getUserByUsername: getUserByUsername,
     updateProfile: updateProfile,

@@ -11,6 +11,8 @@ const Item = ({ categoryid, subcategoryid }) => {
     const [error, setError] = useState(null);
 
     const { productid } = useParams();
+    
+    console.log(productid);
 
     useEffect(() => {
         const fetchData = async () => {

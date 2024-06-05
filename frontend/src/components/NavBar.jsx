@@ -1,4 +1,4 @@
-import { faSearch, faShoppingCart, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faShoppingCart, faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useContext } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
@@ -7,11 +7,13 @@ import { AuthContext } from '../context/AuthContext';
 import Search from './Search';
 
 const NavBar = () => {
-  const {isAuthenticated, logout } = useContext(AuthContext);
+  const {isAuthenticated, logout, user } = useContext(AuthContext);
   const navigate = useNavigate();
   const { category, subcategory } = useParams();
   
   console.log(category, subcategory);
+
+  console.log(user, isAuthenticated);
 
   const handleLogout = () => {
     logout();
@@ -81,7 +83,7 @@ const NavBar = () => {
                     <FontAwesomeIcon icon={faUser} className="text-brown mx-2" />
                     </div>
                     <ul className=" dropdown-menu dropdown-menu-end">
-                        <li><Link to="/account" className='text-brown dropdown-item'>Account</Link></li>
+                        <li><Link to={`/account/${isAuthenticated.user.Username}`} className='text-brown dropdown-item'>Account</Link></li>
                         <li><Link to="/user?userid" className='text-brown dropdown-item'>Change password</Link></li>
                         <li><hr class="dropdown-divider"/></li>
                         <li className="dropdown-item" onClick={handleLogout}>Sign out</li>

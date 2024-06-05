@@ -56,7 +56,7 @@ let handleShowProfile = async (req, res) => {
         return res.status(200).json({
             errCode: 0,
             message: 'Get user profile successfully!',
-            profile: user
+            data: user
         });
     } catch (error) {
         return res.status(500).json({

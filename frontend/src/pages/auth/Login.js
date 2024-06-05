@@ -37,7 +37,7 @@ const Login = () => {
         }
         
         try {
-            const data= await handleLoginApi(username, password);
+            const data = await handleLoginApi(username, password);
             console.log("API response:", data);
 
             if (data.errCode === 0) {
