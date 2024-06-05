@@ -43,7 +43,7 @@ const Account = () => {
         <div>
             <NavBar/>
             <div  className="container">
-                <h3 className="text-center p-5">My Account</h3>
+                <h1 className="text-center p-5">My Account</h1>
                 <SideBar/>
                   
             </div>

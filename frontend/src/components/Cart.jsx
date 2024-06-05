@@ -4,8 +4,7 @@ import img from "../images/img.jpg"
 import "../App.css"
 const Cart = () => {
     return (
-        <div className="container cart">
-            <h1 className="text-center">Shopping Cart</h1>
+        <div className=" w-100 cart">
             <table className="w-100 justify-space-between" >
             <tr className="border-bottom">
                 <td className="">Product</td>

@@ -53,10 +53,9 @@ const Profile = () => {
     }
 
   return (
-      <div className='profile w-100 justify-content-center border bg-white p-3 container mx-auto'>
+      <div className='profile w-100 justify-content-center border bg-white mx-auto px-5'>
           {!isEditing ? (
               <div>
-                <h4 className='text-center'>Account Information</h4>
                 <table className='mx-auto'>
                   <tr>
                     <td className='label'>
@@ -65,8 +64,6 @@ const Profile = () => {
                     <td>
                       {profile.Firstname}
                     </td>
-                  </tr>
-                  <tr>
                     <td className='label'>
                       <h6>Last Name</h6>
                     </td>
@@ -81,8 +78,6 @@ const Profile = () => {
                     <td>
                       {profile.Address}
                     </td>
-                  </tr>
-                  <tr>
                     <td className='label'>
                       <h6>Email</h6>
                     </td>
@@ -99,13 +94,14 @@ const Profile = () => {
                     </td>
                   </tr>
                   <tr>
-                    <button onClick={handleEditClick}>Edit</button>
+                    <td></td>
+                    <td></td>
+                    <td><button onClick={handleEditClick}>Edit</button></td> 
                   </tr>
                 </table>
               </div>
           ) : (
               <form onSubmit={handleSubmit} className='mx-auto'>
-                <h4 className='text-center'>Account Information</h4>
                 <table className='mx-auto'>
                   <tr>
                     <td className='label'>
@@ -119,8 +115,6 @@ const Profile = () => {
                       onChange={handleChange}
                       />
                     </td>
-                  </tr>
-                  <tr>
                     <td className='label'>
                       <h6>Last Name</h6>
                     </td>
@@ -145,8 +139,6 @@ const Profile = () => {
                         onChange={handleChange}
                         />
                     </td>
-                  </tr>
-                  <tr>
                     <td className='label'>
                       <h6>Email</h6>
                     </td>
@@ -173,6 +165,7 @@ const Profile = () => {
                     </td>
                   </tr>
                   <tr>
+                    <td></td>
                     <td>
                       <button type="submit">Save</button>
                     </td>

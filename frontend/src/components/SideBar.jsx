@@ -10,7 +10,7 @@ import '../App.css';
         }
     return(
        <div className="sidebar">
-            <div className="w-25 float-start my-5">
+            <div className="w-25 float-start">
                 <div className="d-flex flex-column h-100 p-3 text-white bg-transparent">
                         <Link to="profile" className="text-decoration-none text-brown link" onClick={() => handleLinkClick("/profile")}>
                             <button className="sidebar-item">
@@ -44,7 +44,7 @@ import '../App.css';
                         src={iframeUrl}
                         title="Content Frame"
                         style={{ width: "97%", height: "500px", border: "none" }}
-                        className="mt-5"
+                        className="mx-5"
                     ></iframe>
                 )}
             </div>
