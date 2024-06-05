@@ -28,7 +28,7 @@ const Profile = () => {
   };
 
   return (
-    <div>
+    <div className='profile'>
       {!isEditing ? (
         <div>
           <h2>Account Information</h2>
