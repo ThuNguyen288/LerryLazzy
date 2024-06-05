@@ -8,10 +8,10 @@ let getProductsBySubcategory = (subcategoryid) => {
     return axios.get(`/api/product?subcategoryid=${subcategoryid}`);
 }
 
-let getProductsById = (productid) => {
+let getProductById = (productid) => {
     return axios.get(`/api/product?productid=${productid}`);
 }
 
 export {
-    getProductsByCategory, getProductsById, getProductsBySubcategory
+    getProductsByCategory, getProductById, getProductsBySubcategory
 };

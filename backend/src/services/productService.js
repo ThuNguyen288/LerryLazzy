@@ -93,7 +93,7 @@ let calAverageRating = (productid) => {
                 order: ['ProductID']
             });
 
-            resolve(result.AverageRating || 0);
+            resolve(result ? result.AverageRating || 0 : 0);
         } catch (error) {
             console.error('Error in calculateAverageRating:', error);
             reject(error);
@@ -114,7 +114,7 @@ let calTotalOrders = (productid) => {
                 order: ['ProductID']
             });
 
-            resolve(result.OrderCount || 0);
+            resolve(result ? result.OrderCount || 0 : 0);
         } catch (error) {
             console.error('Error in calculateTotalOrders:', error);
             reject(error);

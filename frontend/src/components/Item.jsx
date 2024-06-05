@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { getProductsByCategory, getProductsBySubcategory } from "../services/productService";
+import './Item.css';
 
 const Item = ({ categoryid, subcategoryid }) => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    const { productid } = useParams();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -58,7 +61,7 @@ const Item = ({ categoryid, subcategoryid }) => {
                             </div>
                         </div>
                         <div className="product-content">
-                            <h3 className="product-title fw-bold"><Link to={`/product/${product.ProductID}`}>{product.Name}</Link></h3>
+                            <h3 className="product-title fw-bold"><Link to={`/product/detail/${product.ProductID}`}>{product.Name}</Link></h3>
                             <span className="product-price">{product.Price} đ</span>
                         </div>
                     </div>

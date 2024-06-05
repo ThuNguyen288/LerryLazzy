@@ -13,6 +13,7 @@ import WishList from './components/WishList';
 import Cart from './components/Cart';
 import Profile from './components/Profile';
 import Alert from './components/Alert';
+import ProductInfo from './pages/ProductInfo';
 
 function App() {
   const [errorMessage, updateErrorMessage] = useState(null);
@@ -27,6 +28,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/product/:category" element={<ProductPage />} />
             <Route path="/product/product/:subcategory" element={<ProductPage />} />
+            <Route path="/product/detail/:productid" element={<ProductInfo />} />
             <Route path="/home" element={<PrivateRoute><HomePage /></PrivateRoute>} />
             <Route path="/account/*" element={<PrivateRoute><Account/></PrivateRoute>} />
             <Route path="order" element={<PrivateRoute><Order/></PrivateRoute>} />
