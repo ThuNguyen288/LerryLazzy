@@ -50,7 +50,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     Image: {
-      type: DataTypes.BLOB,
+      type: DataTypes.STRING,
       allowNull: true
     },
     createdAt: {

@@ -164,7 +164,7 @@
 .nav-icon .dropdown-menu {
     display: none;
     position: absolute;
-    top: 45px;
+    top: 30px;
     right: 0 !important;
     background-color: white;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);

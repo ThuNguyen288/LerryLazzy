@@ -5,4 +5,17 @@ const instance = axios.create({
     withCredentials: true
 });
 
+// Set up interceptor for axios
+instance.interceptors.response.use(
+    (response) => {
+        return response.data;
+    },
+    (error) => {
+        console.error('Error in response:', error); 
+        return Promise.reject(error); 
+    }
+);
+
+
+
 export default instance;

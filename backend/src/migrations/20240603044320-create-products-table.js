@@ -38,7 +38,7 @@ module.exports = {
         },
       },
       Image: {
-        type: Sequelize.BLOB,
+        type: Sequelize.STRING,
         allowNull: true,
       },
       createdAt: {

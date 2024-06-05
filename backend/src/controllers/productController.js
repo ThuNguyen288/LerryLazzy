@@ -1,5 +1,25 @@
 import productService from '../services/productService';
-import db from '../models/index';
+
+let updloadProduct = async (req, res) => {
+    try {
+        let { name, description, price, categoryid, subcategoryid } = req.body;
+        let image = req.file ? req.file.buffer : null;
+
+        let product = await productService.createNewProduct({ name, description, price, categoryid, subcategoryid, image });
+        return res.status(200).json({
+            errCode: 0,
+            message: 'Product created successfully',
+            product: product
+        })
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            errCode: -1,
+            message: 'An internal server error occurred.'
+        });
+    }
+    
+}
 
 let displayProducts = async (req, res) => {
     try {
@@ -65,23 +85,8 @@ let displayTopRating = async (req,res) => {
     }
 };
 
-let displayProductImage = async (req, res) => {
-    const productid = req.params.id;
-    try {
-        let imageData = await productService.getProductImage(productid);
-        res.setHeader('Content-Type', 'image/png');
-        res.send(imageData);
-    } catch (error) {
-        return res.status(500).json({
-            errCode: -1,
-            message: 'An internal server error occurred.'
-        });
-    }
-};
-
-
 module.exports = {
+    updloadProduct,
     displayProducts,
     displayTopRating,
-    displayProductImage
 };

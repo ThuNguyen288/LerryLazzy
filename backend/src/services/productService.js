@@ -1,5 +1,24 @@
 import db from '../models/index';
 
+// Function to create new product
+let createNewProduct = (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let product = await db.Product.create({
+                Name: data.name,
+                Description: data.description,
+                Price: data.price,
+                CategoryID: data.categoryid,
+                SubcategoryID: subcategoryid,
+                Image: data.image
+            })
+            resolve(product);
+        } catch (error) {
+            reject(error);
+        }
+    });
+};
+
 // Function to get all product by CategoryID
 let getProductsByCategory = (categoryid) => {
     return new Promise(async (resolve, reject) => {
@@ -12,7 +31,7 @@ let getProductsByCategory = (categoryid) => {
             reject(error);
         }
     });
-}
+};
 
 // Function to get all product by SubcategoryID
 let getProductsBySubcategory = (subcategoryid) => {
@@ -26,7 +45,7 @@ let getProductsBySubcategory = (subcategoryid) => {
             reject(error);
         }
     });
-}
+};
 
 // Function to get product by id
 let getProductById = (productid) => {
@@ -44,7 +63,7 @@ let getProductById = (productid) => {
 };
 
 // Function to get all products
-const getAllProducts = () => {
+let getAllProducts = () => {
     return new Promise(async (resolve, reject) => {
         try {
             let products = await db.Product.findAll({
@@ -60,25 +79,6 @@ const getAllProducts = () => {
     });
 };
 
-// Function to get image of product
-let getProductImage = (productid) => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        let product = await db.Product.findOne({
-          where: { ProductID: productid },
-          attributes: ['Image'],
-        });
-  
-        if (product && product.Image) {
-          resolve(product.Image);
-        } else {
-          reject(new Error('Product not found or image not available'));
-        }
-      } catch (error) {
-        reject(error);
-      }
-    });
-  };
 
 // Function to calculate average rating of product
 let calAverageRating = (productid) => {
@@ -102,7 +102,7 @@ let calAverageRating = (productid) => {
 };
 
 // Function to calculate total ordered of product
-const calTotalOrders = (productid) => {
+let calTotalOrders = (productid) => {
     return new Promise(async (resolve, reject) => {
         try {
             const result = await db.OrderItem.findOne({
@@ -123,12 +123,12 @@ const calTotalOrders = (productid) => {
 };
 
 module.exports = {
+    createNewProduct: createNewProduct,
     getProductsByCategory: getProductsByCategory,
     getProductsBySubcategory: getProductsBySubcategory,
     getProductById: getProductById,
     getAllProducts: getAllProducts,
     calAverageRating: calAverageRating,
     calTotalOrders: calTotalOrders,
-    getProductImage: getProductImage
 };
 

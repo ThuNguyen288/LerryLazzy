@@ -2,13 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart, faHeart } from '@fortawesome/free-solid-svg-icons';
-import { getProductsByCategory, getProductsBySubcategory, getProductImage } from "../services/productService";
+import { getProductsByCategory, getProductsBySubcategory } from "../services/productService";
 
 const Item = ({ categoryid, subcategoryid }) => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [productImages, setProductImages] = useState({});
 
     useEffect(() => {
         const fetchData = async () => {
@@ -18,8 +17,11 @@ const Item = ({ categoryid, subcategoryid }) => {
                     response = await getProductsByCategory(categoryid);
                 } else if (subcategoryid) {
                     response = await getProductsBySubcategory(subcategoryid);
-                }
-                setProducts(response.data);
+                } else return;
+
+                const data = Array.isArray(response.data) ? response.data : [];
+                console.log(data);
+                setProducts(data);
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching products: ', error);
@@ -30,26 +32,6 @@ const Item = ({ categoryid, subcategoryid }) => {
 
         fetchData();
     }, [categoryid, subcategoryid]);
-
-    useEffect(() => {
-        const fetchImages = async () => {
-            try {
-                const images = {};
-                for (const product of products) {
-                    const image = await getProductImage(product.ProductID);
-                    images[product.ProductID] = image;
-                }
-                console.log('Product Images:', productImages);
-                setProductImages(images);
-            } catch (error) {
-                console.error('Error fetching product images: ', error);
-            }
-        };
-
-        if (products.length > 0) {
-            fetchImages();
-        }
-    }, [products]);
 
     if (loading) {
         return <div>Loading...</div>;
@@ -65,7 +47,7 @@ const Item = ({ categoryid, subcategoryid }) => {
                 <div key={product.ProductID} className="col">
                     <div className="card h-100 product-box">
                         <div className="product-image">
-                            <img src={productImages[product.ProductID]} className="card-img" alt={product.Name} />
+                            <img src={`${process.env.PUBLIC_URL}${product.Image}`}  className="card-img" alt={product.Name} />
                             <div className="product-action">
                                 <Link to="/">
                                     <FontAwesomeIcon icon={faShoppingCart} className="mx-2" />
