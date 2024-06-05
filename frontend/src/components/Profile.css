@@ -1,20 +1,26 @@
-/* form {
-    display: flex;
-    flex-direction: column;
+.profile table {
     align-items: flex-start;
-    max-width: 300px;
     margin: 10px;
+    width: 100%;
   }
-  
-  label {
-    margin-bottom: 10px;
-  }
-  
-  input {
+
+  .profile {
     margin-left: 10px;
-    width: 300px;
   }
   
-  button {
+  .profile button {
     margin: 5px;
-  } */
+  }
+
+  .profile td{
+    padding: 10px;
+    height: fit-content ;
+  }
+
+  .profile input{
+    width: 100%;
+  }
+
+  .profile .label{
+    width: 100px;
+  }

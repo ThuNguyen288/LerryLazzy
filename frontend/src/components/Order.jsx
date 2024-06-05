@@ -4,7 +4,7 @@ import "../App.css";
 
 const Order = () => {
     return (
-        <div className="text-brown m-5 border border-secondary px-5">
+        <div className="text-brown border border-secondary px-5">
             <div className="d-flex justify-content-between bg-grey mx-auto mb-3 mt-5">
                 <div className="d-block px-3 py-2">
                     <h6>Order no:</h6>
