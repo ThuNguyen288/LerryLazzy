@@ -32,8 +32,7 @@
 // }
 
 // export default Account;
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
 import '../App.css';
 import SideBar from "../components/SideBar";
 import NavBar from "../components/NavBar";
