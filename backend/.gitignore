@@ -4,5 +4,5 @@
 .idea/
 .env
 
-config.js
-connectDB.js
+src/config/config.json
+src/config/connectDB.js

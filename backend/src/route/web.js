@@ -9,7 +9,8 @@ let initWebRoutes = (app) => { //rest api
     // Routes for user
     router.post('/register', userController.handleRegister);
     router.post('/login', userController.handleLogin);
-    router.put('/change-profile', userController.handleChangeProfile);
+    router.post('/reset-password/request', userController.handleRequestResetPassword);
+    router.put('/reset-password', userController.handleResetPassword);
     router.delete('/delete-account', userController.handleDeleteAccount);
 
     // Routes for product

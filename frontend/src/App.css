@@ -165,7 +165,6 @@
     display: none;
     position: absolute;
     top: 30px;
-    right: 0 !important;
     background-color: white;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     z-index: 100;
@@ -224,9 +223,9 @@ section a:hover {
     height: 75px;
     border: solid 1px;
 }
-.bg-grey{
+/* .bg-grey{
     background-color: rgb(215, 206, 206);
-}
+} */
 
 /* Search */
 .search-box{
@@ -239,7 +238,7 @@ section a:hover {
     border: solid 1px;
     border-radius: 32px;
     transition: ease;
-    background-color: #e8e5dc;
+    background-color: #fff;
 }
 .search-box input{
     width: 0px;

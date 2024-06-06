@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import db from '../models/index';
+import { sendResetPasswordEmail } from "./emailService";
 
 const saltRounds = 10;
 
@@ -135,19 +136,23 @@ let checkUsername = (username) => {
 };
 
 // Function to get user by username
-let getUserByUsername = (username) => {
+let findUserByUsername = (username) => {
     return new Promise(async (resolve, reject) => {
         try {
             let user = await db.User.findOne({
                 where: { Username: username }
             });
             if (!user) {
-                return reject({
+                resolve({
                     errCode: 1,
                     errMessage: 'User not found!'
                 });
             }
-            resolve(user);
+            resolve({
+                errCode: 0,
+                errMessage: 'User found!',
+                user: user
+            });
         } catch (error) {
             reject(error);
         }
@@ -194,6 +199,154 @@ let updateProfile = (username, data) => {
     });
 };
 
+// Function to change password
+let changePassword = (username, oldpassword, newpassword) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!username) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Username is required!'
+                });
+            }
+            let user = await db.User.findOne({
+                where: { Username: username }
+            });
+            if (!user) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'User not found!'
+                });
+            } else {
+                // Check old password is valid
+                let isPasswordValid = await bcrypt.compareSync(oldpassword, user.Password);
+                if (isPasswordValid) {
+                    // Hash new password
+                    let hashPassword = await hashUserPassword(newpassword);
+                    if (user.Password === hashPassword) {
+                        resolve({
+                            errCode: 4,
+                            errMessage: 'New password must be different from the current password.'
+                        });
+                        return;
+                    }
+
+                    await db.User.update({
+                        Password: hashPassword
+                        }, {
+                            where: { Username: username }
+                            });
+
+                    resolve({
+                        errCode: 0,
+                        errMessage: 'Password changed successfully!'
+                    });
+                } else {
+                    resolve({
+                        errCode: 1,
+                        errMessage: 'Old password is incorrect!'
+                    });
+                }
+            }
+        } catch (error) {
+            reject(error);
+        }
+    });
+};
+
+// Function to send request to reset password
+let requestResetPassword =  (username, email) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let isExist = await checkUsername(username);
+
+            if (isExist) {
+                let user = await db.User.findOne({
+                    where: { Username : username },
+                });
+
+                if (user) {
+                    if (user.Email === email) {
+                        resolve({
+                            errCode: 0,
+                            errMessage: 'Request to reset password sent successfully! Please check your email.'
+                        });
+                    }
+                } else {
+                    resolve({
+                        errCode: 2,
+                        errMessage: 'Email does not match our records!'
+                    });
+                }
+            } else {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'User not found!'
+                });
+            }
+            await sendResetPasswordEmail(email, username);
+
+            resolve({
+                errCode: 0,
+                errMessage: 'Request to reset password sent successfully! Please check your email.'
+            });
+        } catch (error) {
+            reject(error);
+        }
+    });
+}
+
+// // Function to reset password
+let resetPassword = (username, code, password) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let user = await db.User.findOne({
+                where: { Username: username }
+            });
+
+            if (!user) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'User not found!'
+                });
+                return; 
+            }
+
+            if (user.Code.toString() !== code) {
+                resolve({
+                    errCode: 3,
+                    errMessage: 'Invalid verify code. Please try again!'
+                });
+                return;
+            }
+
+            let hashPassword = await hashUserPassword(password);
+            if (user.Password === hashPassword) {
+                resolve({
+                    errCode: 4,
+                    errMessage: 'New password matches old password. Please choose a different one.'
+                });
+                return;
+            }
+
+            await db.User.update({
+                Password: hashPassword,
+                Code: null
+            }, {
+                where: { Username: username }
+            });
+
+            resolve({
+                errCode: 0,
+                message: 'Password reset successfully!'
+            });
+        } catch (error) {
+            reject(error);
+        } 
+    });
+};
+
+
 // Function to delete account
 let deleteAccount = (id) => {
     return new Promise (async (resolve, reject) => {
@@ -227,7 +380,10 @@ module.exports = {
     handleUserRegister: handleUserRegister,
     createToken: createToken,
     checkUsername: checkUsername,
-    getUserByUsername: getUserByUsername,
+    findUserByUsername: findUserByUsername,
     updateProfile: updateProfile,
+    changePassword: changePassword,
+    requestResetPassword: requestResetPassword,
+    resetPassword: resetPassword,
     deleteAccount: deleteAccount
 };

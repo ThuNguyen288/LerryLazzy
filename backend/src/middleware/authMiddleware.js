@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+require('dotenv').config();
 
 let verifyToken = (req, res, next) => {
     const token = req.headers.authorization;
@@ -19,6 +20,7 @@ let verifyToken = (req, res, next) => {
         }
         console.log('Decoded Token:', decoded);
         req.username = decoded.username;
+        req.email = decoded.email;
         req.role = decoded.role;
         next();
     });
