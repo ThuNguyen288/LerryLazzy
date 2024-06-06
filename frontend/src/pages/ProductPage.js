@@ -29,7 +29,7 @@ const ProductPage = () => {
     const subcategoryid = subcategory ? subcategoryMap[subcategory.toLowerCase()] : null;
 
     return (
-        <div>
+        <div className="bg-1">
             <NavBar />
             <div className="container mt-3"> 
                 <nav aria-label="breadcrumb">

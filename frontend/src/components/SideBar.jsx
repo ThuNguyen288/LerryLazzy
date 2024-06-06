@@ -27,18 +27,24 @@ import '../App.css';
                         <Link to="wishlist" className="text-decoration-none text-brown link" onClick={() => handleLinkClick("/wishlist")}>
                             <button className="sidebar-item">
                                 Wish List
-                                <span><i className="fas fa-caret-right float-end icon "/></span>
+                                <span><i className="fas fa-caret-right float-end icon"/></span>
                             </button>
                         </Link>
                         <Link to="order" className="text-decoration-none text-brown link" onClick={() => handleLinkClick("/order")}>
-                            <button className="sidebar-item border-b">
+                            <button className="sidebar-item">
                                 Order
-                                <span><i className="fas fa-caret-right float-end icon "/></span>
+                                <span><i className="fas fa-caret-right float-end icon"/></span>
+                            </button>
+                        </Link>
+                        <Link to="changepassword" className="text-decoration-none text-brown link" onClick={() => handleLinkClick("/changepassword")}>
+                            <button className="sidebar-item border-b">
+                                Change Password
+                                <span><i className="fas fa-larger-right float-end icon"/></span>
                             </button>
                         </Link>
                 </div>
             </div>
-            <div className="flex-grow-1 p-3 w-75 float-end justify-content-center ">
+            <div className="flex-grow-1 p-3 w-75 float-end justify-content-center">
                 {iframeUrl && (
                     <iframe
                         src={iframeUrl}

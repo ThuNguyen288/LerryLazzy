@@ -14,6 +14,8 @@ import Register from './pages/auth/Register';
 import HomePage from './pages/HomePage';
 import ProductInfo from './pages/ProductInfo';
 import ProductPage from './pages/ProductPage';
+import ChangePassword from './components/ChangePassword';
+import ForgotPassword from './pages/auth/ForgotPassword';
 
 function App() {
   const [errorMessage, updateErrorMessage] = useState(null);
@@ -25,6 +27,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/login/forgotpassword" element={<ForgotPassword />} />
             <Route path="/register" element={<Register />} />
             <Route path="/product/:category" element={<ProductPage />} />
             <Route path="/product/product/:subcategory" element={<ProductPage />} />
@@ -35,6 +38,7 @@ function App() {
             <Route path="wishlist" element={<WishList/>} />
             <Route path="cart" element={<Cart/>} />
             <Route path="profile" index element={<Profile/>} />
+            <Route path="changepassword" element={<ChangePassword/>} />
           </Routes>
           <Alert errorMessage={errorMessage} hideError={updateErrorMessage}/>
         </BrowserRouter>

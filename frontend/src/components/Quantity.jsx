@@ -1,27 +1,47 @@
 import React, { useState } from 'react';
+import "../App.css";
 
 const QuantityForm = () => {
   const [quantity, setQuantity] = useState(0);
 
+  const handleIncrement = () => {
+    setQuantity(prevQuantity => prevQuantity + 1);
+  };
+
+  const handleDecrement = () => {
+    setQuantity(prevQuantity => (prevQuantity > 0 ? prevQuantity - 1 : 0));
+  };
+
   const handleChange = (event) => {
-    const newQuantity = parseInt(event.target.value); // Convert input value to an integer
-    setQuantity(newQuantity); // Update quantity state
-    // Handle form submission here with the new quantity value
-    console.log("Quantity:", newQuantity);
+    const newQuantity = parseInt(event.target.value, 10); // Convert input value to an integer
+    if (!isNaN(newQuantity) && newQuantity >= 0) {
+      setQuantity(newQuantity); // Update quantity state
+    }
   };
 
   return (
-    <form className='bg-secondary'>
-        <input
-          className='text-center rounded-pill w-10'
-          type="number"
-          value={quantity}
-          onChange={handleChange}
-          min="0" // Optional: specify a minimum value
-          step="1" // Optional: specify the step size
-        />
+    <form className='quantity d-flex align-items-center'>
+      <button 
+        type="button"  
+        onClick={handleDecrement}
+      >
+        <i className='fas fa-minus'/>
+      </button>
+      <input
+        className='text-center'
+        type="int"
+        value={quantity}
+        onChange={handleChange}
+        min="0"
+        step="1"
+      />
+      <button 
+        type="button" 
+        onClick={handleIncrement}
+      >
+        <i className='fas fa-plus'/>
+      </button>
     </form>
-    
   );
 };
 
