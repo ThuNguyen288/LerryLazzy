@@ -17,7 +17,7 @@ const ForgotPassword = () => {
                                     <form className="w-100">
                                         <table className="">
                                                 <tr className="m-5">
-                                                    <td className="text-white">Email</td>
+                                                    <td className="text-white">Email:</td>
                                                     <td><input
                                                         type="email"
                                                         id="email"
