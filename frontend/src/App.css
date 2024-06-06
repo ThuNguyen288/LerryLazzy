@@ -11,7 +11,7 @@
 }
 
 .bg-1{
-    background-color: #C38D95;
+    background-color: #FAEAE3;
 }
 .text-darkbrown{
     color: #4E4649;
@@ -272,3 +272,41 @@ section a:hover {
 .w100{
     width: 100px;
 }
+.quantity{
+    display: flex;
+    width: 70px;
+    height: 30px;
+    background-color: white;
+    text-align: center;
+    justify-content: center;
+    border: solid 1px;
+    border-radius: 50%;
+}
+
+.quantity input{
+    width: 30px;
+    border: 0;
+    background-color: transparent;
+    text-align: center;
+    justify-content: center;
+}
+
+.quantity button{
+    background-color: transparent;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    width: 10px;
+    font-size: small;
+    opacity: 0.5;
+}
+
+.quantity button:hover {
+    font-size: medium;
+}
+
+.cart table{
+    table-layout:fixed;
+}
+
+

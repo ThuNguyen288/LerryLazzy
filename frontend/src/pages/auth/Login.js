@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import { handleLoginApi } from '../../services/userService';
+import { Link } from 'react-router-dom';
 import './Form.css';
 
 const Login = () => {
@@ -137,7 +138,7 @@ const Login = () => {
                                         </div>
 
                                         <div className="d-flex justify-content-end mb-4">
-                                            <a className="small mb-2 pb-lg-2 text-secondary forgot" href="#!">Forgot password?</a>
+                                            <Link to ="/login/forgotpassword"className="small mb-2 pb-lg-2 text-secondary forgot">Forgot password?</Link>
                                         </div>
                                         
                                         

@@ -9,7 +9,7 @@ const HomePage = () => {
 
   return (
     
-    <div className="bg-img">
+    <div className="bg-img bg-1">
       <NavBar/>
       <Banner/>
       <div className="mx-auto mb-5 pb-5 w-80 text-center bg-white">
