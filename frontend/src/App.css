@@ -198,9 +198,25 @@ section a:hover {
 
 /* Sidebar */
 .sidebar-item {
-    border-top:solid 1px grey;
-    padding: 20px 0 20px 0;
+    padding: 20px 0 13px 0;
+    border: 0;
+    border-top: solid 1px grey;
+    background-color: transparent;
+    text-align: left;
+    width: 100%;
 }
+.sidebar-item .icon{
+    visibility: hidden;
+    font-size: 30px;
+    opacity: 0.5;
+}
+.sidebar-item:hover .icon{
+    visibility: visible;
+ }
+.border-b{
+    border-bottom:solid 1px grey;
+}
+
 
 /* Order */
 .miniImg{

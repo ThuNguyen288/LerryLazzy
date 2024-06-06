@@ -25,7 +25,7 @@ const Profile = () => {
         }
     }
     fetchData();
-}, [isAuthenticated.token]);
+    }, [isAuthenticated.token]);
 
     const handleEditClick = () => {
         setIsEditing(!isEditing);
@@ -60,22 +60,58 @@ const Profile = () => {
     }
 
   return (
-      <div className='profile'>
+      <div className='profile w-100 justify-content-center border bg-white mx-auto px-5'>
           {!isEditing ? (
               <div>
-                  <h2>Account Information</h2>
-                  <p><strong>First Name:</strong>{profile.Firstname}</p>
-                  <p><strong>Last Name:</strong>{profile.Lastname}</p>
-                  <p><strong>Address:</strong>{profile.Address}</p>
-                  <p><strong>Email:</strong>{profile.Email}</p>
-                  <p><strong>Phone:</strong>{profile.Phone}</p>
-                  <button onClick={handleEditClick}>Edit</button>
+                <table className='mx-auto'>
+                  <tr>
+                    <td className='label'>
+                      <h6>First Name</h6>
+                    </td>
+                    <td>
+                      {profile.Firstname}
+                    </td>
+                    <td className='label'>
+                      <h6>Last Name</h6>
+                    </td>
+                    <td>
+                      {profile.Lastname}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className='label'>
+                      <h6>Address</h6>
+                    </td>
+                    <td>
+                      {profile.Address}
+                    </td>
+                    <td className='label'>
+                      <h6>Email</h6>
+                    </td>
+                    <td>
+                      {profile.Email}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className='label'>
+                      <h6>Phone</h6>
+                    </td>
+                    <td>
+                      {profile.Phone}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td><button onClick={handleEditClick}>Edit</button></td> 
+                  </tr>
+                </table>
               </div>
           ) : (
-            <form onSubmit={handleChangeProfile}>
+            <form onSubmit={handleChangeProfile} className='mx-auto'>
               <h2>Edit Account Information</h2>
               <div>
-                <label>
+                <label className='label'>
                   First Name:
                   <input
                     type="text"
@@ -86,7 +122,7 @@ const Profile = () => {
                 </label>
               </div>
               <div>
-                <label>
+                <label className='label'>
                   Last Name:
                   <input
                     type="text"
@@ -97,7 +133,7 @@ const Profile = () => {
                 </label>
               </div>
               <div>
-                <label>
+                <label className='label'>
                   Address:
                   <input
                     type="text"
@@ -108,7 +144,7 @@ const Profile = () => {
                 </label>
               </div>
               <div>
-                <label>
+                <label className='label'>
                   Email:
                   <input
                     type="email"
@@ -119,7 +155,7 @@ const Profile = () => {
                 </label>
               </div>
               <div>
-                <label>
+                <label className='label'>
                   Phone:
                   <input
                     type="tel"
@@ -133,8 +169,7 @@ const Profile = () => {
               <button type="button" onClick={handleEditClick}>Cancel</button>
             </form>
           )}
-        </div>
-    );
-};
-
+  </div>
+  )
+}
 export default Profile;

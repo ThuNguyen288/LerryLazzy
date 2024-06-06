@@ -1,50 +1,30 @@
 
 {
   "development": {
-    "username": "sa",
-    "password": "123456",
-    "database": "WoolShop",
-    "host": "LAPTOPCUATUI",
-    "dialect": "mssql",
+    "username": "root",
+    "password": "2882002t",
+    "database": "woolshop",
+    "host": "localhost",
+    "dialect": "mysql",
     "logging": true,
-    "port": 1433,
-    "timezone": "+07:00",
-    "query": {
-      "raw": true
-    },
-    "dialectOptions": {
-      "options": {
-        "encrypt": true,
-        "trustServerCertificate": true
-      }
-    }
+    "port": 3306
   },
   "test": {
-    "username": "sa",
-    "password": "123456",
-    "database": "WoolShop_test",
-    "host": "LAPTOPCUATUI",
-    "dialect": "mssql",
-    "port": 1433,
-    "dialectOptions": {
-      "options": {
-        "encrypt": true,
-        "trustServerCertificate": true
-      }
-    }
+    "username": "root",
+    "password": "2882002t",
+    "database": "woolshop",
+    "host": "localhost",
+    "dialect": "mysql",
+    "logging": true,
+    "port": 3306
   },
   "production": {
-    "username": "sa",
-    "password": "123456",
-    "database": "WoolShop_prod",
-    "host": "LAPTOPCUATUI",
-    "dialect": "mssql",
-    "port": 1433,
-    "dialectOptions": {
-      "options": {
-        "encrypt": true,
-        "trustServerCertificate": true
-      }
-    }
+    "username": "root",
+    "password": "2882002t",
+    "database": "woolshop",
+    "host": "localhost",
+    "dialect": "mysql",
+    "logging": true,
+    "port": 3306
   }
 }

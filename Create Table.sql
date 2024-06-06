@@ -1,4 +1,4 @@
-USE WoolShop
+USE woolshop
 -- Create Users table
 CREATE TABLE Users (
     UserID INT PRIMARY KEY,
