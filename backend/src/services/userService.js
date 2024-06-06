@@ -155,17 +155,17 @@ let getUserByUsername = (username) => {
 };
 
 // Function to update profile
-let updateProfile = (data) => {
+let updateProfile = (username, data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            if(!data.id) {
+            if(!username) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'User ID is required!'
+                    errMessage: 'Username is required!'
                 });
             }
             let user = await db.User.findOne({
-                where: { UserID: data.id }
+                where: { Username: username }
             });
             if (!user) {
                 resolve({
@@ -173,16 +173,14 @@ let updateProfile = (data) => {
                     errMessage: 'User not found!'
                 });
             } else {
-                let hashPassword = await hashUserPassword(data.password);
                 await db.User.update({
-                    Password: hashPassword,
                     Firstname: data.firstname,
                     Lastname: data.lastname,
                     Phone: data.phone,
                     Email: data.email,
                     Address: data.address
                 }, {
-                    where: { UserID: data.id }
+                    where: { Username: username }
                 });
 
                 resolve({

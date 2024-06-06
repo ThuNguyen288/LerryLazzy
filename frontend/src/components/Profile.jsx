@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
-import { handleShowProfile } from '../services/userService';
+import { handleShowProfile, handleUpdateProfile } from '../services/userService';
 import "./Profile.css";
 
 const Profile = () => {
@@ -39,9 +39,16 @@ const Profile = () => {
         });
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const handleChangeProfile = async (event) => {
+        event.preventDefault();
+        try {
+            const token = localStorage.getItem('token');
+            await handleUpdateProfile(token, profile);
+        } catch (error) {
+          
+        }
         setIsEditing(false);
+        
     };
 
     if (loading) {
@@ -49,7 +56,7 @@ const Profile = () => {
     }
 
     if (error) {
-        return <div>Error: {error}</div>;
+        return <div>Error: {error.message}</div>
     }
 
   return (
@@ -65,15 +72,15 @@ const Profile = () => {
                   <button onClick={handleEditClick}>Edit</button>
               </div>
           ) : (
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleChangeProfile}>
               <h2>Edit Account Information</h2>
               <div>
                 <label>
                   First Name:
                   <input
                     type="text"
-                    name="firstname"
-                    value={profile.Firstname}
+                    name="Firstname"
+                    value={profile.Firstname || ''}
                     onChange={handleChange}
                   />
                 </label>
@@ -83,8 +90,8 @@ const Profile = () => {
                   Last Name:
                   <input
                     type="text"
-                    name="lastname"
-                    value={profile.Lastname}
+                    name="Lastname"
+                    value={profile.Lastname || ''}
                     onChange={handleChange}
                   />
                 </label>
@@ -94,8 +101,8 @@ const Profile = () => {
                   Address:
                   <input
                     type="text"
-                    name="address"
-                    value={profile.Address}
+                    name="Address"
+                    value={profile.Address || ''}
                     onChange={handleChange}
                   />
                 </label>
@@ -105,8 +112,8 @@ const Profile = () => {
                   Email:
                   <input
                     type="email"
-                    name="email"
-                    value={profile.Email}
+                    name="Email"
+                    value={profile.Email || ''}
                     onChange={handleChange}
                   />
                 </label>
@@ -116,8 +123,8 @@ const Profile = () => {
                   Phone:
                   <input
                     type="tel"
-                    name="phone"
-                    value={profile.Phone}
+                    name="Phone"
+                    value={profile.Phone || ''}
                     onChange={handleChange}
                   />
                 </label>
