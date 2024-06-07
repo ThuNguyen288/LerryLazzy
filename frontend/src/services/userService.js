@@ -33,7 +33,7 @@ let handleUpdateProfile = (token, data) => {
 
 let handleGetVerifyCode = (username, email) => {
     return axios.post('/api/reset-password/request', { username, email }) 
-}
+} 
 
 let handleCheckVerifyCode = (username, code)  => {
     return axios.post('/api/reset-password/enter-code', { username, code })
@@ -41,6 +41,15 @@ let handleCheckVerifyCode = (username, code)  => {
 
 let handleResetPassword = (username, code, password) => {
     return axios.put('/api/reset-password', { username, code, password }) 
+}
+
+let handleChangePassword = (token, oldpassword, newpassword) => {
+    return axios.put('/api/protected/change-password', { oldpassword, newpassword },{
+        headers: {
+            'Authorization': 'Bearer ' + token,
+            'Content-Type': 'application/json'
+        }
+    })
 }
 
 export {
@@ -51,5 +60,6 @@ export {
     handleGetVerifyCode,
     handleCheckVerifyCode,
     handleResetPassword,
+    handleChangePassword
 } 
 

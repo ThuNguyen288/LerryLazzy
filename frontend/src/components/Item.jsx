@@ -1,7 +1,8 @@
+import { faHeart, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Spinner from 'react-bootstrap/Spinner';
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShoppingCart, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { getProductsByCategory, getProductsBySubcategory } from "../services/productService";
 import './Item.css';
 
@@ -39,7 +40,11 @@ const Item = ({ categoryid, subcategoryid }) => {
     }, [categoryid, subcategoryid]);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return (
+            <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+            </Spinner>
+        )
     }
 
     if (error) {

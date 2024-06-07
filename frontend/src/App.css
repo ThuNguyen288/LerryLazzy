@@ -162,16 +162,11 @@
 }
 
 .nav-icon .dropdown-menu {
-    display: none;
     position: absolute;
     top: 30px;
     background-color: white;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     z-index: 100;
-}
-
-.nav-icon:hover .dropdown-menu {
-    display: block;
 }
 
 section a {
@@ -309,4 +304,6 @@ section a:hover {
     table-layout:fixed;
 }
 
-
+.hidden-scrollbar::-webkit-scrollbar { 
+    display: none; 
+  }

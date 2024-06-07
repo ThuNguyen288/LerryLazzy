@@ -2,7 +2,6 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import db from '../models/index'
 import { sendResetPasswordEmail } from "./emailService"
-import { where } from 'sequelize'
 
 const saltRounds = 10  
 
@@ -217,54 +216,56 @@ let changePassword = (username, oldpassword, newpassword) => {
                 errMessage: ''
             }    
 
+            // Validate username
             if (!username) {
-                userData.errCode = 1    
-                userData.errMessage = 'Username is required!'    
-                resolve(userData)    
-                return    
+                userData.errCode = 3,
+                userData.errMessage = 'Username is required!'
+                resolve(userData)
             }
 
             let user = await db.User.findOne({
                 where: { Username: username }
             })    
 
+            // Check if user exists
             if (!user) {
-                userData.errCode = 1    
-                userData.errMessage = 'User not found!'    
-                resolve(userData)    
-                return    
+                userData.errCode = 2,
+                userData.errMessage = 'User not found!'
             }
 
-            // Check old password is valid
-            let isPasswordValid = await bcrypt.compareSync(oldpassword, user.Password)    
-            if (isPasswordValid) {
-                // Hash new password
-                let hashPassword = await hashUserPassword(newpassword)    
-                if (user.Password === hashPassword) {
-                    userData.errCode = 4    
-                    userData.errMessage = 'New password must be different from the current password.'    
-                    resolve(userData)    
-                    return    
-                }
-
-                await db.User.update({
-                    Password: hashPassword
-                }, {
-                    where: { Username: username }
-                })    
-
-                userData.errMessage = 'Password changed successfully!'    
-                resolve(userData)    
-            } else {
-                userData.errCode = 1    
-                userData.errMessage = 'Old password is incorrect!'    
-                resolve(userData)    
+            // Check if old password matches
+            let isPasswordValid = await bcrypt.compareSync(oldpassword, user.Password);
+            if (!isPasswordValid) {
+                userData.errCode = 1,
+                userData.errMessage = 'Current password is incorrect!'
+                resolve(userData)
             }
+
+            // Check if new password is different from the old one
+            if (oldpassword === newpassword) {
+                userData.errCode = 4
+                userData.errMessage = 'New password must be different from the current password.'    
+                resolve(userData)
+            }
+
+            // Hash new password
+            let hashPassword = await hashUserPassword(newpassword)
+
+            // Update user's password in the database
+            await db.User.update({ 
+                Password: hashPassword 
+            }, { 
+                where: { Username: username } 
+            })
+            userData.errCode = 0
+            userData.errMessage = 'Password changed successfully!'
+            resolve(userData)
+
         } catch (error) {
-            reject(error)    
+            reject(error)
         }
-    })    
-}    
+    })
+}
 
 // Function to send request to reset password
 let requestResetPassword = (username, email) => {

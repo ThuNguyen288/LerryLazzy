@@ -90,7 +90,7 @@ let handleChangePassword = async (req, res) => {
         if (!oldpassword || !newpassword) {
             return res.status(400).json({
                 errCode: 1,
-                message: 'Please enter your password and new password'
+                message: 'Please enter your current password and new password'
             })
         }
 

@@ -1,6 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import Spinner from 'react-bootstrap/Spinner';
 import { getProductById } from "../services/productService";
 import './ItemDetail.css';
 
@@ -27,7 +28,11 @@ const ItemDetail = () => {
     }, [productid]);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return (
+            <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+            </Spinner>
+        )
     }
 
     if (error) {

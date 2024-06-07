@@ -1,5 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css' // Import Bootstrap CSS
+import Spinner from 'react-bootstrap/Spinner';
+
 
 import { AuthContext } from '../context/AuthContext'
 import { handleShowProfile, handleUpdateProfile } from '../services/userService'
@@ -52,14 +54,10 @@ const Profile = () => {
         event.preventDefault()
         try {
             const token = localStorage.getItem('token')
-            console.log("Dữ liệu gửi đi:", profile)
-            const response = await handleUpdateProfile(token, profile)
-        
-            console.log("Updated user data:", response)
+
+            await handleUpdateProfile(token, profile)
 
             const responseShow = await handleShowProfile(token)
-
-            console.log(responseShow.data.user)
         
             setProfile(responseShow.data.user)
             setIsEditing(false)
@@ -69,7 +67,11 @@ const Profile = () => {
     }
 
     if (loading) {
-        return <div>Loading...</div>
+        return (
+            <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+            </Spinner>
+        )
     }
 
     if (error) {

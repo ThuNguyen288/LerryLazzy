@@ -69,6 +69,7 @@ const Register = () => {
         }
 
         if (password !== confPass) {
+            setPasswordValid(false)
             setConfPassValid(false)
             setErrConfPass('Passwords do not match')
             return

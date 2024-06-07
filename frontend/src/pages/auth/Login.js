@@ -1,91 +1,84 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../context/AuthContext';
-import { handleLoginApi } from '../../services/userService';
-import { Link } from 'react-router-dom';
-import './Form.css';
+import React, { useContext, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { AuthContext } from '../../context/AuthContext'
+import { handleLoginApi } from '../../services/userService'
+import { Link } from 'react-router-dom'
+import './Form.css'
 
 const Login = () => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [showPassword, setShowPassword] = useState(false);
-    const [isValid, setIsValid] = useState(true);
-    const [isValidP, setIsValidP] = useState(true);
-    const [errUsername, setErrUsername] = useState('');
-    const [errPassword, setErrPassword] = useState('');
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+    const [showPassword, setShowPassword] = useState(false)
+    const [isValid, setIsValid] = useState(true)
+    const [isValidP, setIsValidP] = useState(true)
+    const [errUsername, setErrUsername] = useState('')
+    const [errPassword, setErrPassword] = useState('')
 
-    const { login } = useContext(AuthContext);
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (token) {
-            navigate('/home');
-        }
-    }, [navigate]);
+    const { login } = useContext(AuthContext)
+    const navigate = useNavigate()
 
     const handleLogin = async (event) => {
-        event.preventDefault();
+        event.preventDefault()
         if (username.trim() === '') {
-            setIsValid(false);
-            setErrUsername('Username is required');
-            return;
+            setIsValid(false)
+            setErrUsername('Username is required')
+            return
         }
         if (password.trim() === '') {
-            setIsValidP(false);
-            setErrPassword('Password is required');
-            return;
+            setIsValidP(false)
+            setErrPassword('Password is required')
+            return
         }
         
         try {
-            const data = await handleLoginApi(username, password);
-            console.log("API response:", data);
+            const data = await handleLoginApi(username, password)
+            console.log("API response:", data)
 
             if (data.errCode === 0) {
-                const { token, user } = data;
+                const { token, user } = data
                 if (token && user) {
-                    console.log("Login successful:", token, user);
-                    login(token, user);
-                    navigate('/home');
-                    alert(data.message);
+                    console.log("Login successful:", token, user)
+                    login(token, user)
+                    navigate('/home')
+                    alert(data.message)
                 } else {
-                    throw new Error('Invalid response: missing token or user');
+                    throw new Error('Invalid response: missing token or user')
                 }
             } else if (data.errCode === 1) {
-                setIsValid(false);
-                setErrUsername(data.message);
+                setIsValid(false)
+                setErrUsername(data.message)
             } else if (data.errCode === 3) {
-                setIsValidP(false);
-                setErrPassword(data.message);
+                setIsValidP(false)
+                setErrPassword(data.message)
             } else {
-                console.error('Unhandled API error:', data);
+                console.error('Unhandled API error:', data)
             }
         } catch (error) {
-            console.error('Login error:', error);
+            console.error('Login error:', error)
         }
-    };
+    }
     
 
     const handleOnChangeInput = (event) => {
-        const { name, value } = event.target;
+        const { name, value } = event.target
         if (name === 'username') {
-            setUsername(value);
+            setUsername(value)
             if (value.trim() !== '') {
-                setIsValid(true);
-                setErrUsername('');
+                setIsValid(true)
+                setErrUsername('')
             }
         } else if (name === 'password') {
-            setPassword(value);
+            setPassword(value)
             if (value.trim() !== '') {
-                setIsValidP(true);
-                setErrPassword('');
+                setIsValidP(true)
+                setErrPassword('')
             }
         }
-    };
+    }
 
     const handleShowPassword = () => {
-        setShowPassword(!showPassword);
-    };
+        setShowPassword(!showPassword)
+    }
     
     return (
         <section className="vh-100 gradient-custom">
@@ -163,7 +156,7 @@ const Login = () => {
                 </div>
             </div>
         </section>
-    );
+    )
 }
 
-export default (Login);
+export default (Login)

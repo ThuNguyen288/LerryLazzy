@@ -67,12 +67,12 @@ const NavBar = () => {
             </li>
           </ul>
           <div className='w-400'>
-            <div className="d-flex float-end">
-                <div className='' role="button" aria-expanded="false">
-                  <Search/>
-                </div>
-              {isAuthenticated.token ? (
-                <>
+            {isAuthenticated.token ? (
+              <>
+                <div className="d-flex float-end mx-5">
+                  <div className='' role="button" aria-expanded="false">
+                    <Search/>
+                  </div>
                   <div className="nav-icon d-flex">
                     <Link to="/cart">
                       <FontAwesomeIcon icon={faShoppingCart} className="text-brown mx-2" />
@@ -84,25 +84,28 @@ const NavBar = () => {
                     </div>
                     <ul className=" dropdown-menu dropdown-menu-end">
                         <li><Link to={`/account/${isAuthenticated.user.Username}`} className='text-brown dropdown-item'>Your Profile</Link></li>
-                        <li><Link to={`/account/${isAuthenticated.user.Username}/change-password`} className='text-brown dropdown-item'>Change Password</Link></li>
-                        <li><Link to="#" className='text-brown dropdown-item' style={{cursor: 'no-drop'}}>Notification Setting</Link></li>
                         <li><Link to="#" className='text-brown dropdown-item' style={{cursor: 'no-drop'}}>Help & Support</Link></li>
                         <li><hr className="dropdown-divider"/></li>
                         <li className="dropdown-item" style={{cursor: 'pointer'}} onClick={handleLogout}>Sign out</li>
                     </ul>
                   </div>
-                </>
-              ) : (
-                <>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="d-flex float-end mx-2">
+                  <div className='' role="button" aria-expanded="false">
+                    <Search/>
+                  </div>
                   <div className='nav-button mx-1'>
                     <button className='btn rounded-pill border border-dark'><Link to="/login" className='text-brown'>Sign In</Link></button>
                   </div>
                   <div className='nav-button mx-1'>
                     <button className='btn rounded-pill border border-dark'><Link to="/register" className='text-brown'><b>Sign Up</b></Link></button>
                   </div>
-                </>
-              )}
-            </div>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>

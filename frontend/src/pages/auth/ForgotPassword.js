@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { Button, Modal } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
-import { handleGetVerifyCode, handleResetPassword, handleCheckVerifyCode, handleLoginApi } from '../../services/userService'
+import { handleGetVerifyCode, handleResetPassword, handleCheckVerifyCode } from '../../services/userService'
 import './Form.css'
 
 const ForgotPassword = () => {
@@ -55,6 +55,7 @@ const ForgotPassword = () => {
         }
 
         if (password !== confPass) {
+            setPasswordValid(false)
             setConfPassValid(false) 
             setErrConfPass('Passwords do not match') 
             return 
