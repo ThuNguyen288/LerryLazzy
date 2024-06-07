@@ -1,82 +1,82 @@
-import React, { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../context/AuthContext';
-import { handleRegisterApi, handleLoginApi } from '../../services/userService';
-import './Form.css';
+import React, { useContext, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { AuthContext } from '../../context/AuthContext'
+import { handleRegisterApi, handleLoginApi } from '../../services/userService'
+import './Form.css'
 
 const Register = () => {
-    const [username, setUsername] = useState('');
-    const [firstname, setFirstname] = useState('');
-    const [lastname, setLastname] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confPass, setConfPass] = useState('');
-    const [agreeTerms, setAgreeTerms] = useState(false);
+    const [username, setUsername] = useState('')
+    const [firstname, setFirstname] = useState('')
+    const [lastname, setLastname] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [confPass, setConfPass] = useState('')
+    const [agreeTerms, setAgreeTerms] = useState(false)
 
-    const [usernameValid, setUsernameValid] = useState(true);
-    const [emailValid, setEmailValid] = useState(true);
-    const [fullnameValid, setFullnameValid] = useState(true);
-    const [passwordValid, setPasswordValid] = useState(true);
-    const [confPassValid, setConfPassValid] = useState(true);
-    const [termValid, setTermValid] = useState(true);
+    const [usernameValid, setUsernameValid] = useState(true)
+    const [emailValid, setEmailValid] = useState(true)
+    const [fullnameValid, setFullnameValid] = useState(true)
+    const [passwordValid, setPasswordValid] = useState(true)
+    const [confPassValid, setConfPassValid] = useState(true)
+    const [termValid, setTermValid] = useState(true)
 
-    const [errUsername, setErrUsername] = useState('');
-    const [errFullname, setErrFullname] = useState('');
-    const [errEmail, setErrEmail] = useState('');
-    const [errPassword, setErrPassword] = useState('');
-    const [errConfPass, setErrConfPass] = useState('');
+    const [errUsername, setErrUsername] = useState('')
+    const [errFullname, setErrFullname] = useState('')
+    const [errEmail, setErrEmail] = useState('')
+    const [errPassword, setErrPassword] = useState('')
+    const [errConfPass, setErrConfPass] = useState('')
 
-    const { login } = useContext(AuthContext);
-    const navigate = useNavigate();
+    const { login } = useContext(AuthContext)
+    const navigate = useNavigate()
     
     const handleRegister = async (event) => {
-        event.preventDefault();
+        event.preventDefault()
 
         if (username.trim() === '') {
-            setUsernameValid(false);
-            setErrUsername('Please enter your username');
-            return;
+            setUsernameValid(false)
+            setErrUsername('Please enter your username')
+            return
         }
 
         if (firstname.trim() === '' || lastname.trim() === '') {
-            setFullnameValid(false);
-            setErrFullname('Please enter your name');
-            return;
+            setFullnameValid(false)
+            setErrFullname('Please enter your name')
+            return
         }
 
         if (email.trim() === '') {
-            setEmailValid(false);
-            setErrEmail('Please enter your email');
-            return;
+            setEmailValid(false)
+            setErrEmail('Please enter your email')
+            return
         }
 
         if (password.trim() === '') {
-            setPasswordValid(false);
-            setErrPassword('Please enter your password');
-            return;
+            setPasswordValid(false)
+            setErrPassword('Please enter your password')
+            return
         }
 
         if (password.trim().length < 8) {
-            setPasswordValid(false);
-            setErrPassword('Password must be at least 8 characters long');
-            return;
+            setPasswordValid(false)
+            setErrPassword('Password must be at least 8 characters long')
+            return
         }
 
         if (confPass.trim() === '') {
-            setConfPassValid(false);
-            setErrConfPass('Please confirm your password');
-            return;
+            setConfPassValid(false)
+            setErrConfPass('Please confirm your password')
+            return
         }
 
         if (password !== confPass) {
-            setConfPassValid(false);
-            setErrConfPass('Passwords do not match');
-            return;
+            setConfPassValid(false)
+            setErrConfPass('Passwords do not match')
+            return
         }
 
         if (!agreeTerms) {
-            setTermValid(false);
-            return;
+            setTermValid(false)
+            return
         }
 
         const userData = {
@@ -85,68 +85,68 @@ const Register = () => {
             lastname,
             email,
             password,
-        };
+        }
 
         try {
-            let data = await handleRegisterApi(userData);
+            let data = await handleRegisterApi(userData)
             
             if (data && data.data.errCode === 1) {
-                setUsernameValid(false);
-                setErrUsername(data.data.errMessage);
+                setUsernameValid(false)
+                setErrUsername(data.data.errMessage)
             } else if (data && data.data.errCode === 0) {
-                let loginResponse = await handleLoginApi(username, password);
+                let loginResponse = await handleLoginApi(username, password)
                 if (loginResponse && loginResponse.data.errCode === 0) {
-                    const { token, user } = loginResponse.data;
-                    login(token, user);
-                    navigate('/home');
-                    alert(data.data.message);
+                    const { token, user } = loginResponse.data
+                    login(token, user)
+                    navigate('/home')
+                    alert(data.data.message)
                 }
             }
         } catch (error) {
-            console.error(error);
+            console.error(error)
         }
-    };
+    }
 
     const handleOnChangeInput = (event) => {
-        const { name, value } = event.target;
+        const { name, value } = event.target
 
         switch (name) {
             case 'username':
-                setUsername(value);
-                setUsernameValid(true);
-                setErrUsername('');
-                break;
+                setUsername(value)
+                setUsernameValid(true)
+                setErrUsername('')
+                break
             case 'firstname':
             case 'lastname':
-                if (name === 'firstname') setFirstname(value);
-                if (name === 'lastname') setLastname(value);
-                setFullnameValid(true);
-                setErrFullname('');
-                break;
+                if (name === 'firstname') setFirstname(value)
+                if (name === 'lastname') setLastname(value)
+                setFullnameValid(true)
+                setErrFullname('')
+                break
             case 'email':
-                setEmail(value);
-                setEmailValid(true);
-                setErrEmail('');
-                break;
+                setEmail(value)
+                setEmailValid(true)
+                setErrEmail('')
+                break
             case 'password':
-                setPassword(value);
-                setPasswordValid(true);
-                setErrPassword('');
-                break;
+                setPassword(value)
+                setPasswordValid(true)
+                setErrPassword('')
+                break
             case 'confPass':
-                setConfPass(value);
-                setConfPassValid(true);
-                setErrConfPass('');
-                break;
+                setConfPass(value)
+                setConfPassValid(true)
+                setErrConfPass('')
+                break
             default:
-                break;
+                break
         }
-    };
+    }
 
     const handleCheckboxChange = (event) => {
-        setAgreeTerms(event.target.checked);
-        setTermValid(true);
-    };
+        setAgreeTerms(event.target.checked)
+        setTermValid(true)
+    }
 
     return (
         <section className="vh-100 gradient-custom">
@@ -258,6 +258,7 @@ const Register = () => {
                                                 {errConfPass}
                                             </div>
                                         </div>
+                                        
                                         <div className="mb-4">
                                             <input 
                                                 type='checkbox' 
@@ -285,7 +286,7 @@ const Register = () => {
                 </div>
             </div>
         </section>
-    );
-};
+    )
+}
 
-export default Register;
+export default Register

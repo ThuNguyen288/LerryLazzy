@@ -138,7 +138,7 @@ const Login = () => {
                                         </div>
 
                                         <div className="d-flex justify-content-end mb-4">
-                                            <Link to ="/login/forgotpassword"className="small mb-2 pb-lg-2 text-secondary forgot">Forgot password?</Link>
+                                            <Link to ="/reset-password"className="small mb-2 pb-lg-2 text-secondary forgot">Forgot password?</Link>
                                         </div>
                                         
                                         

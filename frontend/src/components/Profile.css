@@ -24,3 +24,18 @@
   .profile .label{
     width: 100px;
   }
+
+.profile {
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.label {
+    font-weight: bold;
+}
+
+

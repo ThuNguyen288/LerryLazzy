@@ -1,4 +1,4 @@
-import db from '../models/index';
+import db from '../models/index'
 
 // Function to create new product
 let createNewProduct = (data) => {
@@ -12,12 +12,12 @@ let createNewProduct = (data) => {
                 SubcategoryID: subcategoryid,
                 Image: data.image
             })
-            resolve(product);
+            resolve(product)
         } catch (error) {
-            reject(error);
+            reject(error)
         }
-    });
-};
+    })
+}
 
 // Function to get all product by CategoryID
 let getProductsByCategory = (categoryid) => {
@@ -25,13 +25,13 @@ let getProductsByCategory = (categoryid) => {
         try {
             let products = await db.Product.findAll({
                 where: { CategoryID: categoryid },
-            });
-            resolve(products);
+            })
+            resolve(products)
         } catch (error) {
-            reject(error);
+            reject(error)
         }
-    });
-};
+    })
+}
 
 // Function to get all product by SubcategoryID
 let getProductsBySubcategory = (subcategoryid) => {
@@ -39,13 +39,13 @@ let getProductsBySubcategory = (subcategoryid) => {
         try {
             let products = await db.Product.findAll({
                 where: { SubcategoryID: subcategoryid },
-            });
-            resolve(products);
+            })
+            resolve(products)
         } catch (error) {
-            reject(error);
+            reject(error)
         }
-    });
-};
+    })
+}
 
 // Function to get product by id
 let getProductById = (productid) => {
@@ -53,14 +53,14 @@ let getProductById = (productid) => {
         try {
             let product = await db.Product.findOne({
                 where: { ProductID: productid },
-            });
-            resolve(product);
+            })
+            resolve(product)
         } catch (error) {
-            console.error('Error in getProductWithDetails function:', error);
-            reject(error);
+            console.error('Error in getProductWithDetails function:', error)
+            reject(error)
         }
-    });
-};
+    })
+}
 
 // Function to get all products
 let getAllProducts = () => {
@@ -70,14 +70,14 @@ let getAllProducts = () => {
                 include: [{
                     model: db.Review,
                 }],
-            });
-            console.log('Get all products: ', products);
-            resolve(products);
+            })
+            console.log('Get all products: ', products)
+            resolve(products)
         } catch (error) {
-            reject(error);
+            reject(error)
         }
-    });
-};
+    })
+}
 
 
 // Function to calculate average rating of product
@@ -91,15 +91,15 @@ let calAverageRating = (productid) => {
                 where: { ProductID: productid },
                 group: ['ProductID'],
                 order: ['ProductID']
-            });
+            })
 
-            resolve(result ? result.AverageRating || 0 : 0);
+            resolve(result ? result.AverageRating || 0 : 0)
         } catch (error) {
-            console.error('Error in calculateAverageRating:', error);
-            reject(error);
+            console.error('Error in calculateAverageRating:', error)
+            reject(error)
         }
-    });
-};
+    })
+}
 
 // Function to calculate total ordered of product
 let calTotalOrders = (productid) => {
@@ -112,15 +112,15 @@ let calTotalOrders = (productid) => {
                 where: { ProductID: productid },
                 group: ['ProductID'],
                 order: ['ProductID']
-            });
+            })
 
-            resolve(result ? result.OrderCount || 0 : 0);
+            resolve(result ? result.OrderCount || 0 : 0)
         } catch (error) {
-            console.error('Error in calculateTotalOrders:', error);
-            reject(error);
+            console.error('Error in calculateTotalOrders:', error)
+            reject(error)
         }
-    });
-};
+    })
+}
 
 module.exports = {
     createNewProduct: createNewProduct,
@@ -130,5 +130,5 @@ module.exports = {
     getAllProducts: getAllProducts,
     calAverageRating: calAverageRating,
     calTotalOrders: calTotalOrders,
-};
+}
 

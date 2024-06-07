@@ -27,13 +27,13 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/login/forgotpassword" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ForgotPassword />} />
             <Route path="/register" element={<Register />} />
             <Route path="/product/:category" element={<ProductPage />} />
             <Route path="/product/product/:subcategory" element={<ProductPage />} />
             <Route path="/product/detail/:productid" element={<ProductInfo />} />
             <Route path="/home" element={<PrivateRoute><HomePage /></PrivateRoute>} />
-            <Route path="/account/:username/*" element={<PrivateRoute><Account/></PrivateRoute>} />
+            <Route path="/account/:username" element={<PrivateRoute><Account/></PrivateRoute>} />
             <Route path="order" element={<PrivateRoute><Order/></PrivateRoute>} />
             <Route path="wishlist" element={<WishList/>} />
             <Route path="cart" element={<Cart/>} />
