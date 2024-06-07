@@ -31,27 +31,27 @@ const Login = () => {
         }
         
         try {
-            const data = await handleLoginApi(username, password)
-            console.log("API response:", data)
+            const response = await handleLoginApi(username, password)
+            console.log("API response:", response)
 
-            if (data.errCode === 0) {
-                const { token, user } = data
+            if (response.errCode === 0) {
+                const { token, user } = response
                 if (token && user) {
                     console.log("Login successful:", token, user)
                     login(token, user)
                     navigate('/home')
-                    alert(data.message)
+                    alert(response.errMessage)
                 } else {
                     throw new Error('Invalid response: missing token or user')
                 }
-            } else if (data.errCode === 1) {
+            } else if (response.errCode === 1) {
                 setIsValid(false)
-                setErrUsername(data.message)
-            } else if (data.errCode === 3) {
+                setErrUsername(response.errMessage)
+            } else if (response.errCode === 3) {
                 setIsValidP(false)
-                setErrPassword(data.message)
+                setErrPassword(response.errMessage)
             } else {
-                console.error('Unhandled API error:', data)
+                console.error('Unhandled API error:', response)
             }
         } catch (error) {
             console.error('Login error:', error)

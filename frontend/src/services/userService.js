@@ -52,6 +52,15 @@ let handleChangePassword = (token, oldpassword, newpassword) => {
     })
 }
 
+let handleDeleteUserAccount = (token) => {
+    return axios.delete('/api/protected/delete-account', {
+        headers: {
+            'Authorization': 'Bearer ' + token,
+            'Content-Type': 'application/json'
+        }
+    })
+}
+
 export {
     handleLoginApi,
     handleRegisterApi,
@@ -60,6 +69,7 @@ export {
     handleGetVerifyCode,
     handleCheckVerifyCode,
     handleResetPassword,
-    handleChangePassword
+    handleChangePassword,
+    handleDeleteUserAccount
 } 
 

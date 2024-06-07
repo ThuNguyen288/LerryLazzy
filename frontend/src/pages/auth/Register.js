@@ -89,18 +89,20 @@ const Register = () => {
         }
 
         try {
-            let data = await handleRegisterApi(userData)
+            let response = await handleRegisterApi(userData)
+            console.log(response)
             
-            if (data && data.data.errCode === 1) {
+            if (response && response.errCode === 1) {
                 setUsernameValid(false)
-                setErrUsername(data.data.errMessage)
-            } else if (data && data.data.errCode === 0) {
+                setErrUsername(response.errMessage)
+            } else if (response && response.errCode === 0) {
                 let loginResponse = await handleLoginApi(username, password)
-                if (loginResponse && loginResponse.data.errCode === 0) {
-                    const { token, user } = loginResponse.data
+                console.log(loginResponse)
+                if (loginResponse && loginResponse.errCode === 0) {
+                    const { token, user } = loginResponse;
                     login(token, user)
                     navigate('/home')
-                    alert(data.data.message)
+                    alert(response.errMessage)
                 }
             }
         } catch (error) {

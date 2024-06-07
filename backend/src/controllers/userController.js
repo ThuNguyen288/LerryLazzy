@@ -16,14 +16,9 @@ let handleLogin = async (req, res) => {
             })
         }
 
-        let userData = await userService.handleUserLogin(username, password)
+        let message = await userService.handleUserLogin(username, password)
         
-        return res.status(200).json({
-            errCode: userData.errCode,
-            message: userData.errMessage,
-            user: userData.user ? userData.user : {},
-            token: userData.token
-        })
+        return res.status(200).json(message)
     } catch (error) {
         return res.status(500).json({
             errCode: -1,
@@ -34,14 +29,9 @@ let handleLogin = async (req, res) => {
 
 let handleRegister = async (req, res) => {
     try {
-        let userData = await userService.handleUserRegister(req.body)
-        console.log(userData)
-        return res.status(200).json({
-            errCode: userData.errCode,
-            message: userData.errMessage,
-            token: userData.token,
-            user: userData.user
-        })
+        let message = await userService.handleUserRegister(req.body)
+        console.log(message)
+        return res.status(200).json(message)
     } catch (error) {
         console.error(error)
         return res.status(500).json({
@@ -169,13 +159,14 @@ let handleResetPassword = async (req, res) => {
 
 let handleDeleteAccount = async (req, res) => {
     try {
-        if (!req.body.id) {
+        let username = req.username
+        if (!username) {
             return res.status(400).json({
                 errCode: 1,
                 message: 'Missing required parameter!'
             })
         }
-        let message = await userService.deleteAccount(req.body.id)
+        let message = await userService.deleteAccount(username)
         return res.status(200).json(message)
     } catch (error) {
         console.error('Error handling delete account request: ', error)

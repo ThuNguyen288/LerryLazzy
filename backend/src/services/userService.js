@@ -98,6 +98,7 @@ let handleUserRegister = (data) => {
                     email: newUser.Email,
                 }    
 
+                userData.errCode = 0
                 userData.errMessage = 'Create account successfully'    
             } else {
                 userData.errCode = 1    
@@ -344,24 +345,22 @@ let resetPassword = (username, code, password) => {
             let userData = {
                 errCode: 0,
                 errMessage: ''
-            }    
+            }
 
             let user = await db.User.findOne({
                 where: { Username: username }
-            })    
+            })
 
             if (!user) {
-                userData.errCode = 1    
+                userData.errCode = 1
                 userData.errMessage = 'User not found!'    
                 resolve(userData)    
-                return    
             }
 
             if (user.Code.toString() !== code) {
                 userData.errCode = 3    
                 userData.errMessage = 'Invalid verify code. Please try again!'    
                 resolve(userData)    
-                return    
             }
 
             let hashPassword = await hashUserPassword(password)    
@@ -369,7 +368,6 @@ let resetPassword = (username, code, password) => {
                 userData.errCode = 4    
                 userData.errMessage = 'New password matches old password. Please choose a different one.'    
                 resolve(userData)    
-                return    
             }
 
             await db.User.update({
@@ -379,9 +377,10 @@ let resetPassword = (username, code, password) => {
                 where: { Username: username }
             })    
 
-            userData.errCode = 0  
+            userData.errCode = 0
             userData.errMessage = 'Password reset successfully!'    
             resolve(userData)
+
         } catch (error) {
             reject(error)    
         } 
@@ -389,27 +388,31 @@ let resetPassword = (username, code, password) => {
 }     
 
 // Function to delete account
-let deleteAccount = (id) => {
+let deleteAccount = (username) => {
     return new Promise (async (resolve, reject) => {
         try {
-            let user = await db.User.findOne({
-                where: { UserID: id }
-            })
-            if (!user) {
-                resolve({
-                    errCode: 2,
-                    errMessage: "Account not found"
-                })  
-            } else {
-                await db.User.destroy({
-                    where: { UserID: id }
-                })  
-                resolve({
-                    errCode: 0,
-                    message: "Account deleted successfully"
-                })  
+            let userData = {
+                errCode: 0,
+                errMessage: ''
             }
-            console.log(user)  
+
+            let user = await db.User.findOne({
+                where: { Username: username }
+            })
+            
+            if (!user) {
+                userData.errCode = 1
+                userData.errMessage = 'User not found!'
+                resolve(userData)
+            } 
+                
+            await db.User.destroy({
+                where: { Username: username }
+            })
+            userData.errCode = 0
+            userData.errMessage = 'Account deleted successfully!'
+            resolve(userData)
+
         } catch (error) {
             reject(error)  
         }

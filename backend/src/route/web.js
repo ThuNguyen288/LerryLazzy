@@ -12,7 +12,6 @@ let initWebRoutes = (app) => { //rest api
     router.post('/reset-password/request', userController.handleRequestResetPassword)
     router.post('/reset-password/enter-code', userController.handleEnterCode)
     router.put('/reset-password', userController.handleResetPassword)
-    router.delete('/delete-account', userController.handleDeleteAccount)
 
     // Routes for product
     router.get('/product', productController.displayProducts)

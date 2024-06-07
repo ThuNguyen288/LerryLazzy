@@ -33,7 +33,7 @@ const SideBar = () => {
                             <span><ChevronRightIcon className='float-end icon mt-1' size={16} /></span>
                         </button>
                     </Link>
-                    <Link to="wishlist" className="text-decoration-none text-brown link" onClick={() => handleLinkClick("/wishlist")}>
+                    <Link to="favorite" className="text-decoration-none text-brown link" onClick={() => handleLinkClick("/favorite")}>
                         <button className="sidebar-item">
                             Favorite
                             <span><ChevronRightIcon className='float-end icon mt-1' size={16} /></span>

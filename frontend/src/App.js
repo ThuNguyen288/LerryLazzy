@@ -1,25 +1,27 @@
-import React, { useState } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import './App.css';
-import Alert from './components/Alert';
-import Cart from './components/Cart';
-import Order from './components/Order';
-import Profile from './components/Profile';
-import WishList from './components/WishList';
-import { AuthProvider } from './context/AuthContext';
-import PrivateRoute from './context/PrivateRoute';
-import Account from './pages/Account';
-import Login from './pages/auth/Login';
-import Register from './pages/auth/Register';
-import HomePage from './pages/HomePage';
-import ProductInfo from './pages/ProductInfo';
-import ProductPage from './pages/ProductPage';
-import ChangePassword from './components/ChangePassword';
-import ForgotPassword from './pages/auth/ForgotPassword';
+import React from 'react'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+
+import Login from './pages/auth/Login'
+import Register from './pages/auth/Register'
+import ForgotPassword from './pages/auth/ForgotPassword'
+
+import HomePage from './pages/HomePage'
+import Account from './pages/Account'
+import ProductInfo from './pages/ProductInfo'
+import ProductPage from './pages/ProductPage'
+
+import Cart from './components/Cart'
+import Order from './components/Order'
+import Profile from './components/Profile'
+import WishList from './components/Favorite'
+import ChangePassword from './components/ChangePassword'
+
+import { AuthProvider } from './context/AuthContext'
+import PrivateRoute from './context/PrivateRoute'
+
+import './App.css'
 
 function App() {
-  const [errorMessage, updateErrorMessage] = useState(null);
-
   return (
     <div className='outfit text-brown bg-img'>
       <AuthProvider>
@@ -35,16 +37,15 @@ function App() {
             <Route path="/home" element={<PrivateRoute><HomePage /></PrivateRoute>} />
             <Route path="/account/:username/*" element={<PrivateRoute><Account/></PrivateRoute>} />
             <Route path="order" element={<PrivateRoute><Order/></PrivateRoute>} />
-            <Route path="wishlist" element={<PrivateRoute><WishList/></PrivateRoute>} />
+            <Route path="favorite" element={<PrivateRoute><WishList/></PrivateRoute>} />
             <Route path="cart" element={<PrivateRoute><Cart/></PrivateRoute>} />
             <Route path="profile" index element={<PrivateRoute><Profile/></PrivateRoute>} />
             <Route path="changepassword" element={<PrivateRoute><ChangePassword/></PrivateRoute>} />
           </Routes>
-          <Alert errorMessage={errorMessage} hideError={updateErrorMessage}/>
         </BrowserRouter>
       </AuthProvider>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
