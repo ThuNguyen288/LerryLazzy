@@ -33,12 +33,12 @@ function App() {
             <Route path="/product/product/:subcategory" element={<ProductPage />} />
             <Route path="/product/detail/:productid" element={<ProductInfo />} />
             <Route path="/home" element={<PrivateRoute><HomePage /></PrivateRoute>} />
-            <Route path="/account/:username" element={<PrivateRoute><Account/></PrivateRoute>} />
+            <Route path="/account/:username/*" element={<PrivateRoute><Account/></PrivateRoute>} />
             <Route path="order" element={<PrivateRoute><Order/></PrivateRoute>} />
-            <Route path="wishlist" element={<WishList/>} />
-            <Route path="cart" element={<Cart/>} />
-            <Route path="profile" index element={<Profile/>} />
-            <Route path="changepassword" element={<ChangePassword/>} />
+            <Route path="wishlist" element={<PrivateRoute><WishList/></PrivateRoute>} />
+            <Route path="cart" element={<PrivateRoute><Cart/></PrivateRoute>} />
+            <Route path="profile" index element={<PrivateRoute><Profile/></PrivateRoute>} />
+            <Route path="changepassword" element={<PrivateRoute><ChangePassword/></PrivateRoute>} />
           </Routes>
           <Alert errorMessage={errorMessage} hideError={updateErrorMessage}/>
         </BrowserRouter>

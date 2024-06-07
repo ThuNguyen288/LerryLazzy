@@ -1,167 +1,171 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../context/AuthContext';
-import { handleShowProfile, handleUpdateProfile } from '../services/userService';
-import "./Profile.css";
-import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
+import React, { useContext, useEffect, useState } from 'react'
+import 'bootstrap/dist/css/bootstrap.min.css' // Import Bootstrap CSS
+
+import { AuthContext } from '../context/AuthContext'
+import { handleShowProfile, handleUpdateProfile } from '../services/userService'
+
+import "./Profile.css" 
 
 const Profile = () => {
-    const { isAuthenticated } = useContext(AuthContext);
-    const [isEditing, setIsEditing] = useState(false);
-    const [profile, setProfile] = useState({});
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const { isAuthenticated } = useContext(AuthContext)
+    const [isEditing, setIsEditing] = useState(false)
+    const [profile, setProfile] = useState({})
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(null)
 
     useEffect(() => {
         const fetchData = async () => {
-            try {
-                const token = localStorage.getItem('token');
-                console.log("This is token:", token);
-
-                const response = await handleShowProfile(token);
-                console.log("Fetched user data:", response.data);
-                setProfile(response.data.user);
-                setLoading(false);
-            } catch (error) {
-                setError(error);
-                setLoading(false);
-            }
+          setLoading(true)
+          try {
+            const token = localStorage.getItem('token')
+            const response = await handleShowProfile(token)
+            setProfile(response.data.user)
+          } catch (error) {
+            setError(error) 
+            console.error('Error fetching profile:', error)
+          } finally {
+            setLoading(false) 
+          }
         }
-        fetchData();
-    }, [isAuthenticated.token]);
+        fetchData()
+      }, [isAuthenticated.token])
 
-    const handleEditClick = () => {
-        setIsEditing(!isEditing);
-    };
+    const handleEditClick = (event) => {
+        event.preventDefault()
+        setIsEditing(true)
+    }
+
+    const handleEditCancel = (event) => {
+        event.preventDefault()
+        setIsEditing(false)
+    }
 
     const handleChange = (event) => {
-        const { name, value } = event.target;
-        setProfile({
-            ...profile,
+        const { name, value } = event.target
+        setProfile(prevProfile => ({
+            ...prevProfile,
             [name]: value
-        });
-    };
+        }))
+    }
 
     const handleChangeProfile = async (event) => {
-        event.preventDefault();
+        event.preventDefault()
         try {
-            const token = localStorage.getItem('token');
-            let response = await handleUpdateProfile(token, profile);
-            alert(response.data.message);
+            const token = localStorage.getItem('token')
+            console.log("Dữ liệu gửi đi:", profile)
+            const response = await handleUpdateProfile(token, profile)
+        
+            console.log("Updated user data:", response)
+
+            const responseShow = await handleShowProfile(token)
+
+            console.log(responseShow.data.user)
+        
+            setProfile(responseShow.data.user)
+            setIsEditing(false)
         } catch (error) {
-            console.error('Error updating profile:', error);
+            console.error('Error updating profile:', error)
         }
-        setIsEditing(false);
-    };
+    }
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <div>Loading...</div>
     }
 
     if (error) {
-        return <div>Error: {error.message}</div>;
+        return <div>Error: {error.message}</div>
     }
 
     return (
         <div className='profile container'>
+            <form onSubmit={handleChangeProfile}>
+                <div className="form-row mb-3">
+                    <div className="col">
+                        <label htmlFor="firstname" className="col-form-label">First Name</label>
+                        <input
+                            type="text"
+                            id="firstname"
+                            name="Firstname"
+                            value={profile.Firstname || ''}
+                            onChange={handleChange}
+                            className="form-control"
+                            disabled={!isEditing}
+                        />
+                    </div>
+                </div>
+                <div className="form-row mb-3">
+                    <div className="col">
+                        <label htmlFor="lastname" className="col-form-label">Last Name</label>
+                        <input
+                            type="text"
+                            id="lastname"
+                            name="Lastname"
+                            value={profile.Lastname || ''}
+                            onChange={handleChange}
+                            className="form-control"
+                            disabled={!isEditing}
+                        />
+                    </div>
+                </div>
+                <div className="form-row mb-3">
+                    <div className="col">
+                        <label htmlFor="address" className="col-form-label">Address</label>
+                        <input
+                            type="text"
+                            id="address"
+                            name="Address"
+                            value={profile.Address}
+                            onChange={handleChange}
+                            className="form-control"
+                            disabled={!isEditing}
+                        />
+                    </div>
+                </div>
+                <div className="form-row mb-3">
+                    <div className="col">
+                        <label htmlFor="email" className="col-form-label">Email</label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="Email"
+                            value={profile.Email || ''}
+                            onChange={handleChange}
+                            className="form-control"
+                            disabled={!isEditing}
+                        />
+                    </div>
+                </div>
+                <div className="form-row mb-3">
+                    <div className="col">
+                        <label htmlFor="phone" className="col-form-label">Phone</label>
+                        <input
+                            type="text"
+                            id="phone"
+                            name="Phone"
+                            value={profile.Phone || ''}
+                            onChange={handleChange}
+                            className="form-control"
+                            disabled={!isEditing}
+                        />
+                    </div>
+                </div>
             {!isEditing ? (
-                <div>
-                    <div className="row mb-3">
-                        <div className="col-md-6">
-                            <h6>First Name</h6>
-                            <p>{profile.Firstname}</p>
-                        </div>
-                        <div className="col-md-6">
-                            <h6>Last Name</h6>
-                            <p>{profile.Lastname}</p>
-                        </div>
+                <div className="form-row">
+                    <div className="col">
+                        <button className="btn btn-primary" onClick={handleEditClick}>Edit</button>
                     </div>
-                    <div className="row mb-3">
-                        <div className="col-md-6">
-                            <h6>Address</h6>
-                            <p>{profile.Address}</p>
-                        </div>
-                        <div className="col-md-6">
-                            <h6>Email</h6>
-                            <p>{profile.Email}</p>
-                        </div>
-                    </div>
-                    <div className="row mb-3">
-                        <div className="col-md-6">
-                            <h6>Phone</h6>
-                            <p>{profile.Phone}</p>
-                        </div>
-                    </div>
-                    <button className='btn btn-primary' onClick={handleEditClick}>Edit</button>
                 </div>
             ) : (
-                <form onSubmit={handleChangeProfile} className='mx-auto'>
-                    <h2>Edit Account Information</h2>
-                    <div className="form-group">
-                        <label className='label'>
-                            First Name:
-                            <input
-                                type="text"
-                                className="form-control"
-                                name="Firstname"
-                                value={profile.Firstname || ''}
-                                onChange={handleChange}
-                            />
-                        </label>
+                <div className="form-row">
+                    <div className="col">
+                        <button type="submit" className="btn btn-success">Save</button>
+                        <button type="button" className="btn btn-secondary" onClick={handleEditCancel}>Cancel</button>
                     </div>
-                    <div className="form-group">
-                        <label className='label'>
-                            Last Name:
-                            <input
-                                type="text"
-                                className="form-control"
-                                name="Lastname"
-                                value={profile.Lastname || ''}
-                                onChange={handleChange}
-                            />
-                        </label>
-                    </div>
-                    <div className="form-group">
-                        <label className='label'>
-                            Address:
-                            <input
-                                type="text"
-                                className="form-control"
-                                name="Address"
-                                value={profile.Address || ''}
-                                onChange={handleChange}
-                            />
-                        </label>
-                    </div>
-                    <div className="form-group">
-                        <label className='label'>
-                            Email:
-                            <input
-                                type="email"
-                                className="form-control"
-                                name="Email"
-                                value={profile.Email || ''}
-                                onChange={handleChange}
-                            />
-                        </label>
-                    </div>
-                    <div className="form-group">
-                        <label className='label'>
-                            Phone:
-                            <input
-                                type="tel"
-                                className="form-control"
-                                name="Phone"
-                                value={profile.Phone || ''}
-                                onChange={handleChange}
-                            />
-                        </label>
-                    </div>
-                    <button type="submit" className="btn btn-success">Save</button>
-                    <button type="button" className="btn btn-secondary" onClick={handleEditClick}>Cancel</button>
-                </form>
+                </div>
             )}
+            </form>
         </div>
-    )
+    )         
 }
 
-export default Profile;
+export default Profile

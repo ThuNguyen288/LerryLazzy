@@ -71,9 +71,7 @@ let handleChangeProfile = async (req, res) => {
     try {
         let data = req.body
         let username = req.username
-        console.log(username)
         let message = await userService.updateProfile(username, data)
-        console.log(message)
         return res.status(200).json(message)
     } catch (error) {
         console.error('Error handling profile change request: ', error)

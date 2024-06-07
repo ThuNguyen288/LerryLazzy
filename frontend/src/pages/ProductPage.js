@@ -1,16 +1,16 @@
-import React from "react";
-import { useParams } from "react-router-dom";
-import Footer from "../components/Footer";
-import Item from "../components/Item";
-import NavBar from "../components/NavBar";
-import './ProductPage.css';
+import React from "react"
+import { useParams } from "react-router-dom"
+import Footer from "../components/Footer"
+import Item from "../components/Item"
+import NavBar from "../components/NavBar"
+import './ProductPage.css'
 
 const categoryMap = {
     wool: 1,
     product: 2,
     material: 3,
     tool: 4
-};
+}
 
 const subcategoryMap = {
     animal: 1,
@@ -22,11 +22,15 @@ const subcategoryMap = {
     other: 7
 }
 
-const ProductPage = () => {
-    const { category, subcategory } = useParams();
+const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1)
+}
 
-    const categoryid = category ? categoryMap[category.toLowerCase()] : null;
-    const subcategoryid = subcategory ? subcategoryMap[subcategory.toLowerCase()] : null;
+const ProductPage = () => {
+    const { category, subcategory } = useParams()
+
+    const categoryid = category ? categoryMap[category.toLowerCase()] : null
+    const subcategoryid = subcategory ? subcategoryMap[subcategory.toLowerCase()] : null
 
     return (
         <div className="bg-1">
@@ -37,11 +41,11 @@ const ProductPage = () => {
                         <li className="breadcrumb-item"><a className="breadcrumb-link" href="/">Home</a></li>
                         {subcategory ? (
                             <>
-                                <li className="breadcrumb-item"><a className="breadcrumb-link" href="/product/product">product</a></li>
-                                <li className="breadcrumb-item active" aria-current="page">{subcategory}</li>
+                                <li className="breadcrumb-item"><a className="breadcrumb-link" href="/product/product">{capitalizeFirstLetter('product')}</a></li>
+                                <li className="breadcrumb-item active" aria-current="page">{capitalizeFirstLetter(subcategory)}</li>
                             </>
                         ) : (
-                            category && <li className="breadcrumb-item active" aria-current="page">{category}</li>
+                            category && <li className="breadcrumb-item active" aria-current="page">{capitalizeFirstLetter(category)}</li>
                         )}
                     </ol>
                 </nav>
@@ -52,7 +56,7 @@ const ProductPage = () => {
             </div>
             <Footer />
         </div>
-    );
-};
+    )
+}
 
-export default ProductPage;
+export default ProductPage

@@ -29,6 +29,7 @@ const ChangePassword = () => {
 
     return (
         <div className="justify-content-center bg-white mx-auto px-3 changePassword">
+            
             <form onSubmit={handleSubmit} className="w-100">
                 <table className="">
                         <tr className="">

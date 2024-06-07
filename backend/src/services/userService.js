@@ -2,6 +2,7 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import db from '../models/index'
 import { sendResetPasswordEmail } from "./emailService"
+import { where } from 'sequelize'
 
 const saltRounds = 10  
 
@@ -141,7 +142,8 @@ let findUserByUsername = (username) => {
     return new Promise(async (resolve, reject) => {
         try {
             let user = await db.User.findOne({
-                where: { Username: username }
+                where: { Username: username },
+                attributes: ['Firstname', 'Lastname', 'Email', 'Address', 'Phone']
             })  
             if (!user) {
                 resolve({
@@ -180,19 +182,25 @@ let updateProfile = (username, data) => {
                 })  
             } else {
                 await db.User.update({
-                    Firstname: data.firstname,
-                    Lastname: data.lastname,
-                    Phone: data.phone,
-                    Email: data.email,
-                    Address: data.address
+                    Firstname: data.Firstname,
+                    Lastname: data.Lastname,
+                    Email: data.Email,
+                    Address: data.Address,
+                    Phone: data.Phone
                 }, {
-                    where: { Username: username }
-                })  
+                    where: { Username: username },
+                })
+
+                const updateUser = await db.User.findOne({
+                    where: { Username: username },
+                    attributes: ['Firstname', 'Lastname', 'Phone', 'Email', 'Address']
+                })
 
                 resolve({
                     errCode: 0,
-                    message: 'Profile updated successfully!'
-                })  
+                    errMessage: 'Profile updated successfully!',
+                    data: updateUser
+                }) 
             }
         } catch (error) {
             reject(error)  

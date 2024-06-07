@@ -44,7 +44,6 @@ const Account = () => {
             <div  className="container">
                 <h1 className="text-center p-5">My Account</h1>
                 <SideBar/>
-                  
             </div>
         </div>
     );
