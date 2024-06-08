@@ -18,7 +18,7 @@ let hashUserPassword = (password) => {
 }  
 
 // Function to handle user login
-let handleUserLogin = (username, password) => {
+let userLogin = (username, password) => {
     return new Promise (async (resolve, reject) => {
         try {
             let userData = {
@@ -31,18 +31,19 @@ let handleUserLogin = (username, password) => {
             if (isExist) {
                 // User already exists
                 let user = await db.User.findOne({
-                    attributes: ['Username', 'Password', 'Role'],
+                    attributes: ['UserID', 'Username', 'Password', 'Role'],
                     where: { Username : username },
                 })    
 
                 if (user) {
                     // Compare password
-                    let isPasswordValid = await bcrypt.compareSync(password, user.Password)    
+                    let isPasswordValid = await bcrypt.compare(password, user.Password)    
 
                     if (isPasswordValid) {
-                        const token = createToken(user)    
-                        userData.token = token    
-                        userData.user = user    
+                        userData.token = createToken(user)
+                        userData.user = user
+                        delete userData.user.Password
+
                         userData.errMessage = 'Login successfully!'    
                     } else {
                         userData.errCode = 3    
@@ -67,7 +68,7 @@ let handleUserLogin = (username, password) => {
 }  
 
 // Function to handle user register
-let handleUserRegister = (data) => {
+let userRegister = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
             let userData = {
@@ -88,8 +89,7 @@ let handleUserRegister = (data) => {
                     Role: 'customer' 
                 })    
 
-                const token = createToken(newUser)    
-                userData.token = token    
+                userData.token = createToken(newUser)   
                 userData.user = {
                     username: newUser.Username,
                     password: newUser.Password,
@@ -98,7 +98,6 @@ let handleUserRegister = (data) => {
                     email: newUser.Email,
                 }    
 
-                userData.errCode = 0
                 userData.errMessage = 'Create account successfully'    
             } else {
                 userData.errCode = 1    
@@ -114,10 +113,13 @@ let handleUserRegister = (data) => {
 
 // Function to create token
 let createToken = (user) => {
-    const payload = { username: user.Username, role: user.Role, }  
-    const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' })  
-    return token  
-}  
+    const payload = { userid: user.UserID, username: user.Username, role: user.Role }
+    const secret = process.env.ACCESS_TOKEN_SECRET
+    const options = { expiresIn: '1h' }
+
+    return jwt.sign(payload, secret, options)
+   
+}
 
 // Function to check username exists
 let checkUsername = (username) => {
@@ -258,7 +260,7 @@ let changePassword = (username, oldpassword, newpassword) => {
             }, { 
                 where: { Username: username } 
             })
-            userData.errCode = 0
+            
             userData.errMessage = 'Password changed successfully!'
             resolve(userData)
 
@@ -291,7 +293,6 @@ let requestResetPassword = (username, email) => {
 
             } else {
                 await sendResetPasswordEmail(email, username)
-                userData.errCode = 0
                 userData.errMessage = 'Request to reset password sent successfully! Please check your email'    
             }
 
@@ -329,7 +330,7 @@ let checkVerifyCode = (username, code) => {
                 return    
             }
 
-            userData.errCode = 0  
+              
             userData.errMessage = 'Verify code is correct!'    
             resolve(userData)
         } catch (error) {
@@ -377,7 +378,7 @@ let resetPassword = (username, code, password) => {
                 where: { Username: username }
             })    
 
-            userData.errCode = 0
+            
             userData.errMessage = 'Password reset successfully!'    
             resolve(userData)
 
@@ -409,7 +410,7 @@ let deleteAccount = (username) => {
             await db.User.destroy({
                 where: { Username: username }
             })
-            userData.errCode = 0
+            
             userData.errMessage = 'Account deleted successfully!'
             resolve(userData)
 
@@ -420,9 +421,8 @@ let deleteAccount = (username) => {
 }  
 
 module.exports = {
-    handleUserLogin: handleUserLogin,
-    handleUserRegister: handleUserRegister,
-    createToken: createToken,
+    userLogin: userLogin,
+    userRegister: userRegister,
     checkUsername: checkUsername,
     findUserByUsername: findUserByUsername,
     updateProfile: updateProfile,

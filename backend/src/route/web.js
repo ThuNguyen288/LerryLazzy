@@ -1,10 +1,11 @@
 import express from "express"
-import productController from '../controllers/productController'
 import userController from '../controllers/userController'
+import productController from '../controllers/productController'
+
+
 let router = express.Router()
 
 let initWebRoutes = (app) => { //rest api
-
 
     // Routes for user
     router.post('/register', userController.handleRegister)

@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom"
 import Footer from "../components/Footer"
 import Item from "../components/Item"
 import NavBar from "../components/NavBar"
-import './ProductPage.css'
+import './ProductPage.scss'
 
 const categoryMap = {
     wool: 1,

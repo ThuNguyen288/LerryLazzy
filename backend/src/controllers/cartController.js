@@ -1,0 +1,76 @@
+import cartService from '../services/cartService'
+
+let handleAddToCart = async (req, res) => {
+    try {
+        let userid = req.user.userid
+        let { productid } = req.body
+
+        if (!userid) {
+            return res.status(401).json({
+                errCode: 1,
+                message: 'You need to login first',
+            })
+        }
+
+        let message = await cartService.addProductToCart(userid, productid)
+        return res.status(200).json(message)
+        
+    } catch (error) {
+        console.error('Error handling add to cart request: ', error)
+        return res.status(500).json({
+            errCode: -1,
+            message: 'An internal server error occurred.'
+        })
+    }
+}
+
+let handleShowCart = async (req, res) => {
+    try {
+        let userid = req.user.userid
+
+        if (!userid) {
+            return res.status(401).json({
+                errCode: 1,
+                message: 'You need to login first',
+            })
+        }
+        
+        let message = await cartService.showCart(userid)
+        return res.status(200).json(message)
+    } catch (error) {
+        console.error('Error handling show cart request: ', error)
+        return res.status(500).json({
+            errCode: -1,
+            message: 'An internal server error occurred.'
+        })
+    }
+}
+
+let handleRemoveFromCart = async (req, res) => {
+    try {
+        let userid = req.user.userid
+        let { productid } = req.body
+
+        if (!userid) {
+            return res.status(401).json({
+                errCode: 1,
+                message: 'You need to login first',
+            })
+        }
+
+        let message = await cartService.removeProductFromCart(userid, productid)
+        return res.status(200).json(message)
+    } catch (error) {
+        console.error('Error handling delete from cart request: ', error)
+        return res.status(500).json({
+            errCode: -1,
+            message: 'An internal server error occurred.'
+        })
+    }
+}
+
+module.exports = {
+    handleAddToCart,
+    handleShowCart,
+    handleRemoveFromCart
+}

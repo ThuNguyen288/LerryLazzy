@@ -56,7 +56,7 @@ let getProductById = (productid) => {
             })
             resolve(product)
         } catch (error) {
-            console.error('Error in getProductWithDetails function:', error)
+            console.error('Error in function:', error)
             reject(error)
         }
     })
@@ -92,8 +92,12 @@ let calAverageRating = (productid) => {
                 group: ['ProductID'],
                 order: ['ProductID']
             })
-
-            resolve(result ? result.AverageRating || 0 : 0)
+            
+            if (result && result.AverageRating) {
+                resolve(result.AverageRating)
+            } else {
+                resolve(0)
+            }
         } catch (error) {
             console.error('Error in calculateAverageRating:', error)
             reject(error)
@@ -114,7 +118,11 @@ let calTotalOrders = (productid) => {
                 order: ['ProductID']
             })
 
-            resolve(result ? result.OrderCount || 0 : 0)
+            if (result && result.OrderCount) {
+                resolve(result.OrderCount)
+            } else {
+                resolve(0)
+            }
         } catch (error) {
             console.error('Error in calculateTotalOrders:', error)
             reject(error)

@@ -2,7 +2,7 @@ import React from "react";
 import Footer from "../components/Footer";
 import ItemDetail from "../components/ItemDetail";
 import NavBar from "../components/NavBar";
-import './ProductPage.css';
+import './ProductPage.scss';
 
 
 const ProductInfo = () => {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { handleChangePassword } from '../services/userService';
+import { handleChangePassword } from '../services/userService'
 
 const ChangePassword = () => {
     const [currentPassword, setCurrentPassword] = useState('')

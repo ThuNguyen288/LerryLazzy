@@ -1,14 +1,8 @@
 import userService from "../services/userService"
-import { resetCodes } from "../services/emailService"
 
 let handleLogin = async (req, res) => {
-
-    let { username, password } = req.body
-    // Check username exists
-    // Compare password
-    // Return user info
-    // Access token (JWT)
     try {
+        let { username, password } = req.body
         if (!username || !password) {
             return res.status(400).json({
                 errCode: 1,
@@ -16,10 +10,11 @@ let handleLogin = async (req, res) => {
             })
         }
 
-        let message = await userService.handleUserLogin(username, password)
+        let message = await userService.userLogin(username, password)
         
         return res.status(200).json(message)
     } catch (error) {
+        console.error('Error handling login request: ', error)
         return res.status(500).json({
             errCode: -1,
             message: 'An internal server error occurred.',
@@ -29,11 +24,11 @@ let handleLogin = async (req, res) => {
 
 let handleRegister = async (req, res) => {
     try {
-        let message = await userService.handleUserRegister(req.body)
+        let message = await userService.userRegister(req.body)
         console.log(message)
         return res.status(200).json(message)
     } catch (error) {
-        console.error(error)
+        console.error('Error handling register request: ', error)
         return res.status(500).json({
             errCode: -1,
             message: 'An internal server error occurred.'
@@ -43,13 +38,14 @@ let handleRegister = async (req, res) => {
 
 let handleShowProfile = async (req, res) => {
     try {
-        let user = await userService.findUserByUsername(req.username)
+        let user = await userService.findUserByUsername(req.user.username)
         return res.status(200).json({
             errCode: 0,
             message: 'Get user profile successfully!',
             data: user
         })
     } catch (error) {
+        console.error('Error handling show profile request: ', error)
         return res.status(500).json({
             errCode: -1,
             message: 'An internal server error occurred.'
@@ -60,7 +56,7 @@ let handleShowProfile = async (req, res) => {
 let handleChangeProfile = async (req, res) => {
     try {
         let data = req.body
-        let username = req.username
+        let username = req.user.username
         let message = await userService.updateProfile(username, data)
         return res.status(200).json(message)
     } catch (error) {
@@ -75,7 +71,7 @@ let handleChangeProfile = async (req, res) => {
 let handleChangePassword = async (req, res) => {
     try {
         let { oldpassword, newpassword } = req.body
-        let username = req.username
+        let username = req.user.username
 
         if (!oldpassword || !newpassword) {
             return res.status(400).json({
@@ -159,7 +155,7 @@ let handleResetPassword = async (req, res) => {
 
 let handleDeleteAccount = async (req, res) => {
     try {
-        let username = req.username
+        let username = req.user.username
         if (!username) {
             return res.status(400).json({
                 errCode: 1,

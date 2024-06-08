@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { Button, Modal } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import { handleGetVerifyCode, handleResetPassword, handleCheckVerifyCode } from '../../services/userService'
-import './Form.css'
+import './Form.scss'
 
 const ForgotPassword = () => {
     const [username, setUsername] = useState('') 

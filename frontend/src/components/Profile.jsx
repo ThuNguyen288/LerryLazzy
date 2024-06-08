@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { AuthContext } from '../context/AuthContext'
 import { handleShowProfile, handleUpdateProfile, handleDeleteUserAccount } from '../services/userService'
 
-import "./Profile.css" 
+import "./Profile.scss" 
 
 const Profile = () => {
     const { isAuthenticated, logout } = useContext(AuthContext)

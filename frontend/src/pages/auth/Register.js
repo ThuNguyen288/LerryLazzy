@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../../context/AuthContext'
 import { handleRegisterApi, handleLoginApi } from '../../services/userService'
-import './Form.css'
+import './Form.scss'
 
 const Register = () => {
     const [username, setUsername] = useState('')

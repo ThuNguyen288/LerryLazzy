@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Spinner from 'react-bootstrap/Spinner';
 import { getProductById } from "../services/productService";
-import './ItemDetail.css';
+
+import './ItemDetail.scss';
 
 const ItemDetail = () => {
     const { productid } = useParams();

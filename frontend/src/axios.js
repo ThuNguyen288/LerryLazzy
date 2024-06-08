@@ -11,8 +11,8 @@ instance.interceptors.response.use(
         return response.data;
     },
     (error) => {
-        console.error('Error in response:', error); 
-        return Promise.reject(error); 
+        console.error('Error in response:', error);
+        return Promise.reject(error);
     }
 );
 
