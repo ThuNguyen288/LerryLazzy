@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import { handleChangePassword } from '../services/userService'
+import { handleChangePassword } from '../services/userService';
+import NavBar from '../components/NavBar';
+import SideBar from '../components/SideBar';
+import Footer from '../components/Footer';
 
 const ChangePassword = () => {
     const [currentPassword, setCurrentPassword] = useState('')
@@ -94,59 +97,64 @@ const ChangePassword = () => {
     };
 
     return (
-        <div className="container">
-            <div className='col-12 col-md-8 col-lg-6 col-xl-5'>
-                <form className="change-password-form" onSubmit={handleSubmit}>
-                    <h2>Change Password</h2>
+        <div>
+            <NavBar/>
+            <div className='d-flex'>
+                <SideBar/>
+                <div className="container">
+                    <div className='col-12 col-md-8 col-lg-6 col-xl-5 p-5 justify-content-center mx-auto'>
+                        <form className="change-password-form" onSubmit={handleSubmit}>
+                            <h2 className='text-center my-5'>Change Password</h2>
+                            <div className="form-group">
+                                <label htmlFor="currentPassword">Current Password</label>
+                                <input 
+                                type="password" 
+                                className={`form-control ${!currPassValid ? 'is-invalid' : ''}`} 
+                                id="currentPassword" 
+                                name="currentPassword" 
+                                value={currentPassword} 
+                                onChange={handleChange}
+                                />
+                                <div className="invalid-feedback">
+                                    {errCurrPass}
+                                </div>
+                            </div>
 
-                    <div className="form-group">
-                        <label htmlFor="currentPassword">Current Password</label>
-                        <input 
-                        type="password" 
-                        className={`form-control ${!currPassValid ? 'is-invalid' : ''}`} 
-                        id="currentPassword" 
-                        name="currentPassword" 
-                        value={currentPassword} 
-                        onChange={handleChange}
-                        />
-                        <div className="invalid-feedback">
-                            {errCurrPass}
-                        </div>
+                            <div className="form-group">
+                                <label htmlFor="newPassword">New Password</label>
+                                <input 
+                                type="password" 
+                                className={`form-control ${!newPassValid ? 'is-invalid' : ''}`} 
+                                id="newPassword" 
+                                name="newPassword"  
+                                value={newPassword} 
+                                onChange={handleChange}
+                                />
+                                <div className="invalid-feedback">
+                                    {errNewPass}
+                                </div>
+                            </div>
+
+                            <div className="form-group">
+                                <label htmlFor="confirmPassword">Confirm Password</label>
+                                <input 
+                                type="password" 
+                                className={`form-control ${!confPassValid ? 'is-invalid' : ''}`} 
+                                id="confirmPassword" 
+                                name="confirmPassword" 
+                                value={confirmPassword} 
+                                onChange={handleChange}
+                                />
+                                <div className="invalid-feedback">
+                                    {errConfPass}
+                                </div>
+                            </div>
+                            <button type="submit" className="btn btn-primary mt-4">Change Password</button>
+                        </form>
                     </div>
-
-                    <div className="form-group">
-                        <label htmlFor="newPassword">New Password</label>
-                        <input 
-                        type="password" 
-                        className={`form-control ${!newPassValid ? 'is-invalid' : ''}`} 
-                        id="newPassword" 
-                        name="newPassword"  
-                        value={newPassword} 
-                        onChange={handleChange}
-                        />
-                        <div className="invalid-feedback">
-                            {errNewPass}
-                        </div>
-                    </div>
-
-                    <div className="form-group">
-                        <label htmlFor="confirmPassword">Confirm Password</label>
-                        <input 
-                        type="password" 
-                        className={`form-control ${!confPassValid ? 'is-invalid' : ''}`} 
-                        id="confirmPassword" 
-                        name="confirmPassword" 
-                        value={confirmPassword} 
-                        onChange={handleChange}
-                        />
-                        <div className="invalid-feedback">
-                            {errConfPass}
-                        </div>
-                    </div>
-
-                    <button type="submit" className="btn btn-primary mt-4">Change Password</button>
-                </form>
+                </div>
             </div>
+            <Footer/>
         </div>
     )
 };

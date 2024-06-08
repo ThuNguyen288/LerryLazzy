@@ -83,7 +83,7 @@ const NavBar = () => {
                     <FontAwesomeIcon icon={faUser} className="text-brown mx-2" />
                     </div>
                     <ul className=" dropdown-menu dropdown-menu-end">
-                        <li><Link to={`/account/${isAuthenticated.user.Username}`} className='text-brown dropdown-item'>Your Profile</Link></li>
+                        <li><Link to={`/profile/${isAuthenticated.user.Username}`} className='text-brown dropdown-item'>Your Profile</Link></li>
                         <li><Link to="#" className='text-brown dropdown-item' style={{cursor: 'no-drop'}}>Help & Support</Link></li>
                         <li><hr className="dropdown-divider"/></li>
                         <li className="dropdown-item" style={{cursor: 'pointer'}} onClick={handleLogout}>Sign out</li>

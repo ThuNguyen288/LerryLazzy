@@ -1,4 +1,4 @@
-// src/components/Cart/Checkout.js
+
 import React, { useState } from 'react';
 import '../pages/CartPage.css';
 
