@@ -3,6 +3,7 @@ import { handleChangePassword } from '../services/userService';
 import NavBar from '../components/NavBar';
 import SideBar from '../components/SideBar';
 import Footer from '../components/Footer';
+import './ChangePassword.scss'
 
 const ChangePassword = () => {
     const [currentPassword, setCurrentPassword] = useState('')
