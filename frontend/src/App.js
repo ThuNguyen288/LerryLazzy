@@ -10,16 +10,17 @@ import Account from './pages/Account'
 import ProductInfo from './pages/ProductInfo'
 import ProductPage from './pages/ProductPage'
 
-import Cart from './components/Cart'
-import Order from './components/Order'
-import Profile from './components/Profile'
-import WishList from './components/Favorite'
-import ChangePassword from './components/ChangePassword'
+import Cart from './pages/Cart'
+import Order from './pages/Order'
+import Profile from './pages/Profile'
+import WishList from './pages/Favorite'
+import ChangePassword from './pages/ChangePassword'
 
 import { AuthProvider } from './context/AuthContext'
 import PrivateRoute from './context/PrivateRoute'
 
 import './App.css'
+import Notifications from './pages/Notificaton'
 
 function App() {
   return (
@@ -35,12 +36,12 @@ function App() {
             <Route path="/product/product/:subcategory" element={<ProductPage />} />
             <Route path="/product/detail/:productid" element={<ProductInfo />} />
             <Route path="/home" element={<PrivateRoute><HomePage /></PrivateRoute>} />
-            <Route path="/account/:username/*" element={<PrivateRoute><Account/></PrivateRoute>} />
-            <Route path="order" element={<PrivateRoute><Order/></PrivateRoute>} />
-            <Route path="favorite" element={<PrivateRoute><WishList/></PrivateRoute>} />
-            <Route path="cart" element={<PrivateRoute><Cart/></PrivateRoute>} />
-            <Route path="profile" index element={<PrivateRoute><Profile/></PrivateRoute>} />
-            <Route path="changepassword" element={<PrivateRoute><ChangePassword/></PrivateRoute>} />
+            <Route path="/order" element={<PrivateRoute><Order/></PrivateRoute>} />
+            <Route path="/favorite" element={<PrivateRoute><WishList/></PrivateRoute>} />
+            <Route path="/cart" element={<PrivateRoute><Cart/></PrivateRoute>} />
+            <Route path="/profile"element={<PrivateRoute><Profile/></PrivateRoute>} />
+            <Route path="/changepassword" element={<PrivateRoute><ChangePassword/></PrivateRoute>} />
+            <Route path="/notification" element={<PrivateRoute><Notifications/></PrivateRoute>} />
           </Routes>
         </BrowserRouter>
       </AuthProvider>
