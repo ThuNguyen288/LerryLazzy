@@ -29,7 +29,7 @@ const Item = ({ categoryid, subcategoryid }) => {
                     response = await getProductsBySubcategory(subcategoryid)
                 } else return
 
-                setProducts(response.data)
+                setProducts(response)
                 setLoading(false)
             } catch (error) {
                 console.error('Error fetching products: ', error)
@@ -48,7 +48,13 @@ const Item = ({ categoryid, subcategoryid }) => {
                 return
             }
             const token = localStorage.getItem('token')
-            await handleUserAddToCart(token, id)
+            if (!token) {
+                alert('You need to login first')
+                return
+            }
+            const response = await handleUserAddToCart(token, id)
+            console.log(response)
+            
             alert('Added product to cart successfully')
         } catch (error) {
             console.error('Error add product to cart:', error)
@@ -78,7 +84,7 @@ const Item = ({ categoryid, subcategoryid }) => {
                     <div className='card h-100 product-box'>
                         <div className='product-image'>
                             <Link to={`/product/detail/${product.ProductID}`}>
-                                <img src={`${process.env.PUBLIC_URL}${product.Image}`}  className='card-img' alt={product.Name} />
+                                <img src={`${process.env.PUBLIC_URL}${product.Image}`} className='card-img' alt={product.Name} />
                             </Link>
                             <div className='product-action'>
                                 <Link onClick={() => handleAddToCart(product.ProductID)}>

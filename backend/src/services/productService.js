@@ -91,7 +91,7 @@ let calculateReview = (productid) => {
 
             const result = await db.Review.findOne({
                 attributes: [
-                    [db.sequelize.fn('COUNT', db.se)]
+                    [db.sequelize.fn('COUNT', db.sequelize.col('Rating')), 'TotalReviews'],
                     [db.sequelize.fn('AVG', db.sequelize.col('Rating')), 'AverageRating']
                 ],
                 where: { ProductID: productid },
@@ -99,9 +99,13 @@ let calculateReview = (productid) => {
                 order: ['ProductID']
             })
 
-            console.log('Result:', result)
+            if (result && result.AverageRating && result.TotalReviews) {
+                review.averageRating = result.AverageRating
+                review.totalReviews = result.TotalReviews
+            }
+            console.log(review)
 
-            resolve(result ? result.AverageRating : 0)
+            resolve(review)
         } catch (error) {
             console.error('Error in calculateAverageRating:', error)
             reject(error)

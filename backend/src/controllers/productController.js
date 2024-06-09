@@ -36,24 +36,21 @@ let displayProducts = async (req, res) => {
         } else if (productid) {
             // Retrieve product details
             products = await productService.getProductById(productid)
-            console.log('Product details:', products)
-    
-            // Calculate average rating
-            let averageRating = await productService.calculateReview(productid)
-            console.log('Average Rating:', averageRating)
+            
+            // Calculate average rating and total reviews
+            let review = await productService.calculateReview(productid)
     
             // Calculate total orders
             let totalOrders = await productService.calTotalOrders(productid)
-            console.log('Total Orders:', totalOrders)
-    
-            products.AverageRating = averageRating
+            
+            products.AverageRating = review.averageRating
+            products.TotalReviews = review.totalReviews
             products.TotalOrders = totalOrders
 
+            console.log('Product details:', products)
+
         }
-        return res.status(200).json({
-            errCode: 0,
-            data: products
-        })
+        return res.status(200).json(products)
     } catch (error) {
         console.error('Error handling display prroduct request: ', error)
         return res.status(500).json({

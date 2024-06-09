@@ -14,12 +14,11 @@ const ProductInfo = () => {
                 <nav aria-label="breadcrumb">
                     <ol className="breadcrumb">
                         <li className="breadcrumb-item"><a className="breadcrumb-link" href="/">Home</a></li>
-                        
                     </ol>
                 </nav>
             </div>
             <div className="container my-4">
-               <ItemDetail/>
+                <ItemDetail/>  
             </div>
             <Footer />
         </div>

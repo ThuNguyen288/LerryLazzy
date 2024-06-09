@@ -1,23 +1,25 @@
-import { faShoppingCart, faUser } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useContext } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import '../App.css';
-import { AuthContext } from '../context/AuthContext';
-import Search from './Search';
+import { faShoppingCart, faUser } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React, { useContext } from 'react'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+
+import { AuthContext } from '../context/AuthContext'
+import Search from './Search'
+
+import '../App.css'
 
 const NavBar = () => {
-  const {isAuthenticated, logout, user } = useContext(AuthContext);
-  const navigate = useNavigate();
-  const { category, subcategory } = useParams();
+  const {isAuthenticated, logout, user } = useContext(AuthContext)
+  const navigate = useNavigate()
+  const { category, subcategory } = useParams()
   
-  console.log(category, subcategory);
+  console.log(category, subcategory)
 
-  console.log(user, isAuthenticated);
+  console.log(user, isAuthenticated)
 
   const handleLogout = () => {
-    logout();
-    navigate('/');
+    logout()
+    navigate('/')
   }
 
   return (
@@ -110,7 +112,7 @@ const NavBar = () => {
         </div>
       </div>
     </nav>
-  );
-};
+  )
+}
 
-export default NavBar;
+export default NavBar

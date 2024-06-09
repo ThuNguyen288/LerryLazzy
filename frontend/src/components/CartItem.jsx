@@ -26,6 +26,7 @@ const Cart = () => {
     
         const detailsPromises = response.cart.map(async (item) => {
             const product = await handleShowProductDetail(item.ProductID)
+            console.log('Product:', product)
             return product
         })
     
@@ -33,7 +34,7 @@ const Cart = () => {
         setProductDetails(productDetails)
     
         const total = response.cart.reduce((sum, item, index) => {
-            const price = productDetails[index]?.data?.Price || 0
+            const price = productDetails[index]?.Price || 0
             return sum + item.Quantity * price
         }, 0)
         setTotalPrice(total)
@@ -91,8 +92,6 @@ const Cart = () => {
             console.error('Error deleting product:', error)
         }
     }
-
-    
 
     const handleDecreaseItem = async (event) => {
         event.preventDefault();
@@ -160,12 +159,12 @@ const Cart = () => {
                                                             <div className='d-flex'>
                                                                 <Link to={`/product/detail/${item.ProductID}`}>
                                                                     {productDetails[index] && (
-                                                                        <img className='cart-image' src={`${process.env.PUBLIC_URL}${productDetails[index].data.Image}`} alt={productDetails[index].data.ProductName} />
+                                                                        <img className='cart-image' src={`${process.env.PUBLIC_URL}${productDetails[index].Image}`} alt={productDetails[index].ProductName} />
                                                                     )}
                                                                 </Link>
                                                                 <div className='cart-title text-start align-items-start mt-2'>
                                                                     <Link className='text-uppercase' to={`/product/detail/${item.ProductID}`}>
-                                                                        <label>{productDetails[index] ? productDetails[index].data.Name : 'Loading...'}</label>
+                                                                        <label>{productDetails[index] ? productDetails[index].Name : 'Loading...'}</label>
                                                                     </Link>
                                                                     <div className='text-muted text-sm'>...</div>
                                                                 </div>
@@ -176,7 +175,7 @@ const Cart = () => {
                                                                 <div className='col-md-3'>
                                                                     <div className='row'>
                                                                         <div className='text-center text-md-centert col-md-12 col-6'>
-                                                                        {productDetails[index] ? productDetails[index].data.Price : 'Loading...'} đ
+                                                                        {productDetails[index] ? productDetails[index].Price : 'Loading...'} đ
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -185,11 +184,11 @@ const Cart = () => {
                                                                         <div className='col-md-12 col-sm-3'>
                                                                             <div className='d-flex align-items-center justify-content-center'>
                                                                                 <div className='btn btn-items btn-items-decrease'>
-                                                                                    <BsDash size={20} onClick={handleDecreaseItem} data-productid={item.ProductID}/>
+                                                                                    <BsDash className='icon-btn' size={20} onClick={handleDecreaseItem} data-productid={item.ProductID}/>
                                                                                 </div>
-                                                                                <input type='text' className='text-center input-items quant' value={item.Quantity} readOnly/>
+                                                                                <input type='text' className='text-center input-items' value={item.Quantity} readOnly/>
                                                                                 <div className='btn btn-items btn-items-increase'>
-                                                                                    <BsPlus size={20} onClick={handleIncreaseItem} data-productid={item.ProductID}/>
+                                                                                    <BsPlus className='icon-btn' size={20} onClick={handleIncreaseItem} data-productid={item.ProductID}/>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -198,7 +197,7 @@ const Cart = () => {
                                                                 <div className='col-md-3'>
                                                                     <div className='row'>
                                                                         <div className='text-end text-md-center col-md-12 col-6'>
-                                                                            {productDetails[index] ? (item.Quantity * productDetails[index].data.Price) : 'Loading...'} đ
+                                                                            {productDetails[index] ? (item.Quantity * productDetails[index].Price) : 'Loading...'} đ
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -255,8 +254,7 @@ const Cart = () => {
                     </div>
                     <div>
                         <div className='my-5 d-flex justify-content-between flex-column flex-lg-row'>
-                            <a role='button' className='text-muted btn-n btn-link'>
-                                <svg aria-hidden='true' focusable='false' data-prefix='fas' data-icon='chevron-left' className='svg-inline--fa fa-chevron-left ' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 13 13" width="13" height="13"><path d="M9.78 12.78a.75.75 0 0 1-1.06 0L4.47 8.53a.75.75 0 0 1 0-1.06l4.25-4.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042L6.06 8l3.72 3.72a.75.75 0 0 1 0 1.06Z"></path></svg> 
+                            <a role='button' className='text-muted btn-n'>
                                 <label role='button' className='btn-name mx-2'>Continue Shopping</label>
                             </a>
                         </div>

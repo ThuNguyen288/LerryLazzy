@@ -190,9 +190,7 @@ section a:hover {
 .nav-button{
     display: flex;
 }
-.nav-button button:hover{
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
+
 
 /* Sidebar */
 .sidebar{
