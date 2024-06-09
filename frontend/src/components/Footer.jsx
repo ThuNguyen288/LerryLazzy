@@ -10,8 +10,8 @@ const Footer = () => {
             <div className="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
               <h6 className="text-uppercase fw-bold mb-4">Contact</h6>
               <p><i className="fas fa-home me-3"></i>Quarter 6, Linh Trung Ward, Thu Duc District Ho Chi Minh City, Vietnam</p>
-              <p><i className="fas fa-envelope me-3"></i>Lerrylazzyshop@gmail.com</p>
-              <p><i className="fas fa-phone me-3"></i> +(84) 334 280 850</p>
+              <p><i className="fas fa-envelope me-3"></i>lerrylazzyshop@gmail.com</p>
+              <p><i className="fas fa-phone me-3"></i> +(84) 666 666 666</p>
             </div>
             <div className="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4 d-flex justify-content-center">
               <div>

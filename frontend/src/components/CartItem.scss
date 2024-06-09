@@ -1,0 +1,159 @@
+.text-md-end {
+    text-align: right!important
+}
+
+.text-md-center {
+    text-align: center!important
+}
+
+.cart-image {
+    max-width: 80px;
+    height: auto;
+}
+
+.cart-body {
+    padding: 0 2rem
+}
+
+.block-header {
+    background: #f8f9fa
+}
+
+.block-body,.block-header {
+    padding: 1.2rem 1.5rem
+}
+
+.list-inline,.list-unstyled {
+    padding-left: 0;
+    list-style: none
+}
+
+.list-inline-item {
+    display: inline-block
+}
+
+.list-inline-item:not(:last-child) {
+    margin-right: .5rem
+}
+
+.cart-header {
+    text-transform: uppercase;
+    letter-spacing: .1rem;
+    font-weight: 600;
+    padding: 1.2rem 2rem;
+    background: #f8f9fa;
+}
+
+.cart-item {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1.5px solid #e9ecef;
+}
+
+.cart-item:last-of-type {
+    border-bottom: none;
+}
+
+.cart-title {
+    margin-left: 1rem;
+    font-size: 14px;
+}
+
+.cart-title label {
+    font-weight: 500;
+    text-decoration: none;
+    letter-spacing: 0.053rem;
+    color:#333;
+    opacity: 0.8;
+}
+
+.cart-remove {
+    color: #495057;
+    font-size: .7875rem;
+}
+
+.cart-remove:hover {
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    opacity: .5;
+}
+
+.order-summary-item {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1.5px solid #eee
+}
+
+.order-summary-total {
+    font-weight: 700;
+    font-size: 1.2em
+}
+
+.btn.btn-items {
+    color: #868e96;
+    text-align: center;
+}
+
+.btn.btn-items:hover {
+    color: #333;
+}
+
+
+.input-items {
+    min-width: 40px
+}
+
+@media(max-width: 991.98px) {
+    .cart {
+        overflow-x:auto
+    }
+
+    .cart-wrapper {
+        min-width: 992px
+    }
+}
+
+.quant {
+    border: none;
+    // width: 20px;
+    outline: none;
+}
+
+.btn-n {
+    text-transform: uppercase;
+    letter-spacing: .2em;
+    line-height: 1.5;
+    --bs-btn-padding-y: 0.7rem;
+    --bs-btn-padding-x: 0.75rem;
+    --bs-btn-font-size: 0.75rem;
+    --bs-btn-border-radius: 0
+}
+
+.btn-name {
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 13px;
+}
+
+.btn-name:hover {
+    border-bottom: 1px solid #333;
+}
+
+.shop-now {
+    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: .1em;
+    line-height: 1.5;
+    --bs-btn-padding-y: 0.7rem;
+    --bs-btn-padding-x: 0.75rem;
+    --bs-btn-font-size: 0.75rem;
+    --bs-btn-border-radius: 0
+}
+
+.shop-now:hover {
+    border-bottom: 1px solid #333;
+}

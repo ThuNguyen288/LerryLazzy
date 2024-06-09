@@ -1,7 +1,7 @@
-import express from "express" 
-import authMiddleware from '../middleware/authMiddleware'
+import express from "express"
+import cartController from '../controllers/cartController'
 import userController from '../controllers/userController'
-import cartController from '../controllers/cartController' 
+import authMiddleware from '../middleware/authMiddleware'
   
 
 let protectedRouter = express.Router() 
@@ -14,10 +14,13 @@ let protectedRoutes = (app) => {
     protectedRouter.put('/change-password', authMiddleware.authenticateToken, userController.handleChangePassword) 
     protectedRouter.delete('/delete-account', authMiddleware.authenticateToken, userController.handleDeleteAccount)
 
-    // Router for product
+    // Router for cart
     protectedRouter.put('/add-to-cart', authMiddleware.authenticateToken, cartController.handleAddToCart)
     protectedRouter.get('/show-cart', authMiddleware.authenticateToken, cartController.handleShowCart)
     protectedRouter.delete('/delete-from-cart', authMiddleware.authenticateToken, cartController.handleRemoveFromCart)
+    protectedRouter.put('/increase-quantity', authMiddleware.authenticateToken, cartController.handleIncreaseQuantity)
+    protectedRouter.put('/decrease-quantity', authMiddleware.authenticateToken, cartController.handleDecreaseQuantity)
+    protectedRouter.put('/add-large-quantity', authMiddleware.authenticateToken, cartController.handleAddLargeQuantity)
     
     return app.use("/api/protected", protectedRouter) 
 }

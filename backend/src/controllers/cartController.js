@@ -69,8 +69,80 @@ let handleRemoveFromCart = async (req, res) => {
     }
 }
 
+let handleIncreaseQuantity = async (req, res) => {
+    try {
+        let userid = req.user.userid
+        let { productid } = req.body
+
+        if (!userid) {
+            return res.status(401).json({
+                errCode: 1,
+                message: 'You need to login first',
+            })
+        }
+
+        let message = await cartService.increaseQuantity(userid, productid)
+        return res.status(200).json(message)
+    } catch (error) {
+        console.error('Error handling increase quantity request: ', error)
+        return res.status(500).json({
+            errCode: -1,
+            message: 'An internal server error occurred.'
+        })
+    }
+}
+
+let handleDecreaseQuantity = async (req, res) => {
+    try {
+        let userid = req.user.userid
+        let { productid } = req.body
+
+        if (!userid) {
+            return res.status(401).json({
+                errCode: 1,
+                message: 'You need to login first',
+            })
+        }
+
+        let message = await cartService.decreaseQuantity(userid, productid)
+        return res.status(200).json(message)
+    } catch (error) {
+        console.error('Error handling decrease quantity request: ', error)
+        return res.status(500).json({
+            errCode: -1,
+            message: 'An internal server error occurred.'
+        })
+    }
+}
+
+let handleAddLargeQuantity = async (req, res) => {
+    try {
+        let userid = req.user.userid
+        let { productid, quantity } = req.body
+
+        if (!userid) {
+            return res.status(401).json({
+                errCode: 1,
+                message: 'You need to login first',
+            })
+        }
+
+        let message = await cartService.addLargeQuantity(userid, productid, quantity)
+        return res.status(200).json(message)
+    } catch (error) {
+        console.error('Error handling add large quantity request: ', error)
+        return res.status(500).json({
+            errCode: -1,
+            message: 'An internal server error occurred.'
+        })
+    }
+}
+
 module.exports = {
     handleAddToCart,
     handleShowCart,
-    handleRemoveFromCart
+    handleRemoveFromCart,
+    handleIncreaseQuantity,
+    handleDecreaseQuantity,
+    handleAddLargeQuantity
 }

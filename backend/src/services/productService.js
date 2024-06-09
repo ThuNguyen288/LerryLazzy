@@ -56,7 +56,7 @@ let getProductById = (productid) => {
             })
             resolve(product)
         } catch (error) {
-            console.error('Error in function:', error)
+            console.error('Error in getProductWithDetails function:', error)
             reject(error)
         }
     })
@@ -81,23 +81,27 @@ let getAllProducts = () => {
 
 
 // Function to calculate average rating of product
-let calAverageRating = (productid) => {
+let calculateReview = (productid) => {
     return new Promise(async (resolve, reject) => {
         try {
+            const review = {
+                averageRating: 0,
+                totalReviews: 0
+            }
+
             const result = await db.Review.findOne({
                 attributes: [
+                    [db.sequelize.fn('COUNT', db.se)]
                     [db.sequelize.fn('AVG', db.sequelize.col('Rating')), 'AverageRating']
                 ],
                 where: { ProductID: productid },
                 group: ['ProductID'],
                 order: ['ProductID']
             })
-            
-            if (result && result.AverageRating) {
-                resolve(result.AverageRating)
-            } else {
-                resolve(0)
-            }
+
+            console.log('Result:', result)
+
+            resolve(result ? result.AverageRating : 0)
         } catch (error) {
             console.error('Error in calculateAverageRating:', error)
             reject(error)
@@ -118,11 +122,7 @@ let calTotalOrders = (productid) => {
                 order: ['ProductID']
             })
 
-            if (result && result.OrderCount) {
-                resolve(result.OrderCount)
-            } else {
-                resolve(0)
-            }
+            resolve(result ? result.OrderCount : 0)
         } catch (error) {
             console.error('Error in calculateTotalOrders:', error)
             reject(error)
@@ -136,7 +136,7 @@ module.exports = {
     getProductsBySubcategory: getProductsBySubcategory,
     getProductById: getProductById,
     getAllProducts: getAllProducts,
-    calAverageRating: calAverageRating,
+    calculateReview: calculateReview,
     calTotalOrders: calTotalOrders,
 }
 

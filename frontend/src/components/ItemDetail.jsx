@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Spinner from 'react-bootstrap/Spinner';
 import { getProductById } from "../services/productService";
-
 import './ItemDetail.scss';
 
 const ItemDetail = () => {
@@ -56,7 +55,7 @@ const ItemDetail = () => {
                         </div>
                     </div>
                     <div className="details col-md-6 my-3">
-                        <h3 className="producttitle">{product.Name}</h3>
+                        <h3 className="product-title">{product.Name}</h3>
                         <div className="rating">
                             <div className="stars">
                                 <span className="fa fa-star"></span>
@@ -65,7 +64,7 @@ const ItemDetail = () => {
                                 <span className="fa fa-star"></span>
                                 <span className="fa fa-star"></span>
                             </div>
-                            <span className="review-no">41 reviews</span>
+                            <span className="review-no"> reviews</span>
                         </div>
                         <p className="product-description">{product.Description}</p>
                         <h4 className="price">Current price: <span>{product.Price} đ</span></h4>

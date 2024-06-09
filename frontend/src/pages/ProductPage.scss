@@ -1,9 +1,12 @@
+.breadcrumb-item {
+    font-family: "Nunito Sans", sans-serif;
+}
+
 .breadcrumb-item.active {
     color: inherit;
 }
 
 .breadcrumb-link {
-    color: #333;
-    font-family: "Nunito Sans", sans-serif;
     text-decoration: none;
+    color: #333;
 }

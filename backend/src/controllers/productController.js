@@ -28,16 +28,18 @@ let displayProducts = async (req, res) => {
         if (categoryid) {
             products = await productService.getProductsByCategory(categoryid)
             console.log('Get products by category: ', products)
+
         } else if (subcategoryid) {
             products = await productService.getProductsBySubcategory(subcategoryid)
             console.log('Get products by subcategory: ', products)
+
         } else if (productid) {
             // Retrieve product details
             products = await productService.getProductById(productid)
             console.log('Product details:', products)
     
             // Calculate average rating
-            let averageRating = await productService.calAverageRating(productid)
+            let averageRating = await productService.calculateReview(productid)
             console.log('Average Rating:', averageRating)
     
             // Calculate total orders

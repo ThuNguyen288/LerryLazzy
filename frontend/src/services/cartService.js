@@ -1,7 +1,7 @@
 import axios from '../axios'
 
 let handleUserAddToCart = (token, productid) => {
-    return axios.put('/api/protected/add-to-cart', { productid} , {
+    return axios.put('/api/protected/add-to-cart', { productid } , {
         headers: {
             'Authorization': 'Bearer ' + token
         }
@@ -21,7 +21,34 @@ let handleShowProductDetail = (productid) => {
 }
 
 let handleUserRemoveFromCart = (token, productid) => {
-    return axios.post('/api/protected/remove-from-cart', productid, {
+    return axios.delete('api/protected/delete-from-cart', {
+        headers: {
+            'Authorization': 'Bearer ' + token
+        },
+        data: {
+            productid: productid
+        }
+    })
+}
+
+let handleUserIncreaseItem = (token, productid) => {
+    return axios.put('/api/protected/increase-quantity', { productid } , {
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
+    })
+}
+
+let handleUserDecreaseItem = (token, productid) => {
+    return axios.put('/api/protected/decrease-quantity', { productid } , {
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
+    })
+}
+
+let handleUserAddLargeItem = (token, productid, quantity) => {
+    return axios.put('/api/protected/add-large-quantity', { productid, quantity } , {
         headers: {
             'Authorization': 'Bearer ' + token
         }
@@ -33,4 +60,7 @@ export {
     handleUserShowCart,
     handleShowProductDetail,
     handleUserRemoveFromCart,
+    handleUserIncreaseItem,
+    handleUserDecreaseItem,
+    handleUserAddLargeItem
 }
