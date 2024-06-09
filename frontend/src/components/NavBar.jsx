@@ -71,23 +71,23 @@ const NavBar = () => {
           <div className='w-400'>
             {isAuthenticated.token ? (
               <>
-                <div className="d-flex float-end mx-5">
+                <div className="d-flex float-end mx-4">
                   <div className='' role="button" aria-expanded="false">
                     <Search/>
+                  </div>
+                  <div className='mx-1'>
+                    <button type="button" className="btn btn-transparent rounded-circle position-relative">
+                      <i className='fas fa-bell w30'/>
+                      <span className="position-absolute top-0 start-75 ms-1 mt-1  translate-middle badge rounded-pill bg-danger small">
+                        1
+                        <span className="visually-hidden">unread messages</span>
+                      </span>
+                    </button>
                   </div>
                   <div className="nav-icon d-flex">
                     <Link to="/cart">
                       <FontAwesomeIcon icon={faShoppingCart} className="text-brown mx-2" />
                     </Link>
-                  </div>
-                  <div className='mx-2'>
-                    <button type="button" class="btn btn-transparent rounded-circle position-relative">
-                      <i className='fas fa-bell w30'/>
-                      <span class="position-absolute top-0 start-75 ms-1 mt-1  translate-middle badge rounded-pill bg-danger small">
-                        1
-                        <span class="visually-hidden">unread messages</span>
-                      </span>
-                    </button>
                   </div>
                   <div className="nav-icon dropdown">
                     <div className="text-black" role="button" data-bs-toggle="dropdown" aria-expanded="false">
