@@ -4,10 +4,12 @@ import '../App.css'
     
 const SideBar = () => {
     return(
-        <div className="sidebar w-25 bg-g text-white px-3 py-2 me-5">
+        <div className="sidebar w-20 bg-g text-white p-3 me-5">
+            <h5 className=''>Shopping</h5>
             <button className='sidebar-item'>
                 <i className='fas fa-list icon'/>
                 <Link to="/order" className='link'>Order</Link>
+                <span class="badge text-white bg-danger me-2 mt-1 float-end rounded-circle ">4</span>
             </button>
             <button className='sidebar-item'>
                 <i className='fas fa-shopping-cart icon'/>

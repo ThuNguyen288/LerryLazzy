@@ -80,6 +80,15 @@ const NavBar = () => {
                       <FontAwesomeIcon icon={faShoppingCart} className="text-brown mx-2" />
                     </Link>
                   </div>
+                  <div className='mx-2'>
+                    <button type="button" class="btn btn-transparent rounded-circle position-relative">
+                      <i className='fas fa-bell w30'/>
+                      <span class="position-absolute top-0 start-75 ms-1 mt-1  translate-middle badge rounded-pill bg-danger small">
+                        1
+                        <span class="visually-hidden">unread messages</span>
+                      </span>
+                    </button>
+                  </div>
                   <div className="nav-icon dropdown">
                     <div className="text-black" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <FontAwesomeIcon icon={faUser} className="text-brown mx-2" />
