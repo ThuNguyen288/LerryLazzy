@@ -55,3 +55,7 @@
     height: 10px;
 }
 
+.quantity-number::-webkit-outer-spin-button,
+.quantity-number::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}

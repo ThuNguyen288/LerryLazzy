@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { BsDash, BsPlus } from 'react-icons/bs'
-import { Link } from 'react-router-dom'
+import { Link, redirect } from 'react-router-dom'
+import { Button, Modal } from 'react-bootstrap'
 
-import { handleShowProductDetail, handleUserDecreaseItem, handleUserIncreaseItem, handleUserRemoveFromCart, handleUserShowCart } from '../services/cartService'
+import { 
+    handleShowProductDetail, 
+    handleUserDecreaseItem, 
+    handleUserIncreaseItem, 
+    handleUserRemoveFromCart, 
+    handleUserShowCart,
+    handleUserRemoveAllProduct } from '../services/cartService'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 
@@ -19,6 +26,7 @@ const Cart = () => {
     const [productDetails, setProductDetails] = useState([])
     const [totalPrice, setTotalPrice] = useState(0)
     const [shippingCost, setShippingCost] = useState(0)
+    const [showModal, setShowModal] = useState(false)
 
     const updateCartData = async (token) => {
         const response = await handleUserShowCart(token)
@@ -37,10 +45,10 @@ const Cart = () => {
             const price = productDetails[index]?.Price || 0
             return sum + item.Quantity * price
         }, 0)
-        setTotalPrice(total)
+        setTotalPrice(total.toLocaleString('vi-VN'))
     
         const shipping = calculateShippingCost(total)
-        setShippingCost(shipping)
+        setShippingCost(shipping.toLocaleString('vi-VN'))
     }
 
     useEffect(() => {
@@ -94,18 +102,32 @@ const Cart = () => {
     }
 
     const handleDecreaseItem = async (event) => {
-        event.preventDefault();
+        event.preventDefault()
         try {
-            const token = localStorage.getItem('token');
-            const productIdToDecrease = event.currentTarget.dataset.productid;
+            const token = localStorage.getItem('token')
+            const productIdToDecrease = event.currentTarget.dataset.productid
 
-            await handleUserDecreaseItem(token, productIdToDecrease);
-            console.log(productIdToDecrease);
+            await handleUserDecreaseItem(token, productIdToDecrease)
+            console.log(productIdToDecrease)
 
-            await updateCartData(token);
+            await updateCartData(token)
         } catch (error) {
-            console.error('Error decreasing product quantity:', error);
+            console.error('Error decreasing product quantity:', error)
         }
+    }
+
+    const handleRemoveAllProduct = async () => {
+        try {
+            const token = localStorage.getItem('token')
+            await handleUserRemoveAllProduct(token)
+            setShowModal(false)
+        } catch (error) {
+            console.error('Error remove all product:', error);
+        }
+    }
+
+    const redirectToHome = () => {
+        window.location.href='/home'
     }
 
     const handleCheckout = async () => {
@@ -143,7 +165,7 @@ const Cart = () => {
                                         <p>Your cart is empty!</p>
                                     </div>
                                     <div className='text-end justify-content-center'>
-                                        <label className='shop-now mx-2' role='button'>Shop now</label>
+                                        <label className='shop-now mx-2' role='button' onClick={redirectToHome}>Shop now</label>
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15" width="15" height="15"><path d="M4.7 10c-.2 0-.4-.1-.5-.2-.3-.3-.3-.8 0-1.1L6.9 6 4.2 3.3c-.3-.3-.3-.8 0-1.1.3-.3.8-.3 1.1 0l3.3 3.2c.3.3.3.8 0 1.1L5.3 9.7c-.2.2-.4.3-.6.3Z"></path></svg>
                                     </div>
                                     
@@ -175,7 +197,7 @@ const Cart = () => {
                                                                 <div className='col-md-3'>
                                                                     <div className='row'>
                                                                         <div className='text-center text-md-centert col-md-12 col-6'>
-                                                                        {productDetails[index] ? productDetails[index].Price : 'Loading...'} đ
+                                                                        {productDetails[index] ? productDetails[index].Price.toLocaleString('vi-VN') : 'Loading...'} đ
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -186,7 +208,7 @@ const Cart = () => {
                                                                                 <div className='btn btn-items btn-items-decrease'>
                                                                                     <BsDash className='icon-btn' size={20} onClick={handleDecreaseItem} data-productid={item.ProductID}/>
                                                                                 </div>
-                                                                                <input type='text' className='text-center input-items' value={item.Quantity} readOnly/>
+                                                                                <input type='number' className='text-center input-items' value={item.Quantity} readOnly/>
                                                                                 <div className='btn btn-items btn-items-increase'>
                                                                                     <BsPlus className='icon-btn' size={20} onClick={handleIncreaseItem} data-productid={item.ProductID}/>
                                                                                 </div>
@@ -197,7 +219,7 @@ const Cart = () => {
                                                                 <div className='col-md-3'>
                                                                     <div className='row'>
                                                                         <div className='text-end text-md-center col-md-12 col-6'>
-                                                                            {productDetails[index] ? (item.Quantity * productDetails[index].Price) : 'Loading...'} đ
+                                                                            {productDetails[index] ? (item.Quantity * productDetails[index].Price).toLocaleString('vi-VN') : 'Loading...'} đ
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -211,7 +233,23 @@ const Cart = () => {
                                                     </div>
                                                 </div>
                                             ))}
+                                            <div className='row'>
+                                                <div className='col'>
+                                                    <div className='my-4 d-flex justify-content-between flex-column flex-lg-row'>
+                                                        <a role='button' className='text-muted btn-n'>
+                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="M9.78 12.78a.75.75 0 0 1-1.06 0L4.47 8.53a.75.75 0 0 1 0-1.06l4.25-4.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042L6.06 8l3.72 3.72a.75.75 0 0 1 0 1.06Z"></path></svg>
+                                                            <label role='button' className='btn-name mx-1' onClick={redirectToHome}>Continue Shopping</label>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div className='col-auto'>
+                                                    <div className='my-4 d-flex justify-content-end flex-column flex-lg-row'>
+                                                        <div className='remove-all px-1' role='button' onClick={() => setShowModal(true)}>Remove All</div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
+                                        
                                     ) : null}
                                 </>
                             )}
@@ -235,7 +273,7 @@ const Cart = () => {
                                     </li>
                                     <li className='order-summary-item'>
                                         <span>Discount</span>
-                                        <span>$0.00</span>
+                                        <span>0 đ</span>
                                     </li>
                                     <li className='order-summary-item'>
                                         <span>Total</span>
@@ -252,15 +290,24 @@ const Cart = () => {
                             </button>
                         </div>
                     </div>
-                    <div>
-                        <div className='my-5 d-flex justify-content-between flex-column flex-lg-row'>
-                            <a role='button' className='text-muted btn-n'>
-                                <label role='button' className='btn-name mx-2'>Continue Shopping</label>
-                            </a>
-                        </div>
-                    </div>
                 </div>
             </div>
+            <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>Confirm Remove All Product</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    Are you sure you want to remove all product? This action cannot be undone.
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant='secondary' onClick={() => setShowModal(false)}>
+                        Cancel
+                    </Button>
+                    <Button variant='danger' onClick={handleRemoveAllProduct}>
+                        Remove All
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </div>
     )
 }

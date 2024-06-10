@@ -1,20 +1,23 @@
 import { faHeart, faShoppingCart } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Spinner from 'react-bootstrap/Spinner'
 
 import { Link, useParams } from 'react-router-dom'
 
+import { CartContext } from '../context/CartContext'
 import { handleUserAddToCart } from '../services/cartService'
 import { getProductsByCategory, getProductsBySubcategory } from '../services/productService'
 
 import './Item.scss'
+
 
 const Item = ({ categoryid, subcategoryid }) => {
     const [products, setProducts] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
 
+    const { updateCartQuantity } = useContext(CartContext)
     const { productid } = useParams()
     
     console.log(productid)
@@ -52,10 +55,10 @@ const Item = ({ categoryid, subcategoryid }) => {
                 alert('You need to login first')
                 return
             }
-            const response = await handleUserAddToCart(token, id)
-            console.log(response)
+            await handleUserAddToCart(token, id)
             
             alert('Added product to cart successfully')
+            updateCartQuantity()
         } catch (error) {
             console.error('Error add product to cart:', error)
         }
@@ -87,17 +90,17 @@ const Item = ({ categoryid, subcategoryid }) => {
                                 <img src={`${process.env.PUBLIC_URL}${product.Image}`} className='card-img' alt={product.Name} />
                             </Link>
                             <div className='product-action'>
-                                <Link onClick={() => handleAddToCart(product.ProductID)}>
+                                <Link className='i-cart' onClick={() => handleAddToCart(product.ProductID)}>
                                     <FontAwesomeIcon icon={faShoppingCart} className='mx-2' />
                                 </Link>
-                                <Link onClick={handleAddToFavorite}>
+                                <Link className='i-heart' onClick={handleAddToFavorite}>
                                     <FontAwesomeIcon icon={faHeart} className='mx-2' />
                                 </Link>
                             </div>
                         </div>
                         <div className='product-content'>
                             <h3 className='product-title fw-bold'><Link to={`/product/detail/${product.ProductID}`}>{product.Name}</Link></h3>
-                            <span className='product-price'>{product.Price} đ</span>
+                            <span className='product-price'>{product.Price.toLocaleString('vi-VN')} đ</span>
                         </div>
                     </div>
                 </div>

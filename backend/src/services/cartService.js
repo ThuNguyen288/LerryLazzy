@@ -293,11 +293,115 @@ let addLargeQuantity = (userid,  productid, quantity) => {
     })
 }
 
+// Function to update quantities of product
+let updateQuantity = (userid, productid, quantity) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let cartData = {
+                errCode: 0,
+                errMessage: ''
+            }
+
+            let user = await db.User.findOne({
+                where: { UserID: userid }
+            })
+            if (!user) {
+                cartData.errCode = 1
+                cartData.errMessage = 'User not found'
+                resolve(cartData)
+            }
+
+            let product = await db.Product.findOne({
+                where: { ProductID: productid }
+            })
+            if (!product) {
+                cartData.errCode = 2
+                cartData.errMessage = 'Product not found'
+                resolve(cartData)
+            }
+
+            await db.Cart.update({
+                Quantity: quantity
+            }, {
+                where: { UserID: userid, ProductID: productid }
+            })
+
+            cartData.errMessage = 'Product quantity updated successfully!'
+            resolve(cartData)
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+
+// Function to remove all product from cart
+let removeAllProduct = (userid) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let cartData = {
+                errCode: 0,
+                errMessage: ''
+            }
+
+            let user = await db.User.findOne({
+                where: { UserID: userid }
+            })
+            if (!user) {
+                cartData.errCode = 1
+                cartData.errMessage = 'User not found'
+                resolve(cartData)
+            } else {
+                await db.Cart.destroy({
+                    where: { UserID: userid }
+                })
+
+                cartData.errMessage = 'All products removed from cart successfully!'
+                resolve(cartData)
+            }
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+
+let getTotalQuantity = (userid) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let cartData = {
+                errCode: 0,
+                errMessage: '',
+                getTotalQuantity: 0
+            }
+
+            let user = await db.User.findOne({
+                where: { UserID: userid }
+            })
+            if (!user) {
+                cartData.errCode = 1
+                cartData.errMessage = 'User not found'
+                resolve(cartData)
+            }
+            
+            let cartItem = await db.Cart.findAll({
+                where: { UserID: userid },
+            })
+
+            cartData.getTotalQuantity = cartItem.reduce((total, item) => total + item.Quantity, 0)
+            cartData.errMessage = 'Total quantity calculated successfully!'
+            resolve(cartData)
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
 module.exports = {
     addProductToCart: addProductToCart,
     showCart: showCart,
     removeProductFromCart: removeProductFromCart,
     increaseQuantity: increaseQuantity,
     decreaseQuantity: decreaseQuantity,
-    addLargeQuantity: addLargeQuantity
+    addLargeQuantity: addLargeQuantity,
+    updateQuantity: updateQuantity,
+    removeAllProduct: removeAllProduct,
+    getTotalQuantity: getTotalQuantity
 }

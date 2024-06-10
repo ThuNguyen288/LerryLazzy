@@ -18,7 +18,7 @@
 }
 
 .product-action {
-    background: rgba(51, 51, 51, 0.6);
+    background: rgba(83, 81, 81, 0.5);
     display: flex;
     position: absolute;
     width: 100%;
@@ -33,6 +33,24 @@
     font-size: 15px;
     text-decoration: none;
     width: 50%;
+}
+
+.product-action .i-cart{
+    font-size: larger;
+    border-right: 2px solid rgba(83, 81, 81, 0.7);
+}
+
+.product-action .i-heart{
+    font-size: larger;
+}
+
+.product-action .i-cart:hover{
+    color: #333;
+}
+
+.product-action .i-heart:hover{
+    color: red;
+    opacity: 0.8;
 }
 
 .product-content a:hover{

@@ -138,11 +138,76 @@ let handleAddLargeQuantity = async (req, res) => {
     }
 }
 
+let handleUpdateQuantity = async (req, res) => {
+    try {
+        let userid = req.user.userid
+        let { productid, quantity } = req.body
+
+        if (!userid) {
+            return res.status(401).json({
+                errCode: 1,
+                message: 'You need to login first',
+            })
+        }
+
+        let message = await cartService.updateQuantity(userid, productid, quantity)
+        return res.status(200).json(message)
+    } catch (error) {
+        console.error('Error handling update quantity request: ', error)
+        return res.status(500).json({
+            errCode: -1,
+            message: 'An internal server error occurred.'
+        })
+    }
+}
+
+let handleRemoveAllProduct = async (req, res) => {
+    try {
+        let userid = req.user.userid
+
+        if (!userid) {
+            return res.status(401).json({
+                errCode: 1,
+                message: 'You need to login first',
+            })
+        }
+        
+        let message = await cartService.removeAllProduct(userid)
+        return res.status(200).json(message)
+    } catch (error) {
+
+    }
+}
+
+let handleGetTotalQuantity = async (req, res) => {
+    try {
+        let userid = req.user.userid
+        if (!userid) {
+            return res.status(401).json({
+                errCode: 1,
+                message: 'You need to login first',
+            })
+        }
+
+        let message = await cartService.getTotalQuantity(userid)
+        return res.status(200).json(message)
+    } catch (error) {
+        console.error('Error handling get total quantity request: ', error)
+        return res.status(500).json({
+            errCode: -1,
+            message: 'An internal server error occurred.'
+        })
+    }
+}
+
 module.exports = {
     handleAddToCart,
     handleShowCart,
     handleRemoveFromCart,
     handleIncreaseQuantity,
     handleDecreaseQuantity,
-    handleAddLargeQuantity
+    handleAddLargeQuantity,
+    handleUpdateQuantity,
+    handleRemoveAllProduct,
+    handleGetTotalQuantity
 }

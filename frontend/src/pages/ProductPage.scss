@@ -1,12 +1,23 @@
 .breadcrumb-item {
     font-family: "Nunito Sans", sans-serif;
+    font-size: 16px;
+    font-weight: 500;
 }
 
 .breadcrumb-item.active {
-    color: inherit;
+    color: gray;
 }
 
 .breadcrumb-link {
     text-decoration: none;
+    font-weight: 600;
     color: #333;
+}
+
+.bread-home {
+    font-weight: 700;
+}
+
+.breadcrumb-link:hover {
+    border-bottom: 1.5px solid #333;
 }

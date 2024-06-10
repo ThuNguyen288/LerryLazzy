@@ -60,6 +60,11 @@
     outline: none;
 }
 
+.input-items::-webkit-outer-spin-button,
+.input-items::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
 .cart-remove {
     color: #495057;
     font-size: .7875rem;
@@ -80,8 +85,6 @@
 .block-body,.block-header {
     padding: 1.2rem 1.5rem
 }
-
-
 
 .list-inline,.list-unstyled {
     padding-left: 0;
@@ -138,3 +141,19 @@
     border-bottom: 1px solid #333;
 }
 
+.btn-items-decrease, .btn-items-increase {
+    border: 0;
+    border-radius: 0;
+}
+
+.remove-all {
+    border-bottom: 1px solid #333;
+    font-family: "Roboto", monospace;
+    // text-transform: uppercase;
+    letter-spacing: 0.1rem;
+    font-size: 0.8rem;
+}
+
+.remove-all:hover {
+    border-bottom: none;
+}

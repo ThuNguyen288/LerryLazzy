@@ -1,8 +1,8 @@
-import React from "react"
-import { useParams } from "react-router-dom"
-import Footer from "../components/Footer"
-import Item from "../components/Item"
-import NavBar from "../components/NavBar"
+import React from 'react'
+import { useParams } from 'react-router-dom'
+import Footer from '../components/Footer'
+import Item from '../components/Item'
+import NavBar from '../components/NavBar'
 import './ProductPage.scss'
 
 const categoryMap = {
@@ -33,24 +33,28 @@ const ProductPage = () => {
     const subcategoryid = subcategory ? subcategoryMap[subcategory.toLowerCase()] : null
 
     return (
-        <div className="bg-1">
+        <div className='bg-1'>
             <NavBar />
-            <div className="container mt-3"> 
-                <nav aria-label="breadcrumb">
-                    <ol className="breadcrumb">
-                        <li className="breadcrumb-item"><a className="breadcrumb-link" href="/">Home</a></li>
-                        {subcategory ? (
-                            <>
-                                <li className="breadcrumb-item"><a className="breadcrumb-link" href="/product/product">{capitalizeFirstLetter('product')}</a></li>
-                                <li className="breadcrumb-item active" aria-current="page">{capitalizeFirstLetter(subcategory)}</li>
-                            </>
-                        ) : (
-                            category && <li className="breadcrumb-item active" aria-current="page">{capitalizeFirstLetter(category)}</li>
-                        )}
-                    </ol>
-                </nav>
-            </div>
-            <div className="container my-4">
+            <nav className='py-4'>
+                <div className='container'>
+                    <div className='row'>
+                        <div className='col-12'>
+                            <ol className='breadcrumb mb-0 fx-xs'>
+                                    <li className='breadcrumb-item'><a className='breadcrumb-link bread-home' href='/'>Home</a></li>
+                                    {subcategory ? (
+                                        <>
+                                            <li className='breadcrumb-item'><a className='breadcrumb-link' href='/product/product'>{capitalizeFirstLetter('product')}</a></li>
+                                            <li className='breadcrumb-item active' aria-current='page'>{capitalizeFirstLetter(subcategory)}</li>
+                                        </>
+                                    ) : (
+                                        category && <li className='breadcrumb-item active' aria-current='page'>{capitalizeFirstLetter(category)}</li>
+                                    )}
+                                </ol>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <div className='container'>
                 {categoryid && <Item categoryid={categoryid} />}
                 {subcategoryid && <Item subcategoryid={subcategoryid} />}
             </div>

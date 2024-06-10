@@ -1,15 +1,18 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { addDays, format } from 'date-fns'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Spinner from 'react-bootstrap/Spinner'
 import { BsClock, BsTruck } from 'react-icons/bs'
 import { useParams } from 'react-router-dom'
-import { getProductById } from '../services/productService'
+import { CartContext } from '../context/CartContext'
 import { handleUserAddLargeItem } from '../services/cartService'
+import { getProductById } from '../services/productService'
 import './ItemDetail.scss'
 
 const ItemDetail = () => {
     const { productid } = useParams()
+    const { updateCartQuantity } = useContext(CartContext)
+
     const [product, setProduct] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
@@ -30,10 +33,6 @@ const ItemDetail = () => {
 
         fetchProduct()
     }, [productid])
-
-    useEffect(() => {
-        setQuantityNumber(parseInt(quantityNumber) || 1) 
-    }, [])
 
     const getEstimatedDeliveryDate = () => {
         const currentDate = new Date();
@@ -73,14 +72,15 @@ const ItemDetail = () => {
         }
     }
 
-    const handleAddToCart = async (token, productid, quantity) => {
+    const handleAddToCart = async () => {
         try {
             const token = localStorage.getItem('token')
             const productid = product.ProductID
-            const quantity = parseInt(quantityNumber)
 
-            const response = await handleUserAddLargeItem (token, productid, quantity)
-            console.log(response)
+            await handleUserAddLargeItem (token, productid, quantityNumber)
+            alert('Add to cart successfully!')
+            
+            updateCartQuantity()
         } catch (error) {
             console.error('Error in adding product to cart:', error)
         }
@@ -128,14 +128,14 @@ const ItemDetail = () => {
                         <h1 className='h1 producttitle'>{product.Name}</h1>
                         <p className='fs-sm mb-0 text-secondary'>{product.Description}</p>
                         <div className='collapse' id='moreDescription'>Read more</div>
-                        <div className='h4 d-flex align-items-center my-4 price'>{product.Price} đ</div>
+                        <div className='h4 d-flex align-items-center my-4 price'>{product.Price.toLocaleString('vi-VN')} đ</div>
                         <div className='position-absolute bottom-0 info'>
                             <div className='d-flex gap-3 pb-3 pb-lg-4 mb-3'>
                                 <div className='count-input flex-shrink-0'>
                                     <button className='btn btn-icon btn-lg' type='button' data-decrement aria-label='Decrement quantity' onClick={handleDecrement}>
                                         <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' width='16' height='16'><path d='M2 7.75A.75.75 0 0 1 2.75 7h10a.75.75 0 0 1 0 1.5h-10A.75.75 0 0 1 2 7.75Z'></path></svg>
                                     </button>
-                                    <input type='text' className='form-control form-control-lg' min='1' value={quantityNumber} readOnly></input>
+                                    <input type='number' className='form-control form-control-lg quantity-number' min='1' value={quantityNumber} onChange={(event) => setQuantityNumber(event.target.value)}/>
                                     <button className='btn btn-icon btn-lg' type='button' data-increment aria-label='Increment quantity' onClick={handleIncrement}>
                                         <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' width='16' height='16'><path d='M7.75 2a.75.75 0 0 1 .75.75V7h4.25a.75.75 0 0 1 0 1.5H8.5v4.25a.75.75 0 0 1-1.5 0V8.5H2.75a.75.75 0 0 1 0-1.5H7V2.75A.75.75 0 0 1 7.75 2Z'></path></svg>
                                     </button>
@@ -156,7 +156,7 @@ const ItemDetail = () => {
                                         <BsTruck className='icon-small fs-base me-2'/>
                                         Free shipping & returns:
                                     </span>
-                                    On all order over 400000 đ
+                                    On all order over 400.000 đ
                                 </li>
                             </ul>
                         </div>

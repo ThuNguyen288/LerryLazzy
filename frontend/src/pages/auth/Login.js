@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { AuthContext } from '../../context/AuthContext'
 import { handleLoginApi } from '../../services/userService'
 import './Form.scss'
@@ -14,7 +14,6 @@ const Login = () => {
     const [errPassword, setErrPassword] = useState('')
 
     const { login } = useContext(AuthContext)
-    const navigate = useNavigate()
 
     const handleLogin = async (event) => {
         event.preventDefault()
@@ -38,7 +37,7 @@ const Login = () => {
                 if (token && user) {
                     console.log("Login successful:", token, user)
                     login(token, user)
-                    navigate('/home')
+                    window.history.back()
                     alert(response.errMessage)
                 } else {
                     throw new Error('Invalid response: missing token or user')

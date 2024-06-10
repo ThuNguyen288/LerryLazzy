@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../../context/AuthContext'
 import { handleRegisterApi, handleLoginApi } from '../../services/userService'
 import './Form.scss'
@@ -27,7 +26,6 @@ const Register = () => {
     const [errConfPass, setErrConfPass] = useState('')
 
     const { login } = useContext(AuthContext)
-    const navigate = useNavigate()
     
     const handleRegister = async (event) => {
         event.preventDefault()
@@ -101,7 +99,7 @@ const Register = () => {
                 if (loginResponse && loginResponse.errCode === 0) {
                     const { token, user } = loginResponse;
                     login(token, user)
-                    navigate('/home')
+                    window.history.back()
                     alert(response.errMessage)
                 }
             }

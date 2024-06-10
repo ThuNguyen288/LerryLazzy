@@ -1,8 +1,7 @@
-import express from "express"
+import express from 'express'
 import cartController from '../controllers/cartController'
 import userController from '../controllers/userController'
 import authMiddleware from '../middleware/authMiddleware'
-  
 
 let protectedRouter = express.Router() 
 
@@ -21,8 +20,11 @@ let protectedRoutes = (app) => {
     protectedRouter.put('/increase-quantity', authMiddleware.authenticateToken, cartController.handleIncreaseQuantity)
     protectedRouter.put('/decrease-quantity', authMiddleware.authenticateToken, cartController.handleDecreaseQuantity)
     protectedRouter.put('/add-large-quantity', authMiddleware.authenticateToken, cartController.handleAddLargeQuantity)
+    protectedRouter.put('/update-quantity', authMiddleware.authenticateToken, cartController.handleUpdateQuantity)
+    protectedRouter.delete('/remove-all-product', authMiddleware.authenticateToken, cartController.handleRemoveAllProduct)
+    protectedRouter.get('/get-total-quantity', authMiddleware.authenticateToken, cartController.handleGetTotalQuantity)
     
-    return app.use("/api/protected", protectedRouter) 
+    return app.use('/api/protected', protectedRouter) 
 }
 
 module.exports = protectedRoutes 

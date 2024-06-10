@@ -55,6 +55,30 @@ let handleUserAddLargeItem = (token, productid, quantity) => {
     })
 }
 
+let handleUserUpdateItem = (token, productid, quantity) => {
+    return axios.put('/api/protected/update-quantity', { productid, quantity } , {
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
+    })
+}
+
+let handleUserRemoveAllProduct = (token) => {
+    return axios.delete('/api/protected/remove-all-product', {
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
+    })
+}
+
+let handleGetTotalQuantity = (token) => {
+    return axios.get('/api/protected/get-total-quantity', {
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
+    })
+}
+
 export {
     handleUserAddToCart,
     handleUserShowCart,
@@ -62,5 +86,8 @@ export {
     handleUserRemoveFromCart,
     handleUserIncreaseItem,
     handleUserDecreaseItem,
-    handleUserAddLargeItem
+    handleUserAddLargeItem,
+    handleUserUpdateItem,
+    handleUserRemoveAllProduct,
+    handleGetTotalQuantity
 }
