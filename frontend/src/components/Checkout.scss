@@ -1,0 +1,120 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+.nav-pills {
+    --bs-nav-pills-border-radius: 0;
+    --bs-nav-pills-link-active-color: #212529;
+    --bs-nav-pills-link-active-bg: #e9ecef;
+}
+
+.nav .nav-link {
+    color: #343a40;
+}
+
+.nav-pills.custom-nav {
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    overflow: hidden;
+}
+
+.custom-nav .nav-item {
+    background: #f8f9fa;
+    align-self: stretch;
+}
+
+.nav-link {
+    transition: all 0.2s ease-out;
+}
+
+.custom-nav .nav-link {
+    position: relative;
+    height: 100%;
+    background: none;
+    padding-top: 1.2rem;
+    padding-bottom: 1.2rem;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #495057;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.custom-nav .nav-link.active {
+    background: #495057;
+    color: #fff;
+}
+
+.custom-nav .nav-link.active::after {
+    display: none;
+}
+
+.custom-nav .nav-link::after {
+    content: "";
+    width: 0;
+    height: 50%;
+    background: #ddd;
+    display: inline-block;
+    position: absolute;
+    top: 25%;
+    right: 0;
+}
+
+.custom-nav .nav-link.disabled {
+    cursor: not-allowed !important;
+    background: #f8f9fa;
+    color: #999;
+}
+
+.block-header {
+    padding: 1.2rem 1.5rem;
+    background: #f8f9fa;
+    cursor: pointer;
+}
+
+.block-body {
+    padding: 1.2rem 1.5rem;
+}
+
+.btn-back:hover {
+    transform: translateX(-8px);
+}
+
+.btn-next {
+    width: 280px;
+    border-radius: 0;
+    text-transform: uppercase;
+    letter-spacing: .2em;
+    line-height: 1.5;
+    --bs-btn-padding-y: 0.7rem;
+    --bs-btn-padding-x: 0.75rem;
+    --bs-btn-font-size: 0.75rem;
+    --bs-btn-border-radius: 0;
+    
+}
+
+.collapse {
+    transition: height 0.35s ease; 
+}
+
+a.accordion-link {
+    color: #343a40;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.collapse:not(.show) {
+    display: none;
+}
+
+.notice {
+    font-size: 12px;
+    color: #999;
+    font-style: italic;
+    align-self: flex-end;
+}
+
+.haha {
+    border-right: 1px solid #495057;
+}

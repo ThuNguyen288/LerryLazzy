@@ -40,16 +40,16 @@ const ProductPage = () => {
                     <div className='row'>
                         <div className='col-12'>
                             <ol className='breadcrumb mb-0 fx-xs'>
-                                    <li className='breadcrumb-item'><a className='breadcrumb-link bread-home' href='/'>Home</a></li>
-                                    {subcategory ? (
-                                        <>
-                                            <li className='breadcrumb-item'><a className='breadcrumb-link' href='/product/product'>{capitalizeFirstLetter('product')}</a></li>
-                                            <li className='breadcrumb-item active' aria-current='page'>{capitalizeFirstLetter(subcategory)}</li>
-                                        </>
-                                    ) : (
-                                        category && <li className='breadcrumb-item active' aria-current='page'>{capitalizeFirstLetter(category)}</li>
-                                    )}
-                                </ol>
+                                <li className='breadcrumb-item'><a className='breadcrumb-link bread-home' href='/'>Home</a></li>
+                                {subcategory ? (
+                                    <>
+                                        <li className='breadcrumb-item'><a className='breadcrumb-link' href='/product/product'>{capitalizeFirstLetter('product')}</a></li>
+                                        <li className='breadcrumb-item active' aria-current='page'>{capitalizeFirstLetter(subcategory)}</li>
+                                    </>
+                                ) : (
+                                    category && <li className='breadcrumb-item active' aria-current='page'>{capitalizeFirstLetter(category)}</li>
+                                )}
+                            </ol>
                         </div>
                     </div>
                 </div>

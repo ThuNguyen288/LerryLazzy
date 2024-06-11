@@ -14,6 +14,7 @@ import Order from './pages/Order'
 import ProductInfo from './pages/ProductInfo'
 import ProductPage from './pages/ProductPage'
 import Profile from './pages/Profile'
+import CheckoutPage from './pages/CheckoutPage'
 
 import { AuthProvider } from './context/AuthContext'
 import { CartProvider } from './context/CartContext'
@@ -42,6 +43,7 @@ function App() {
                             <Route path='/profile/:username'element={<PrivateRoute><Profile/></PrivateRoute>} />
                             <Route path='/changepassword' element={<PrivateRoute><ChangePassword/></PrivateRoute>} />
                             <Route path='/notification' element={<PrivateRoute><Notification/></PrivateRoute>} />
+                            <Route path='/checkout' element={<PrivateRoute><CheckoutPage/></PrivateRoute>}></Route>
                         </Routes>
                     </BrowserRouter>
                 </CartProvider>

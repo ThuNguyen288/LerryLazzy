@@ -48,12 +48,10 @@ const sendResetPasswordEmail = (email, username) => {
             console.log('Email sent successfully to: ', email);
             resolve({ 
                 errCode: 0, 
-                message: 'Email sent successfully' });
+                errMessage: 'Email sent successfully' });
         } catch (error) {
             console.log('Error sending reset password email:', error);
-            reject({ 
-                errCode: -1, 
-                message: 'An error occurred while sending email' });
+            reject(error)
         }
     });
 };

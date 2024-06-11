@@ -201,13 +201,13 @@ let handleGetTotalQuantity = async (req, res) => {
 }
 
 module.exports = {
-    handleAddToCart,
-    handleShowCart,
-    handleRemoveFromCart,
-    handleIncreaseQuantity,
-    handleDecreaseQuantity,
-    handleAddLargeQuantity,
-    handleUpdateQuantity,
-    handleRemoveAllProduct,
-    handleGetTotalQuantity
+    handleAddToCart: handleAddToCart,
+    handleShowCart: handleShowCart,
+    handleRemoveFromCart: handleRemoveFromCart,
+    handleIncreaseQuantity: handleIncreaseQuantity,
+    handleDecreaseQuantity: handleDecreaseQuantity,
+    handleAddLargeQuantity: handleAddLargeQuantity,
+    handleUpdateQuantity: handleUpdateQuantity,
+    handleRemoveAllProduct: handleRemoveAllProduct,
+    handleGetTotalQuantity: handleGetTotalQuantity
 }

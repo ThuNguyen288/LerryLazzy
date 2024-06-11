@@ -1,22 +1,46 @@
-import db from '../models/index';
+import db from '../models/index'
+import orderService from '../services/orderService'
 
-let createOrder = async(req, res) => {
+let handleCreateNewOrder = async(req, res) => {
     try {
-        let message = await crudService.createNewOrder(req.body);
-        res.status(200).json({
-            sucess: true,
-            message: 'New order created successfully',
-            
-        });
-        console.log(message);
-    } catch (e) {
-        console.error('Error creating orsder: ', err);
-        res.status(500).json({
-            sucess: false,
-            message: 'Server error. Please try again.',
-            error: err.message,
-        });
+        let userid = req.user.userid
+        let data = req.body
+
+        console.log(data)
+
+        let message = await orderService.createNewOrder(userid, data)
+
+        if (message.errCode === 0) {
+            return res.status(201).json(message)
+        } else {
+            return res.status(400).json(message)
+        }
+    } catch (error) {
+        console.error('Error handling create new order request: ', error)
+        return res.status(500).json({
+            errCode: -1,
+            message: 'An internal server error occurred.'
+        })
     }
+}
+
+let handleClearCart = async (req, res) => {
+    try {
+        let userid = req.user.userid
+        let message = await orderService.clearCart(userid)
+        return res.status(200).json(message)
+    } catch (error) {
+        console.error('Error handling clear cart request: ', error)
+        return res.status(500).json({
+            errCode: -1,
+            message: 'An internal server error occurred.'
+        })
+    }
+}
+
+module.exports = {
+    handleCreateNewOrder: handleCreateNewOrder,
+    handleClearCart: handleClearCart,
 }
 
 

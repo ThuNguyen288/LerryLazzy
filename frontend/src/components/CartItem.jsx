@@ -1,15 +1,18 @@
-import React, { useEffect, useState } from 'react'
-import { BsDash, BsPlus } from 'react-icons/bs'
-import { Link, redirect } from 'react-router-dom'
+import React, { useContext, useEffect, useState } from 'react'
 import { Button, Modal } from 'react-bootstrap'
+import { BsDash, BsPlus } from 'react-icons/bs'
+import { FaAngleRight } from 'react-icons/fa6'
+import { Link } from 'react-router-dom'
 
-import { 
-    handleShowProductDetail, 
-    handleUserDecreaseItem, 
-    handleUserIncreaseItem, 
-    handleUserRemoveFromCart, 
-    handleUserShowCart,
-    handleUserRemoveAllProduct } from '../services/cartService'
+import { CartContext } from '../context/CartContext'
+import {
+    handleShowProductDetail,
+    handleUserDecreaseItem,
+    handleUserIncreaseItem,
+    handleUserRemoveAllProduct,
+    handleUserRemoveFromCart,
+    handleUserShowCart
+} from '../services/cartService'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 
@@ -25,8 +28,14 @@ const Cart = () => {
 
     const [productDetails, setProductDetails] = useState([])
     const [totalPrice, setTotalPrice] = useState(0)
-    const [shippingCost, setShippingCost] = useState(0)
     const [showModal, setShowModal] = useState(false)
+    const [showCoupon, setShowCoupon] = useState(false)
+    const [couponCode, setCouponCode] = useState('')
+    const [cartEmpty, setCartEmpty] = useState(true)
+    const [couponValue, setCouponValue] = useState('')
+
+    const { updateCartQuantity } = useContext(CartContext)
+
 
     const updateCartData = async (token) => {
         const response = await handleUserShowCart(token)
@@ -34,7 +43,7 @@ const Cart = () => {
     
         const detailsPromises = response.cart.map(async (item) => {
             const product = await handleShowProductDetail(item.ProductID)
-            console.log('Product:', product)
+            // console.log('Product:', product)
             return product
         })
     
@@ -45,10 +54,8 @@ const Cart = () => {
             const price = productDetails[index]?.Price || 0
             return sum + item.Quantity * price
         }, 0)
-        setTotalPrice(total.toLocaleString('vi-VN'))
-    
-        const shipping = calculateShippingCost(total)
-        setShippingCost(shipping.toLocaleString('vi-VN'))
+        setTotalPrice(total)
+        localStorage.setItem('subTotal', total)
     }
 
     useEffect(() => {
@@ -60,18 +67,16 @@ const Cart = () => {
                 console.error('Error fetching cart data:', error)
             }
         }
-
         fetchCartData()
     }, [])
 
-    const calculateShippingCost = (subtotal) => {
-        if (subtotal < 100000) return 30000
-        if (subtotal < 200000) return 20000
-        if (subtotal < 300000) return 10000
-        if (subtotal >= 400000) return 0
-        if (subtotal === 0) return 0
-        return 0
-    }
+    useEffect(() => {
+        if (cartData.errCode === 0 && cartData.cart.length > 0) {
+            setCartEmpty(false);
+        } else {
+            setCartEmpty(true);
+        }
+    }, [cartData]);
 
     const handleIncreaseItem = async (event) => {
         event.preventDefault()
@@ -83,6 +88,7 @@ const Cart = () => {
             console.log(productIdToIncrease)
 
             await updateCartData(token)
+            updateCartQuantity()
         } catch (error) {
             console.error('Error deleting product:', error)
         }
@@ -96,6 +102,7 @@ const Cart = () => {
             await handleUserRemoveFromCart(token, productIdToRemove)
             
             await updateCartData(token)
+            updateCartQuantity()
         } catch (error) {
             console.error('Error deleting product:', error)
         }
@@ -111,6 +118,7 @@ const Cart = () => {
             console.log(productIdToDecrease)
 
             await updateCartData(token)
+            updateCartQuantity()
         } catch (error) {
             console.error('Error decreasing product quantity:', error)
         }
@@ -121,9 +129,14 @@ const Cart = () => {
             const token = localStorage.getItem('token')
             await handleUserRemoveAllProduct(token)
             setShowModal(false)
+            updateCartQuantity()
         } catch (error) {
             console.error('Error remove all product:', error);
         }
+    }
+
+    const toggleCoupon = () => {
+        setShowCoupon(!showCoupon);
     }
 
     const redirectToHome = () => {
@@ -132,9 +145,7 @@ const Cart = () => {
 
     const handleCheckout = async () => {
         try {
-        // const response = await axios.post('/api/checkout', {})
-        // console.log('Checkout successful:', response.data)
-        // Do something after successful checkout, e.g., redirect to a confirmation page
+            window.location.href='/checkout'
         } catch (error) {
         console.error('Error during checkout:', error)
         }
@@ -164,9 +175,9 @@ const Cart = () => {
                                     <div className='text-center' style={{fontSize: '25px'}}>
                                         <p>Your cart is empty!</p>
                                     </div>
-                                    <div className='text-end justify-content-center'>
-                                        <label className='shop-now mx-2' role='button' onClick={redirectToHome}>Shop now</label>
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15" width="15" height="15"><path d="M4.7 10c-.2 0-.4-.1-.5-.2-.3-.3-.3-.8 0-1.1L6.9 6 4.2 3.3c-.3-.3-.3-.8 0-1.1.3-.3.8-.3 1.1 0l3.3 3.2c.3.3.3.8 0 1.1L5.3 9.7c-.2.2-.4.3-.6.3Z"></path></svg>
+                                    <div className='text-end justify-content-center position-relative me-1 shopnow'>
+                                        <label className='shop-now mx-1' role='button' onClick={redirectToHome}>Shop now</label>
+                                        <svg className='arrow-shop' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15" width="15" height="15"><path d="M4.7 10c-.2 0-.4-.1-.5-.2-.3-.3-.3-.8 0-1.1L6.9 6 4.2 3.3c-.3-.3-.3-.8 0-1.1.3-.3.8-.3 1.1 0l3.3 3.2c.3.3.3.8 0 1.1L5.3 9.7c-.2.2-.4.3-.6.3Z"></path></svg>
                                     </div>
                                     
                                 </div>
@@ -224,8 +235,8 @@ const Cart = () => {
                                                                     </div>
                                                                 </div>
                                                                 <div className='d-none d-md-block text-center col-2'>
-                                                                    <div className='cart-remove' role='button' data-productid={item.ProductID} onClick={handleRemoveItem}>
-                                                                        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12'><path d='M2.22 2.22a.749.749 0 0 1 1.06 0L6 4.939 8.72 2.22a.749.749 0 1 1 1.06 1.06L7.061 6 9.78 8.72a.749.749 0 1 1-1.06 1.06L6 7.061 3.28 9.78a.749.749 0 1 1-1.06-1.06L4.939 6 2.22 3.28a.749.749 0 0 1 0-1.06Z'></path></svg>
+                                                                    <div className='cart-remove-container' role='button' data-productid={item.ProductID} onClick={handleRemoveItem}>
+                                                                        <svg className='cart-remove' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12'><path d='M2.22 2.22a.749.749 0 0 1 1.06 0L6 4.939 8.72 2.22a.749.749 0 1 1 1.06 1.06L7.061 6 9.78 8.72a.749.749 0 1 1-1.06 1.06L6 7.061 3.28 9.78a.749.749 0 1 1-1.06-1.06L4.939 6 2.22 3.28a.749.749 0 0 1 0-1.06Z'></path></svg>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -237,14 +248,14 @@ const Cart = () => {
                                                 <div className='col'>
                                                     <div className='my-4 d-flex justify-content-between flex-column flex-lg-row'>
                                                         <a role='button' className='text-muted btn-n'>
-                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="M9.78 12.78a.75.75 0 0 1-1.06 0L4.47 8.53a.75.75 0 0 1 0-1.06l4.25-4.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042L6.06 8l3.72 3.72a.75.75 0 0 1 0 1.06Z"></path></svg>
+                                                            <svg className='btn-arrow' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="M9.78 12.78a.75.75 0 0 1-1.06 0L4.47 8.53a.75.75 0 0 1 0-1.06l4.25-4.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042L6.06 8l3.72 3.72a.75.75 0 0 1 0 1.06Z"></path></svg>
                                                             <label role='button' className='btn-name mx-1' onClick={redirectToHome}>Continue Shopping</label>
                                                         </a>
                                                     </div>
                                                 </div>
                                                 <div className='col-auto'>
                                                     <div className='my-4 d-flex justify-content-end flex-column flex-lg-row'>
-                                                        <div className='remove-all px-1' role='button' onClick={() => setShowModal(true)}>Remove All</div>
+                                                        <div className='remove-all' role='button' onClick={() => setShowModal(true)}>Remove All</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -261,32 +272,34 @@ const Cart = () => {
                                 <h6 className='text-uppercase mb-0'>Order Summary</h6>
                             </div>
                             <div className='block-body bg-light pt-1'>
-                                <p className='text-sm'>Shipping and additional costs are calculated based on values you have entered.</p>
+                                <p className='text-sm'>Shipping cost calculated at checkout</p>
                                 <ul className='order-summary mb-0 list-unstyled'>
                                     <li className='order-summary-item'>
                                         <span>Order subtotal</span>
-                                        <span>{totalPrice} đ</span>
+                                        <span>{totalPrice.toLocaleString('vi-VN')} đ</span>
                                     </li>
                                     <li className='order-summary-item'>
                                         <span>Shipping and handling</span>
-                                        <span>{shippingCost} đ</span>
-                                    </li>
-                                    <li className='order-summary-item'>
-                                        <span>Discount</span>
                                         <span>0 đ</span>
                                     </li>
-                                    <li className='order-summary-item'>
+                                    <li className='order-summary-item position-relative'>
+                                        <span>Discount</span>
+                                        <span>0 đ</span>
+                                        <span className='position-absolute discount' role='button' onClick={toggleCoupon}>Have a promotion?</span>
+                                    </li>
+                                    {/* <li className={`order-summary-item coupon ${showCoupon ? '' : 'hidden'}`}>
+                                        <input className='w-100 promotion' placeholder='Enter your promotion...' value={couponCode} onChange={(event) => setCouponCode(event.target.value)}/>
+                                        <button className='btn-promotion'>Apply</button>
+                                    </li> */}
+                                    <li className='order-summary-item position-relative'>
                                         <span>Total</span>
-                                        <strong className='order-summary-total'>{(totalPrice + shippingCost)} đ</strong>
+                                        <strong className='order-summary-total'>{totalPrice.toLocaleString('vi-VN')} đ</strong>
                                     </li>
                                 </ul>
                             </div>
-                            <div className='d-flex my-2'>
-                                <input placeholder='Enter your promotion...'></input>
-                                <button>Add</button>
-                            </div>
-                            <button type='button' className='btn btn-dark '>
-                                Proceed to checkout
+                            <button type='button' className={`btn btn-dark mt-4 py-3 w-100 d-flex align-items-center justify-content-center checkout ${cartEmpty ? 'disabled' : ''}`} disabled={cartEmpty} onClick={cartEmpty ? null : handleCheckout}>
+                                <a className='text-decoration-none text-white'>Proceed to checkout</a>
+                                <FaAngleRight className='arrow'/>
                             </button>
                         </div>
                     </div>

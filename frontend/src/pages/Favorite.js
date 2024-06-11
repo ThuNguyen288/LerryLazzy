@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 
 const Favorite = () => {
     return(
@@ -8,4 +8,4 @@ const Favorite = () => {
     )
 }
 
-export default Favorite;
+export default Favorite

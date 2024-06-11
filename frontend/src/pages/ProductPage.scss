@@ -1,7 +1,8 @@
 .breadcrumb-item {
-    font-family: "Nunito Sans", sans-serif;
-    font-size: 16px;
-    font-weight: 500;
+    font-family: "Roboto", sans-serif;
+    letter-spacing: 0.045rem;
+    font-size: 14px;
+    font-weight: 400;
 }
 
 .breadcrumb-item.active {
@@ -10,12 +11,12 @@
 
 .breadcrumb-link {
     text-decoration: none;
-    font-weight: 600;
+    font-weight: 500;
     color: #333;
 }
 
 .bread-home {
-    font-weight: 700;
+    font-weight: 600;
 }
 
 .breadcrumb-link:hover {

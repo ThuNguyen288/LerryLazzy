@@ -9,7 +9,7 @@ const SideBar = () => {
             <button className='sidebar-item'>
                 <i className='fas fa-list icon'/>
                 <Link to="/order" className='link'>Order</Link>
-                <span class="badge text-white bg-danger me-2 mt-1 float-end rounded-circle ">4</span>
+                <span className="badge text-white bg-danger me-2 mt-1 float-end rounded-circle ">4</span>
             </button>
             <button className='sidebar-item'>
                 <i className='fas fa-shopping-cart icon'/>

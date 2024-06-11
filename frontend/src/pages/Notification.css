@@ -1,8 +1,8 @@
 /* Toggle button styles */
 .toggle-button {
-    appearance: none;
-    -webkit-appearance: none;
     -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
     display: inline-block;
     width: 30px;
     height: 20px;

@@ -1,24 +1,5 @@
 import db from '../models/index'
 
-// Function to create new product
-let createNewProduct = (data) => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            let product = await db.Product.create({
-                Name: data.name,
-                Description: data.description,
-                Price: data.price,
-                CategoryID: data.categoryid,
-                SubcategoryID: subcategoryid,
-                Image: data.image
-            })
-            resolve(product)
-        } catch (error) {
-            reject(error)
-        }
-    })
-}
-
 // Function to get all product by CategoryID
 let getProductsByCategory = (categoryid) => {
     return new Promise(async (resolve, reject) => {
@@ -79,7 +60,6 @@ let getAllProducts = () => {
     })
 }
 
-
 // Function to calculate average rating of product
 let calculateReview = (productid) => {
     return new Promise(async (resolve, reject) => {
@@ -103,11 +83,10 @@ let calculateReview = (productid) => {
                 review.averageRating = result.AverageRating
                 review.totalReviews = result.TotalReviews
             }
-            console.log(review)
 
             resolve(review)
         } catch (error) {
-            console.error('Error in calculateAverageRating:', error)
+            console.error('Error in calculate review:', error)
             reject(error)
         }
     })
@@ -128,14 +107,13 @@ let calTotalOrders = (productid) => {
 
             resolve(result ? result.OrderCount : 0)
         } catch (error) {
-            console.error('Error in calculateTotalOrders:', error)
+            console.error('Error in calculate total orders:', error)
             reject(error)
         }
     })
 }
 
 module.exports = {
-    createNewProduct: createNewProduct,
     getProductsByCategory: getProductsByCategory,
     getProductsBySubcategory: getProductsBySubcategory,
     getProductById: getProductById,

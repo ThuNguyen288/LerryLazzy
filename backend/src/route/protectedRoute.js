@@ -1,7 +1,9 @@
 import express from 'express'
-import cartController from '../controllers/cartController'
-import userController from '../controllers/userController'
 import authMiddleware from '../middleware/authMiddleware'
+import userController from '../controllers/userController'
+import cartController from '../controllers/cartController'
+import orderController from '../controllers/orderController'
+
 
 let protectedRouter = express.Router() 
 
@@ -23,6 +25,10 @@ let protectedRoutes = (app) => {
     protectedRouter.put('/update-quantity', authMiddleware.authenticateToken, cartController.handleUpdateQuantity)
     protectedRouter.delete('/remove-all-product', authMiddleware.authenticateToken, cartController.handleRemoveAllProduct)
     protectedRouter.get('/get-total-quantity', authMiddleware.authenticateToken, cartController.handleGetTotalQuantity)
+
+    // Router for order
+    protectedRouter.post('/create-order', authMiddleware.authenticateToken, orderController.handleCreateNewOrder)
+    protectedRouter.put('/clear-cart', authMiddleware.authenticateToken, orderController.handleClearCart)
     
     return app.use('/api/protected', protectedRouter) 
 }

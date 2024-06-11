@@ -3,69 +3,71 @@ import jwt from 'jsonwebtoken'
 import db from '../models/index'
 import { sendResetPasswordEmail } from "./emailService"
 
-const saltRounds = 10  
+let saltRounds = 10  
 
 // Function to encode password
 let hashUserPassword = (password) => {
     return new Promise((resolve, reject) => {
-        bcrypt.hash(password, saltRounds, (err, hash) => {
-            if (err) {
-                return reject(err)  
+        bcrypt.hash(password, saltRounds, (error, hash) => {
+            if (error) {
+                return reject(error)  
             }
             resolve(hash)  
         })  
     })  
-}  
+}
 
 // Function to handle user login
 let userLogin = (username, password) => {
-    return new Promise (async (resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
             let userData = {
                 errCode: 0,
                 errMessage: ''
-            }    
-
-            let isExist = await checkUsername(username)    
-
-            if (isExist) {
-                // User already exists
-                let user = await db.User.findOne({
-                    attributes: ['UserID', 'Username', 'Password', 'Role'],
-                    where: { Username : username },
-                })    
-
-                if (user) {
-                    // Compare password
-                    let isPasswordValid = await bcrypt.compare(password, user.Password)    
-
-                    if (isPasswordValid) {
-                        userData.token = createToken(user)
-                        userData.user = user
-                        delete userData.user.Password
-
-                        userData.errMessage = 'Login successfully!'    
-                    } else {
-                        userData.errCode = 3    
-                        userData.errMessage = 'Incorrect password. Please try again.'    
-                    }
-
-                } else {
-                    userData.errCode = 2    
-                    userData.errMessage = 'User not found'    
-                }
-
-            } else {
-                userData.errCode = 1    
-                userData.errMessage = 'Username is not exist. Please try other username.'    
             }
-            
-            resolve(userData)    
+
+            // Check if username exists
+            let isExist = await checkUsername(username)
+
+            if (!isExist) {
+                userData.errCode = 1
+                userData.errMessage = 'Username does not exist. Please try another username.'
+                return resolve(userData)
+            }
+
+            // Find user
+            let user = await db.User.findOne({
+                attributes: ['UserID', 'Username', 'Password', 'Role'],
+                where: { Username: username },
+            })
+
+            if (!user) {
+                userData.errCode = 2
+                userData.errMessage = 'User not found'
+                return resolve(userData)
+            }
+
+            // Compare password
+            let isPasswordValid = await bcrypt.compare(password, user.Password)
+
+            if (!isPasswordValid) {
+                userData.errCode = 3
+                userData.errMessage = 'Incorrect password. Please try again.'
+                return resolve(userData)
+            }
+
+            userData.token = createToken(user)
+            userData.user = user
+            delete userData.user.Password
+
+            userData.errMessage = 'Login successfully!'
+            return resolve(userData)
+
         } catch (error) {
-            reject(error)    
+            reject(error)
         }
-    })    
-}  
+    })
+}
 
 // Function to handle user register
 let userRegister = (data) => {
@@ -76,35 +78,39 @@ let userRegister = (data) => {
                 errMessage: ''
             }    
 
+            // Check if username exist
             let isUsernameExist = await checkUsername(data.username)    
 
-            if (!isUsernameExist) {
-                let hashPassword = await hashUserPassword(data.password)    
-                let newUser = await db.User.create({
-                    Username: data.username,
-                    Password: hashPassword,
-                    Firstname: data.firstname,
-                    Lastname: data.lastname,
-                    Email: data.email,
-                    Role: 'customer' 
-                })    
-
-                userData.token = createToken(newUser)   
-                userData.user = {
-                    username: newUser.Username,
-                    password: newUser.Password,
-                    firstname: newUser.Firstname,
-                    lastname: newUser.Lastname,
-                    email: newUser.Email,
-                }    
-
-                userData.errMessage = 'Create account successfully'    
-            } else {
-                userData.errCode = 1    
-                userData.errMessage = 'Username already exists. Please try again'    
+            if (isUsernameExist) {
+                userData.errCode = 1
+                userData.errMessage = 'Username already exists. Please try again'
+                return resolve(userData)
             }
 
-            resolve(userData)    
+            let hashPassword = await hashUserPassword(data.password)
+            // Create new user
+            let newUser = await db.User.create({
+                Username: data.username,
+                Password: hashPassword,
+                Firstname: data.firstname,
+                Lastname: data.lastname,
+                Email: data.email,
+                Role: 'customer' 
+            })
+
+            // Create token for new user
+            userData.token = createToken(newUser)   
+            userData.user = {
+                username: newUser.Username,
+                password: newUser.Password,
+                firstname: newUser.Firstname,
+                lastname: newUser.Lastname,
+                email: newUser.Email,
+            }
+
+            userData.errMessage = 'Create account successfully'
+            return resolve(userData)
+   
         } catch (error) {
             reject(error)    
         }
@@ -113,9 +119,9 @@ let userRegister = (data) => {
 
 // Function to create token
 let createToken = (user) => {
-    const payload = { userid: user.UserID, username: user.Username, role: user.Role }
-    const secret = process.env.ACCESS_TOKEN_SECRET
-    const options = { expiresIn: '1h' }
+    let payload = { userid: user.UserID, username: user.Username, role: user.Role }
+    let secret = process.env.ACCESS_TOKEN_SECRET
+    let options = { expiresIn: '1h' }
 
     return jwt.sign(payload, secret, options)
    
@@ -143,21 +149,27 @@ let checkUsername = (username) => {
 let findUserByUsername = (username) => {
     return new Promise(async (resolve, reject) => {
         try {
+            let userData = {
+                errCode: 0,
+                errMessage: '',
+                user: null
+            }
+
+            // Find user
             let user = await db.User.findOne({
                 where: { Username: username },
                 attributes: ['Firstname', 'Lastname', 'Email', 'Address', 'Phone']
-            })  
+            })
+
             if (!user) {
-                resolve({
-                    errCode: 1,
-                    errMessage: 'User not found!'
-                })  
+                userData.errCode = 1;
+                userData.errMessage = 'User not found!';
+                return resolve(userData);
             }
-            resolve({
-                errCode: 0,
-                errMessage: 'User found!',
-                user: user
-            })  
+
+            userData.errMessage = 'User found!';
+            userData.user = user;
+            return resolve(userData)
         } catch (error) {
             reject(error)  
         }
@@ -168,42 +180,50 @@ let findUserByUsername = (username) => {
 let updateProfile = (username, data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            if(!username) {
-                resolve({
-                    errCode: 1,
-                    errMessage: 'Username is required!'
-                })  
+            let userData = {
+                errCode: 0,
+                errMessage: '',
+                user: null
             }
+            // Check if username is provided
+            if(!username) {
+                userData.errCode = 1
+                userData.errMessage = 'Username is required!'
+                return resolve(userData)
+            }
+
+            // Find user 
             let user = await db.User.findOne({
                 where: { Username: username }
-            })  
+            })
+
             if (!user) {
-                resolve({
-                    errCode: 1,
-                    errMessage: 'User not found!'
-                })  
-            } else {
-                await db.User.update({
-                    Firstname: data.Firstname,
-                    Lastname: data.Lastname,
-                    Email: data.Email,
-                    Address: data.Address,
-                    Phone: data.Phone
-                }, {
-                    where: { Username: username },
-                })
+                userData.errCode = 2;
+                userData.errMessage = 'User not found!';
+                return resolve(userData);
+            } 
 
-                const updateUser = await db.User.findOne({
-                    where: { Username: username },
-                    attributes: ['Firstname', 'Lastname', 'Phone', 'Email', 'Address']
-                })
+            // Update user profile
+            await db.User.update({
+                Firstname: data.Firstname,
+                Lastname: data.Lastname,
+                Email: data.Email,
+                Address: data.Address,
+                Phone: data.Phone
+            }, {
+                where: { Username: username },
+            })
 
-                resolve({
-                    errCode: 0,
-                    errMessage: 'Profile updated successfully!',
-                    data: updateUser
-                }) 
-            }
+            // Retrieve updated user profile
+            let updateUser = await db.User.findOne({
+                where: { Username: username },
+                attributes: ['Firstname', 'Lastname', 'Phone', 'Email', 'Address']
+            })
+
+            userData.errMessage = 'Profile updated successfully!'
+            userData.user = updateUser
+            return resolve(userData)
+
         } catch (error) {
             reject(error)  
         }
@@ -223,9 +243,10 @@ let changePassword = (username, oldpassword, newpassword) => {
             if (!username) {
                 userData.errCode = 3,
                 userData.errMessage = 'Username is required!'
-                resolve(userData)
+                return resolve(userData)
             }
 
+            // Find user
             let user = await db.User.findOne({
                 where: { Username: username }
             })    
@@ -234,21 +255,22 @@ let changePassword = (username, oldpassword, newpassword) => {
             if (!user) {
                 userData.errCode = 2,
                 userData.errMessage = 'User not found!'
+                return resolve(userData)
             }
 
             // Check if old password matches
-            let isPasswordValid = await bcrypt.compareSync(oldpassword, user.Password);
+            let isPasswordValid = await bcrypt.compareSync(oldpassword, user.Password)
             if (!isPasswordValid) {
                 userData.errCode = 1,
                 userData.errMessage = 'Current password is incorrect!'
-                resolve(userData)
+                return resolve(userData)
             }
 
             // Check if new password is different from the old one
             if (oldpassword === newpassword) {
                 userData.errCode = 4
                 userData.errMessage = 'New password must be different from the current password.'    
-                resolve(userData)
+                return resolve(userData)
             }
 
             // Hash new password
@@ -262,7 +284,7 @@ let changePassword = (username, oldpassword, newpassword) => {
             })
             
             userData.errMessage = 'Password changed successfully!'
-            resolve(userData)
+            return resolve(userData)
 
         } catch (error) {
             reject(error)
@@ -279,24 +301,43 @@ let requestResetPassword = (username, email) => {
                 errMessage: ''
             }    
 
+            // Validate username
+            if (!username) {
+                userData.errCode = 3
+                userData.errMessage = 'Username is required!'
+                return resolve(userData)
+            }
+
+            // Validate email
+            if (!email) {
+                userData.errCode = 4
+                userData.errMessage = 'Email is required!'
+                return resolve(userData)
+            }
+
+            // Find user
             let user = await db.User.findOne({
                 where: { Username: username }
             })    
 
+            // Check if user exist
             if (!user) {
                 userData.errCode = 1    
                 userData.errMessage = 'Username is not exist. Please try again'
-
-            } else if (user.Email !== email) {
-                userData.errCode = 2
-                userData.errMessage = 'Email does not match our records!'
-
-            } else {
-                await sendResetPasswordEmail(email, username)
-                userData.errMessage = 'Request to reset password sent successfully! Please check your email'    
+                return resolve(userData)
             }
 
-            resolve(userData)    
+            if (user.Email !== email) {
+                userData.errCode = 2
+                userData.errMessage = 'Email does not match our records!'
+                return resolve(userData)
+            }
+
+            // Send reset password email
+            await sendResetPasswordEmail(email, username)
+            userData.errMessage = 'Request to reset password sent successfully! Please check your email'    
+            return resolve(userData)
+
         } catch (error) {
             reject(error)    
         }
@@ -312,27 +353,27 @@ let checkVerifyCode = (username, code) => {
                 errMessage: ''
             }
 
+            // Find user
             let user = await db.User.findOne({
                 where: { Username: username }
             })
 
+            // Check if user is exist
             if (!user) {
                 userData.errCode = 1    
                 userData.errMessage = 'User not found!'    
-                resolve(userData)    
-                return    
+                return resolve(userData)    
             }
 
+            // Check if code does not match
             if (user.Code.toString() !== code) {
                 userData.errCode = 3    
                 userData.errMessage = 'Invalid verify code. Please try again!'    
-                resolve(userData)    
-                return    
+                return resolve(userData)    
             }
 
-              
             userData.errMessage = 'Verify code is correct!'    
-            resolve(userData)
+            return resolve(userData)
         } catch (error) {
             reject(error)
         }
@@ -355,20 +396,20 @@ let resetPassword = (username, code, password) => {
             if (!user) {
                 userData.errCode = 1
                 userData.errMessage = 'User not found!'    
-                resolve(userData)    
+                return resolve(userData)    
             }
 
             if (user.Code.toString() !== code) {
                 userData.errCode = 3    
                 userData.errMessage = 'Invalid verify code. Please try again!'    
-                resolve(userData)    
+                return resolve(userData)    
             }
 
             let hashPassword = await hashUserPassword(password)    
             if (user.Password === hashPassword) {
                 userData.errCode = 4    
                 userData.errMessage = 'New password matches old password. Please choose a different one.'    
-                resolve(userData)    
+                return resolve(userData)    
             }
 
             await db.User.update({
@@ -378,9 +419,8 @@ let resetPassword = (username, code, password) => {
                 where: { Username: username }
             })    
 
-            
             userData.errMessage = 'Password reset successfully!'    
-            resolve(userData)
+            return resolve(userData)
 
         } catch (error) {
             reject(error)    
@@ -404,7 +444,7 @@ let deleteAccount = (username) => {
             if (!user) {
                 userData.errCode = 1
                 userData.errMessage = 'User not found!'
-                resolve(userData)
+                return resolve(userData)
             } 
                 
             await db.User.destroy({
@@ -412,13 +452,13 @@ let deleteAccount = (username) => {
             })
             
             userData.errMessage = 'Account deleted successfully!'
-            resolve(userData)
+            return resolve(userData)
 
         } catch (error) {
             reject(error)  
         }
     })  
-}  
+}
 
 module.exports = {
     userLogin: userLogin,
@@ -430,5 +470,5 @@ module.exports = {
     requestResetPassword: requestResetPassword,
     checkVerifyCode: checkVerifyCode,
     resetPassword: resetPassword,
-    deleteAccount: deleteAccount
-}  
+    deleteAccount: deleteAccount,
+}

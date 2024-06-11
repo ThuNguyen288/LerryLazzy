@@ -27,8 +27,9 @@ const Profile = () => {
             try {
                 const token = localStorage.getItem('token')
                 const response = await handleShowProfile(token)
+                console.log(response)
                 if (!ignore) {
-                    setProfile(response.data.user)
+                    setProfile(response.user)
                 }
             } catch (error) {
                 if (!ignore) {
@@ -75,7 +76,7 @@ const Profile = () => {
 
             const responseShow = await handleShowProfile(token)
         
-            setProfile(responseShow.data.user)
+            setProfile(responseShow.user)
             setIsEditing(false)
         } catch (error) {
             console.error('Error updating profile:', error)

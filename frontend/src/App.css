@@ -108,9 +108,6 @@
     font-size: large;
 }
 
-.small{
-    font-size: 10px;
-}
 .w-10{
     width: 10%;
 }
@@ -222,7 +219,6 @@ section a:hover {
     width: 90px;
     justify-content: center;
     align-items: center;
-    height: fit-content;
 }
 .nav-button{
     display: flex;

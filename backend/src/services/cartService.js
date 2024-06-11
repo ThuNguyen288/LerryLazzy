@@ -15,7 +15,7 @@ let addProductToCart = (userid, productid) => {
             if (!user) {
                 cartData.errCode = 1
                 cartData.errMessage = 'User not found'
-                resolve(cartData)
+                return resolve(cartData)
             }
 
             let product = await db.Product.findOne({
@@ -24,7 +24,7 @@ let addProductToCart = (userid, productid) => {
             if (!product) {
                 cartData.errCode = 2
                 cartData.errMessage = 'Product not found'
-                resolve(cartData)
+                return resolve(cartData)
             }
 
             let productInCart = await db.Cart.findOne({
@@ -39,7 +39,7 @@ let addProductToCart = (userid, productid) => {
                 })
                 
                 cartData.errMessage = 'Added product to cart successfully!'
-                resolve(cartData)
+                return resolve(cartData)
             } else {
                 let quantity = productInCart.Quantity + 1
                 await db.Cart.update({
@@ -49,7 +49,7 @@ let addProductToCart = (userid, productid) => {
                 })
                 
                 cartData.errMessage = 'Increased product quantity in cart successfully!'
-                resolve(cartData)
+                return resolve(cartData)
             }
         } catch (error) {
             reject(error)
@@ -74,7 +74,7 @@ let showCart = (userid) => {
             if (!user) {
                 cartData.errCode = 1
                 cartData.errMessage = 'User not found'
-                resolve(cartData)
+                return resolve(cartData)
             }
 
             let cart = await db.Cart.findAll({
@@ -83,9 +83,9 @@ let showCart = (userid) => {
             if (!cart || cart.length === 0) {
                 cartData.errCode = 2
                 cartData.errMessage = 'Cart is empty'
-                resolve(cartData)
-                return
+                return resolve(cartData)
             }
+            
             let total = await db.Cart.findAll({
                 attributes: [
                     [db.sequelize.fn('COUNT', db.sequelize.col('UserID')), 'NumberOfProduct'],
@@ -97,7 +97,7 @@ let showCart = (userid) => {
             cartData.errMessage = 'Get cart successfully!'
             cartData.cart = cart;
             cartData.numberProduct = total[0].NumberOfProduct
-            resolve(cartData)
+            return resolve(cartData)
         } catch (error) {
             reject(error)
         }
@@ -119,7 +119,7 @@ let removeProductFromCart = (userid, productid) => {
             if (!user) {
                 cartData.errCode = 1
                 cartData.errMessage = 'User not found'
-                resolve(cartData)
+                return resolve(cartData)
             }
 
             let product = await db.Product.findOne({
@@ -128,7 +128,7 @@ let removeProductFromCart = (userid, productid) => {
             if (!product) {
                 cartData.errCode = 2
                 cartData.errMessage = 'Product not found'
-                resolve(cartData)
+                return resolve(cartData)
             }
             
             await db.Cart.destroy({
@@ -136,7 +136,7 @@ let removeProductFromCart = (userid, productid) => {
             })
             
             cartData.errMessage = 'Delete product successfully!'
-            resolve(cartData)
+            return resolve(cartData)
         } catch (error) {
             reject(error)
         }
@@ -158,7 +158,7 @@ let increaseQuantity = (userid, productid) => {
             if (!user) {
                 cartData.errCode = 1
                 cartData.errMessage = 'User not found'
-                resolve(cartData)
+                return resolve(cartData)
             }
 
             let product = await db.Product.findOne({
@@ -167,7 +167,7 @@ let increaseQuantity = (userid, productid) => {
             if (!product) {
                 cartData.errCode = 2
                 cartData.errMessage = 'Product not found'
-                resolve(cartData)
+                return resolve(cartData)
             }
 
             let quantity = await db.Cart.findOne({
@@ -179,7 +179,7 @@ let increaseQuantity = (userid, productid) => {
                 where: { UserID: userid, ProductID: productid }
             })
             cartData.errMessage = 'Increased product quantity successfully!'
-            resolve(cartData)
+            return resolve(cartData)
         } catch (error) {
             reject(error)
         }
@@ -201,7 +201,7 @@ let decreaseQuantity = (userid, productid) => {
             if (!user) {
                 cartData.errCode = 1
                 cartData.errMessage = 'User not found'
-                resolve(cartData)
+                return resolve(cartData)
             }
 
             let product = await db.Product.findOne({
@@ -210,7 +210,7 @@ let decreaseQuantity = (userid, productid) => {
             if (!product) {
                 cartData.errCode = 2
                 cartData.errMessage = 'Product not found'
-                resolve(cartData)
+                return resolve(cartData)
             }
 
             let quantity = await db.Cart.findOne({
@@ -224,13 +224,13 @@ let decreaseQuantity = (userid, productid) => {
                     where: { UserID: userid, ProductID: productid }
                 })
                 cartData.errMessage = 'Decreased product quantity successfully!'
-                resolve(cartData)
+                return resolve(cartData)
             } else {
                 await db.Cart.destroy({
                     where: { UserID: userid, ProductID: productid }
                 })
                 cartData.errMessage = 'Product removed from cart successfully!'
-                resolve(cartData)
+                return resolve(cartData)
             }
         } catch (error) {
             reject(error)
@@ -253,7 +253,7 @@ let addLargeQuantity = (userid,  productid, quantity) => {
             if (!user) {
                 cartData.errCode = 1
                 cartData.errMessage = 'User not found'
-                resolve(cartData)
+                return resolve(cartData)
             }
 
             let product = await db.Product.findOne({
@@ -262,7 +262,7 @@ let addLargeQuantity = (userid,  productid, quantity) => {
             if (!product) {
                 cartData.errCode = 2
                 cartData.errMessage = 'Product not found'
-                resolve(cartData)
+                return resolve(cartData)
             }
 
             let cartItem = await db.Cart.findOne({
@@ -286,7 +286,7 @@ let addLargeQuantity = (userid,  productid, quantity) => {
             }
 
             cartData.errMessage = 'Product quantity updated successfully!'
-            resolve(cartData)
+            return resolve(cartData)
         } catch (error) {
             reject(error)
         }
@@ -308,7 +308,7 @@ let updateQuantity = (userid, productid, quantity) => {
             if (!user) {
                 cartData.errCode = 1
                 cartData.errMessage = 'User not found'
-                resolve(cartData)
+                return resolve(cartData)
             }
 
             let product = await db.Product.findOne({
@@ -317,7 +317,7 @@ let updateQuantity = (userid, productid, quantity) => {
             if (!product) {
                 cartData.errCode = 2
                 cartData.errMessage = 'Product not found'
-                resolve(cartData)
+                return resolve(cartData)
             }
 
             await db.Cart.update({
@@ -327,7 +327,7 @@ let updateQuantity = (userid, productid, quantity) => {
             })
 
             cartData.errMessage = 'Product quantity updated successfully!'
-            resolve(cartData)
+            return resolve(cartData)
         } catch (error) {
             reject(error)
         }
@@ -349,15 +349,14 @@ let removeAllProduct = (userid) => {
             if (!user) {
                 cartData.errCode = 1
                 cartData.errMessage = 'User not found'
-                resolve(cartData)
-            } else {
-                await db.Cart.destroy({
-                    where: { UserID: userid }
-                })
-
-                cartData.errMessage = 'All products removed from cart successfully!'
-                resolve(cartData)
+                return resolve(cartData)
             }
+
+            await db.Cart.destroy({
+                where: { UserID: userid }
+            })
+            cartData.errMessage = 'All products removed from cart successfully!'
+            return resolve(cartData)
         } catch (error) {
             reject(error)
         }
@@ -379,7 +378,7 @@ let getTotalQuantity = (userid) => {
             if (!user) {
                 cartData.errCode = 1
                 cartData.errMessage = 'User not found'
-                resolve(cartData)
+                return resolve(cartData)
             }
             
             let cartItem = await db.Cart.findAll({
@@ -388,12 +387,13 @@ let getTotalQuantity = (userid) => {
 
             cartData.getTotalQuantity = cartItem.reduce((total, item) => total + item.Quantity, 0)
             cartData.errMessage = 'Total quantity calculated successfully!'
-            resolve(cartData)
+            return resolve(cartData)
         } catch (error) {
             reject(error)
         }
     })
 }
+
 module.exports = {
     addProductToCart: addProductToCart,
     showCart: showCart,

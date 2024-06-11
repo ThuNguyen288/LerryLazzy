@@ -38,12 +38,8 @@ let handleRegister = async (req, res) => {
 
 let handleShowProfile = async (req, res) => {
     try {
-        let user = await userService.findUserByUsername(req.user.username)
-        return res.status(200).json({
-            errCode: 0,
-            message: 'Get user profile successfully!',
-            data: user
-        })
+        let message = await userService.findUserByUsername(req.user.username)
+        return res.status(200).json(message)
     } catch (error) {
         console.error('Error handling show profile request: ', error)
         return res.status(500).json({
