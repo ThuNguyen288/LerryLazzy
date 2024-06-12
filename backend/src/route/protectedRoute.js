@@ -29,6 +29,8 @@ let protectedRoutes = (app) => {
     // Router for order
     protectedRouter.post('/create-order', authMiddleware.authenticateToken, orderController.handleCreateNewOrder)
     protectedRouter.put('/clear-cart', authMiddleware.authenticateToken, orderController.handleClearCart)
+    protectedRouter.get('/show-order', authMiddleware.authenticateToken, orderController.handleShowOrder)
+    protectedRouter.get('/show-order-item', authMiddleware.authenticateToken, orderController.handleShowOrderItem)
     
     return app.use('/api/protected', protectedRouter) 
 }

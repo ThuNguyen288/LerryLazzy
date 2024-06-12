@@ -21,6 +21,12 @@ let createNewOrder = (userid, data) => {
                 return resolve(orderData)
             }
 
+            if (!data || data.shippingAddress === '' || data.paymentMethod === '' || data.totalPrice === '' || data.deliveryMethod === '') {
+                orderData.errCode = 3
+                orderData.errMessage = 'Missing required parameters!'
+                return resolve(orderData)
+            }
+
             let cartItems = await db.Cart.findAll({
                 where: { userid: userid },
             })
@@ -28,12 +34,6 @@ let createNewOrder = (userid, data) => {
             if (!cartItems || cartItems.length === 0) {
                 orderData.errCode = 2
                 orderData.errMessage = 'Your cart is empty'
-                return resolve(orderData)
-            }
-
-            if (!data || !data.shippingAddress || !data.paymentMethod || !data.totalPrice || !data.deliveryMethod) {
-                orderData.errCode = 3
-                orderData.errMessage = 'Missing required parameters!'
                 return resolve(orderData)
             }
 
@@ -73,7 +73,6 @@ let createNewOrder = (userid, data) => {
                     CouponID: data.couponid,
                     Status: 'Pending Confirmation',
                     StatusDate: new Date(),
-                    Note: data.note,
                     DeliveryMethod: data.deliveryMethod
                 }, { transaction: t })
 
@@ -96,7 +95,7 @@ let createNewOrder = (userid, data) => {
 }
 
 // Function to clear cart
-const clearCart = async (userid) => {
+const clearCart = async (userid, orderid) => {
     return new Promise(async (resolve, reject) => {
         try {
             let orderData = {
@@ -104,9 +103,19 @@ const clearCart = async (userid) => {
                 errMessage: '',
                 order: null     
             }
+
+            let user = await db.User.findOne({
+                where: { UserID: userid }
+            })
+
+            if(!user) {
+                orderData.errCode = 1
+                orderData.errMessage = 'User not found'
+                return resolve(orderData)
+            }
+
             let order = await db.Order.findOne({
-                where: { UserID: userid },
-                order: [['OrderID', 'DESC']]
+                where: { OrderID: orderid },
             })
 
             if (!order) {
@@ -117,9 +126,9 @@ const clearCart = async (userid) => {
 
             await db.Order.update({
                 Status: 'Pending Pickup',
-                StatusDate: Date.now()
+                StatusDate: Date.now(),
             }, {
-                where: { OrderID: order.OrderID }
+                where: { OrderID: orderid }
             })
 
             await db.Cart.destroy({
@@ -137,7 +146,108 @@ const clearCart = async (userid) => {
     })
 }
 
+// Function to show order
+let showOrder = async (userid, orderid) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let orderData = {
+                errCode: 0,
+                errMessage: '',
+                order: null     
+            }
+
+            let user = await db.User.findOne({
+                where: { UserID: userid }
+            })
+
+            if(!user) {
+                orderData.errCode = 1
+                orderData.errMessage = 'User not found'
+                return resolve(orderData)
+            }
+
+            let order = await db.Order.findOne({
+                where: { OrderID: orderid }
+            })
+
+            if (!order) {
+                orderData.errCode = 2
+                orderData.errMessage = 'Order not found!'
+                return resolve(orderData)
+            }
+
+            orderData.order = order
+            orderData.errMessage = 'Get order successfully!'
+            return resolve(orderData)
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+
+// Function to show order item
+let showOrderItem = async (userid, orderid) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let orderData = {
+                errCode: 0,
+                errMessage: '',
+                orderItems: null
+            }
+
+            let user = await db.User.findOne({
+                where: { UserID: userid }
+            })
+
+            if(!user) {
+                orderData.errCode = 1
+                orderData.errMessage = 'User not found'
+                return resolve(orderData)
+            }
+
+            let order = await db.Order.findOne({
+                where: { OrderID: orderid }
+            })
+
+            if (!order) {
+                orderData.errCode = 2
+                orderData.errMessage = 'Order not found!'
+                return resolve(orderData)
+            }
+
+            let orderItems = await db.OrderItem.findAll({
+                where: { OrderID: orderid }
+            })
+
+            if (!orderItems || orderItems.length === 0) {
+                orderData.errCode = 3;
+                orderData.errMessage = 'Order items not found!';
+                return resolve(orderData);
+            }
+
+            orderData.orderItems = orderItems
+            orderData.errMessage = 'Get order item successfully!'
+            return resolve(orderData)
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+
+// Function to add note
+let addNote = async (userid, note) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+
 module.exports = {
     createNewOrder: createNewOrder,
-    clearCart: clearCart
+    clearCart: clearCart,
+    showOrder: showOrder,
+    showOrderItem: showOrderItem
 }

@@ -47,11 +47,7 @@ let getProductById = (productid) => {
 let getAllProducts = () => {
     return new Promise(async (resolve, reject) => {
         try {
-            let products = await db.Product.findAll({
-                include: [{
-                    model: db.Review,
-                }],
-            })
+            let products = await db.Product.findAll()
             console.log('Get all products: ', products)
             resolve(products)
         } catch (error) {
@@ -113,6 +109,33 @@ let calTotalOrders = (productid) => {
     })
 }
 
+// Function to show hot product
+let getHotProduct = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+
+            let products = await getAllProducts()
+
+            let productPromises = products.map(async (product) => {
+                let orderCount = await calTotalOrders(product.ProductID)
+                return {
+                    ...product,
+                    orderCount
+                }
+            })
+
+            let productsWithOrderCounts = await Promise.all(productPromises)
+
+            productsWithOrderCounts.sort((a, b) => b.orderCount - a.orderCount)
+
+            resolve(productsWithOrderCounts)
+        } catch (error) {
+            console.error('Error handling display product: ', error)
+            reject(error)
+        }
+    })
+}
+
 module.exports = {
     getProductsByCategory: getProductsByCategory,
     getProductsBySubcategory: getProductsBySubcategory,
@@ -120,5 +143,6 @@ module.exports = {
     getAllProducts: getAllProducts,
     calculateReview: calculateReview,
     calTotalOrders: calTotalOrders,
+    getHotProduct: getHotProduct
 }
 

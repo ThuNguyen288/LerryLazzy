@@ -12,8 +12,14 @@ let getProductById = (productid) => {
     return axios.get(`/api/product?productid=${productid}`)
 }
 
+let getHotProduct = async () => {
+    let response = await axios.get('/api/hot-product')
+    return response
+}
+
 export {
     getProductsByCategory, 
     getProductById, 
-    getProductsBySubcategory
+    getProductsBySubcategory,
+    getHotProduct
 }

@@ -16,6 +16,7 @@ let initWebRoutes = (app) => { //rest api
 
     // Routes for product
     router.get('/product', productController.displayProducts)
+    router.get('/hot-product', productController.displayHotProduct)
 
     return app.use("/api", router)
 }

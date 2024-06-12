@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
+import Spinner from 'react-bootstrap/Spinner'
 import { Button, Modal } from 'react-bootstrap'
 import { BsDash, BsPlus } from 'react-icons/bs'
 import { FaAngleRight } from 'react-icons/fa6'
@@ -28,34 +29,43 @@ const Cart = () => {
 
     const [productDetails, setProductDetails] = useState([])
     const [totalPrice, setTotalPrice] = useState(0)
+    const [cartEmpty, setCartEmpty] = useState(true)
+
     const [showModal, setShowModal] = useState(false)
     const [showCoupon, setShowCoupon] = useState(false)
-    const [couponCode, setCouponCode] = useState('')
-    const [cartEmpty, setCartEmpty] = useState(true)
-    const [couponValue, setCouponValue] = useState('')
+
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(null)
 
     const { updateCartQuantity } = useContext(CartContext)
 
 
     const updateCartData = async (token) => {
-        const response = await handleUserShowCart(token)
-        setCartData(response)
-    
-        const detailsPromises = response.cart.map(async (item) => {
-            const product = await handleShowProductDetail(item.ProductID)
-            // console.log('Product:', product)
-            return product
-        })
-    
-        const productDetails = await Promise.all(detailsPromises)
-        setProductDetails(productDetails)
-    
-        const total = response.cart.reduce((sum, item, index) => {
-            const price = productDetails[index]?.Price || 0
-            return sum + item.Quantity * price
-        }, 0)
-        setTotalPrice(total)
-        localStorage.setItem('subTotal', total)
+        try {
+            const response = await handleUserShowCart(token)
+            setCartData(response)
+        
+            const detailsPromises = response.cart.map(async (item) => {
+                const product = await handleShowProductDetail(item.ProductID)
+                // console.log('Product:', product)
+                return product
+            })
+        
+            const productDetails = await Promise.all(detailsPromises)
+            setProductDetails(productDetails)
+        
+            const total = response.cart.reduce((sum, item, index) => {
+                const price = productDetails[index]?.Price || 0
+                return sum + item.Quantity * price
+            }, 0)
+            setTotalPrice(total)
+            localStorage.setItem('subTotal', total)
+        } catch (error) {
+            console.error('Error updating cart data:', error);
+            setError(error)
+        } finally {
+            setLoading(false)
+        }
     }
 
     useEffect(() => {
@@ -149,6 +159,20 @@ const Cart = () => {
         } catch (error) {
         console.error('Error during checkout:', error)
         }
+    }
+
+    if (loading) {
+        return (
+            <div className='container d-flex align-items-center justify-content-center'>
+                <Spinner animation='border' role='status'>
+                    <span className='visually-hidden'>Loading...</span>
+                </Spinner>
+            </div>
+        )
+    }
+
+    if (error) {
+        return <div>Error: {error.message}</div>
     }
 
     return (

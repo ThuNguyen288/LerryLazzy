@@ -7,12 +7,11 @@ import { Link, useParams } from 'react-router-dom'
 
 import { CartContext } from '../context/CartContext'
 import { handleUserAddToCart } from '../services/cartService'
-import { getProductsByCategory, getProductsBySubcategory } from '../services/productService'
+import { getHotProduct } from '../services/productService'
 
 import './Item.scss'
 
-
-const Item = ({ categoryid, subcategoryid }) => {
+const HotItem = () => {
     const [products, setProducts] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
@@ -25,24 +24,22 @@ const Item = ({ categoryid, subcategoryid }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                let response
-                if (categoryid) {
-                    response = await getProductsByCategory(categoryid)
-                } else if (subcategoryid) {
-                    response = await getProductsBySubcategory(subcategoryid)
-                } else return
+                setLoading(true)
 
-                setProducts(response)
-                setLoading(false)
+                let response = await getHotProduct()
+                if (response) {
+                    setProducts(response)
+                    setLoading(false)
+                }
+                
             } catch (error) {
                 console.error('Error fetching products: ', error)
                 setError(error.message)
                 setLoading(false)
             }
         }
-
         fetchData()
-    }, [categoryid, subcategoryid])
+    }, [])
 
     const handleAddToCart = async (id) => {
         try {
@@ -84,7 +81,7 @@ const Item = ({ categoryid, subcategoryid }) => {
 
     return (
         <div className='row row-cols-1 row-cols-md-4 g-4'>
-            {products.map(product => (
+            {products.slice(0, 8).map(product => (
                 <div key={product.ProductID} className='col'>
                     <div className='card h-100 product-box'>
                         <div className='product-image'>
@@ -111,4 +108,4 @@ const Item = ({ categoryid, subcategoryid }) => {
     )
 }
 
-export default Item
+export default HotItem

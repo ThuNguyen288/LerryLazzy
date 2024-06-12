@@ -118,3 +118,118 @@ a.accordion-link {
 .haha {
     border-right: 1px solid #495057;
 }
+
+.block-body .form-label {
+    color: #868e96;
+    font-size: 0.7875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.block-body .form-control {
+    display: block;
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    font-size: 0.9rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.block-body .form-control:focus {
+    box-shadow: none;
+    border: 1px solid #212529;
+}
+
+.block-body .form-check {
+    display: block;
+    min-height: 1.35rem;
+    padding-left: 1.5em;
+    margin-bottom: 0.125rem;
+}
+
+.block-body .form-check-input[type=checkbox] {
+    border-radius: 0.25em;
+    border: 1px solid #212529;
+}
+
+.form-check-input[type=checkbox]:checked{
+    border-radius: 0.25em;
+    border: 1px solid #212529;
+    background-color:#343a40;
+}
+
+.form-check .form-check-input {
+    float: left;
+    margin-left: -1.5em;
+}
+
+// .form-check-input {
+//     width: 1em;
+//     height: 1em;
+//     margin-top: 0.25em;
+//     vertical-align: top;
+//     background-color: #fff;
+//     background-repeat: no-repeat;
+//     background-position: center;
+//     background-size: contain;
+//     border: 1px solid rgba(0, 0, 0, 0.25);
+//     -webkit-appearance: none;
+//     -moz-appearance: none;
+//     appearance: none;
+//     color: #000;
+// }
+
+.form-check-input[type="checkbox"]:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.cart-item-img {
+    width: 100px;
+    height: auto;
+}
+
+.cart-price {
+    font-size: 13px;
+    font-weight: 500;
+    color: #868e96;
+}
+
+.border-right {
+    border-right: 1px solid #ddd;
+}
+
+.info {
+    font-weight: 600;
+    color: #868e96;
+    font-size: 0.7875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.input-info {
+    width: 100%;
+    border: none;
+    border-radius: 0;
+    border-bottom: 1px solid #ddd;
+    transition: none;
+}
+
+.input-info:disabled{
+    background-color: transparent;
+}
+
+.input-info:focus{
+    outline: none;
+    box-shadow: none;
+    border-color: #495057;
+}

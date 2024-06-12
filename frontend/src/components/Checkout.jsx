@@ -1,10 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Spinner from 'react-bootstrap/Spinner'
-import { FaArrowLeftLong } from 'react-icons/fa6'
+
 
 import { AuthContext } from '../context/AuthContext'
+import { handleShowProductDetail } from '../services/cartService'
+import { handleClearCart, handleCreateNewOrder, handleShowOrderItem } from '../services/orderService'
 import { handleShowProfile } from '../services/userService'
-import { handleCreateNewOrder } from '../services/orderService'
+
 import './Checkout.scss'
 
 const Checkout = () => {
@@ -17,10 +19,13 @@ const Checkout = () => {
     const [useDifferentAddress, setUseDifferentAddress] = useState(false)
 
     const [shippingAddress, setShippingAddress] = useState(profile.Address !== undefined ? profile.Address : '')
-    const [paymentMethod, setPaymentMethod] = useState(null)
+    const [paymentMethod, setPaymentMethod] = useState('')
     const [subTotal, setSubTotal] = useState(0)
     const [shippingFee, setShippingFee] = useState(0)
-    const [deliveryMethod, setDeliveryMethod] = useState(null)
+    const [deliveryMethod, setDeliveryMethod] = useState('')
+    
+    const [orderId, setOrderId] = useState('')
+    const [productDetails, setProductDetails] = useState([])
     
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
@@ -37,42 +42,29 @@ const Checkout = () => {
             setActiveStep(activeStep - 1)
         }
         if (activeStep === 0) {
-            window.location.href='/cart'
+            window.location.href='/orderItem'
         }
     }
 
     useEffect(() => {
-        let ignore = false
-
         const fetchData = async () => {
             setLoading(true)
             try {
                 const token = localStorage.getItem('token')
                 const response = await handleShowProfile(token)
-                console.log(response)
-                if (!ignore) {
-                    const fullname = response.user.Lastname + ' ' + response.user.Firstname
-                    setProfile({
-                        ...response.user,
-                        Fullname: fullname
-                    })
-                }
+                const fullname = response.user.Lastname + ' ' + response.user.Firstname
+                setProfile({
+                    ...response.user,
+                    Fullname: fullname
+                })
             } catch (error) {
-                if (!ignore) {
                     setError(error) 
                     console.error('Error fetching profile:', error)
-                }
             } finally {
-                if (!ignore) {
-                    setLoading(false) 
-                }
+                setLoading(false) 
             }
         }
         fetchData()
-
-        return () => {
-            ignore = true 
-        }
     }, [isAuthenticated.token])
 
     const handleCheckboxChange = () => {
@@ -85,7 +77,10 @@ const Checkout = () => {
 
     const handleGetShippingAddress = (event) => {
         event.preventDefault()
-        // setShippingAddress(event.target.value)
+        if (shippingAddress === '') {
+            alert('Please enter your shipping address')
+            return
+        }
         setActiveStep(1)
         console.log('Shipping address:', shippingAddress)
     }
@@ -96,7 +91,10 @@ const Checkout = () => {
 
     const handleGetDeliveryMethod = (event) => {
         event.preventDefault()
-        // setDeliveryMethod(event.target.value)
+        if (deliveryMethod === '') {
+            alert('Please select a delivery method')
+            return
+        }
         setActiveStep(2)
         console.log('Delivery method:', deliveryMethod)
     }
@@ -106,14 +104,21 @@ const Checkout = () => {
         if (orderTotal >= 400000) {
             fee = 0
         } else {
-            if (deliveryMethod === 'Usp Next Day') {
-                fee = 50000
-            } else if (deliveryMethod === 'Express Shipping') {
-                fee = 35000
-            } else if (deliveryMethod === 'Standard Shipping') {
-                fee = 15000
-            } else if (deliveryMethod === 'In Store Pickup') {
-                fee = 0
+            switch (deliveryMethod) {
+                case 'Usp Next Day':
+                    fee = 50000
+                    break
+                case 'Express Shipping':
+                    fee = 35000
+                    break
+                case 'Standard Shipping':
+                    fee = 15000
+                    break
+                case 'In Store Pickup':
+                    fee = 0
+                    break
+                default:
+                    fee = 0
             }
         }
         setShippingFee(fee)
@@ -125,26 +130,14 @@ const Checkout = () => {
 
     const handleHeaderClick = (value) => {
         setPaymentMethod(value)
-
-        if (activeAccordion === value) {
-            setActiveAccordion(null) 
-        } else {
-            setActiveAccordion(value) 
-        }
+        setActiveAccordion(activeAccordion === value ? null : value)
     }
 
     const handlePaymentMethodChange = (event) => {
         setPaymentMethod(event.target.value)
     }
 
-    const handleGetPaymentMethod = (event) => {
-        event.preventDefault()
-        // setPaymentMethod(event.target.value)
-        setActiveStep(3)
-        console.log('Payment method:', paymentMethod)
-    }
-
-    const totalPrice = subTotal + shippingFee;
+    const totalPrice = subTotal + shippingFee
 
     const orderData = {
         shippingAddress,
@@ -153,22 +146,65 @@ const Checkout = () => {
         deliveryMethod
     }
 
-    let handleCheckOut = async () => {
+    const handleGetPaymentMethod = async () => {
         try {
+            if (paymentMethod === '') {
+                alert('Please select a payment method')
+                return
+            }
+
             let token = localStorage.getItem('token')
-            console.log('Order data:', orderData)
             let response = await handleCreateNewOrder(token, orderData)
-            console.log('Response:', response)
+
+            if (response.errCode !== 0) {
+                alert(response.errMessage)
+                console.log(response.errMessage)
+            }
+            setOrderId(response.order.OrderID)
+
+            setActiveStep(3)
+
+            let responseItem = await handleShowOrderItem(token, orderId)
+            
+            if (!responseItem || !responseItem.orderItems) {
+                console.log("No order items found");
+                return;
+            }
+
+            const detailsPromises = responseItem.orderItems.map(async (item) => {
+                const product = await handleShowProductDetail(item.ProductID)
+                console.log(product)
+                return product
+            })
+
+            const productDetails = await Promise.all(detailsPromises)
+            console.log(productDetails)
+            setProductDetails(productDetails)
+
         } catch (error) {
             console.error('Error in handling checkout:', error)
         }
     }
 
+    let handleCheckOut = async () => {
+        try {
+            let token = localStorage.getItem('token')
+            await handleClearCart(token, orderId)
+
+            window.location.href='/home'
+            
+        } catch (error) {
+            console.error('Error in handling check out:', error)
+        }
+    }
+
     if (loading) {
         return (
-            <Spinner animation='border' role='status'>
-                <span className='visually-hidden'>Loading...</span>
-            </Spinner>
+            <div className='container d-flex align-items-center justify-content-center'>
+                <Spinner animation='border' role='status'>
+                    <span className='visually-hidden'>Loading...</span>
+                </Spinner>
+            </div>
         )
     }
 
@@ -355,9 +391,73 @@ const Checkout = () => {
                                 </div>
                             </div>
                         )}
+                        {activeStep === 3 && (
+                            <div className='mb-5'>
+                                <div className='cart'>
+                                    <div className='cart-header'>
+                                        Order Items ({productDetails.length})
+                                    </div>
+                                    <div className='cart-wrapper'>
+                                        <div className='text-center'>
+                                            <div className='cart-body'>
+                                                <div className='row'>
+                                                    {productDetails.map((item, index) => (
+                                                        <div key={item.ProductID} className='cart-item col-6'>
+                                                            <div className={`d-flex align-items-start row ${index % 2 === 0 ? 'border-right' : ''}`}>
+                                                                <div className='col-5'>
+                                                                    <img src={`${process.env.PUBLIC_URL}${item.Image}`} className='cart-item-img'></img>
+                                                                </div>
+                                                                <div className='col-7'>
+                                                                    <div className='small mt-2 text-start'>{item.Name}</div>
+                                                                    <div className='text-start mt-2 cart-price'>{item.Price.toLocaleString('vi-VN')} đ</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className='information mt-5'>
+                                    <div className='cart-header'>
+                                        Billing Details
+                                    </div>
+                                    <div className='cart-body'>
+                                        <div className='row justify-content-between'>
+                                            <div className='col-md-6 my-4 px-4'>
+                                                <label className='form-label w-100 info'>Fullname</label>
+                                                <input type='text' className='input-info form-control form-control-sm' value={profile.Fullname} disabled/>
+                                            </div>
+                                            <div className='col-md-6 my-4 px-4'>
+                                                <label className='form-label w-100 info'>Phone Number</label>
+                                                <input type='text' className='input-info form-control form-control-sm' value={profile.Phone} disabled/>
+                                            </div>
+                                            <div className='col-md-6 my-4 px-4'>
+                                                <label className='form-label w-100 info'>Shipping Address</label>
+                                                <input type='text' className='input-info form-control form-control-sm' value={shippingAddress} disabled/>
+                                            </div>
+                                            <div className='col-md-6 my-4 px-4'>
+                                                <label className='form-label w-100 info'>Delivery Method</label>
+                                                <input type='text' className='input-info form-control form-control-sm' value={deliveryMethod} disabled/>
+                                            </div>
+                                            <div className='col-md-6 my-4 px-4'>
+                                                <label className='form-label w-100 info'>Payment Method</label>
+                                                <input type='text' className='input-info form-control form-control-sm' value={paymentMethod} disabled/>
+                                            </div>
+                                            <div className='col-md-6 my-4 px-4'>
+                                                <label className='form-label w-100 info'>Note</label>
+                                                <input type='text' className='input-info form-control form-control-sm' value=''/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                         <div className='mb-5 d-flex justify-content-between flex-column flex-lg-row'>
                             <a className='text-muted btn-back' onClick={handleBackStep} role='button'>
-                                <FaArrowLeftLong className='ms-4'/>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="M9.78 12.78a.75.75 0 0 1-1.06 0L4.47 8.53a.75.75 0 0 1 0-1.06l4.25-4.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042L6.06 8l3.72 3.72a.75.75 0 0 1 0 1.06Z"></path></svg>
+                                Back
                             </a>
                             {activeStep === 3 && (
                                 <button type="button" className='btn btn-dark btn-next' onClick={handleCheckOut}>
