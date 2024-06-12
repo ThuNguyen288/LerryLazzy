@@ -6,7 +6,6 @@ import Login from './pages/auth/Login'
 import Register from './pages/auth/Register'
 
 import CartPage from './pages/CartPage'
-import ChangePassword from './pages/ChangePassword'
 import WishList from './pages/Favorite'
 import HomePage from './pages/HomePage'
 import Notification from './pages/Notification'
@@ -41,7 +40,6 @@ function App() {
                             <Route path='/favorite' element={<PrivateRoute><WishList/></PrivateRoute>} />
                             <Route path='/cart' element={<PrivateRoute><CartPage/></PrivateRoute>} />
                             <Route path='/profile/:username'element={<PrivateRoute><Profile/></PrivateRoute>} />
-                            <Route path='/changepassword' element={<PrivateRoute><ChangePassword/></PrivateRoute>} />
                             <Route path='/notification' element={<PrivateRoute><Notification/></PrivateRoute>} />
                             <Route path='/checkout' element={<PrivateRoute><CheckoutPage/></PrivateRoute>}></Route>
                         </Routes>

@@ -1,60 +1,149 @@
-import React from "react";
-import img from "../images/img.jpg";
-import "../App.css";
-import NavBar from "../components/NavBar";
-import SideBar from "../components/SideBar";
-import Footer from "../components/Footer";
+import React, { useEffect, useState } from 'react'
+import Spinner from 'react-bootstrap/Spinner'
+import { Link } from 'react-router-dom'
+
+import Footer from '../components/Footer'
+import NavBar from '../components/NavBar'
+import SideBar from '../components/SideBar'
+import { handleShowAllOrders } from '../services/orderService'
+
+import './Order.scss'
 
 const Order = () => {
-    return (
-        <div>
-            <NavBar/>
-            <div className="d-flex">
-                <SideBar/>
-                <div className="w-100 pe-5 my-5">
-                    <h2 className="text-center pb-3">Order</h2>
-                    <div className="text-brown border border-secondary px-5">
-                        <div className="d-flex justify-content-between bg-grey mx-auto mb-3 mt-5">
-                            <div className="d-block px-3 py-2">
-                                <h6>Order no:</h6>
-                                <p>000000</p>
-                            </div>
-                            <div className="d-block px-3 py-2">
-                                <h6>Shipped Date:</h6>
-                                <p>23/12/2024</p>
-                            </div>
-                            <div className="d-block px-3 py-2">
-                                <h6>Status:</h6>
-                                <p>Awaiting delivery</p>
-                            </div>
-                            <div className="d-block px-3 py-2">
-                                <h6>Order Amount:</h6>
-                                <p>1.5$</p>
-                            </div>
+    const [orders, setOrders] = useState([])
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(null)
+
+    useEffect(() => {
+        const fetchCartData = async () => {
+            try {
+                const token = localStorage.getItem('token')
+                const response = await handleShowAllOrders(token)
+
+                setOrders(response.orders)
+                setLoading(false)
+            } catch (error) {
+                console.error('Error fetching orders data:', error)
+            }
+        }
+        fetchCartData()
+    }, [])
+
+    const getBadgeClass = (status) => {
+        switch (status) {
+            case 'Pending Confirmation':
+                return 'badge-pending-confirm'
+            case 'Pending Pickup':
+                return 'badge-pending-pickup'
+            case 'Pending Delivery':
+                return 'badge-pending-delivery'
+            case 'Delivered':
+                return 'badge-delivered'
+            case 'Cancelled':
+                return 'badge-cancelled'
+            default:
+                return 'badge-other'
+        }
+    }
+
+    if (loading) {
+        return (
+            <div>
+                <NavBar/>
+                <div className='container'>
+                    <nav aria-label='breadcrumb'>
+                        <ol className='breadcrumb justify-content-start no-border my-4'>
+                            <li className='breadcrumb-item'><Link className='breadcrumb-link' to='/home'>Home</Link></li>
+                            <li className='breadcrumb-item active' aria-current='page'>Account</li>
+                        </ol>
+                    </nav>
+                </div>
+                <div className='hero-content pb-4 text-center'>
+                    <h1 className='hero-heading'>Your Account</h1>
+                </div> 
+                <div className='container'>
+                    <div className='row'>
+                        <div className='col-xl-3 col-lg-4 mb-5'>
+                            <SideBar/>
                         </div>
-                        <div className="mb-4 d-flex justify-content-between align-items-center">
-                            <div className="d-flex">
-                                <div className="d-block mr-2">
-                                    <img src={img} alt="" className="miniImg" />
-                                </div>
-                                <div className="d-block mx-2">
-                                    <img src={img} alt="" className="miniImg" />
-                                </div>
-                                <div className="d-block mx-2">
-                                    <img src={img} alt="" className="miniImg" />
-                                </div>
-                            </div>
-                            <div className="d-flex">
-                                <button className="my-4 btn btn-transparent border p-3 mx-2">Order Detail</button>
-                                <button className="my-4 btn btn-transparent border p-3 ml-2">Track Order</button>
-                            </div>
+                        <div className='col-lg-8 col-xl-9 d-flex align-items-center justify-content-center'>
+                            <Spinner animation='border' role='status'>
+                                <span className='visually-hidden'>Loading...</span>
+                            </Spinner>
                         </div>
                     </div>
                 </div>
+                <Footer/>
             </div>
+        )
+    }
+
+    if (error) {
+        return <div>Error: {error.message}</div>
+    }
+
+    return (
+        <div>
+            <NavBar/>
+            <div className='container'>
+                    <nav aria-label='breadcrumb'>
+                        <ol className='breadcrumb justify-content-start no-border my-4'>
+                            <li className='breadcrumb-item'><Link className='breadcrumb-link' to='/home'>Home</Link></li>
+                            <li className='breadcrumb-item active' aria-current='page'>Account</li>
+                        </ol>
+                    </nav>
+                </div>
+                <div className='hero-content pb-4 text-center'>
+                    <h1 className='hero-heading'>Your Orders</h1>
+                </div> 
+                <div className='container'>
+                    <div className='row'>
+                        <div className='col-xl-3 col-lg-4 mb-5'>
+                            <SideBar/>
+                        </div>
+                        <div className='col-lg-8 col-xl-9 order-body'>
+                            <table className='table table-hover'>
+                                <thead>
+                                    <tr className='table-head'>
+                                        <th scope='col' className='py-4 text-uppercase text-sm'>Order #</th>
+                                        <th scope='col' className='py-4 text-uppercase text-sm'>Date</th>
+                                        <th scope='col' className='py-4 text-uppercase text-sm'>Total</th>
+                                        <th scope='col' className='py-4 text-uppercase text-sm'>Status</th>
+                                        <th scope='col' className='py-4 text-uppercase text-sm'>Action</th> 
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {orders.length === 0 ? (
+                                        <div className='text-center py-4'>
+                                            <p>No purchase history!</p>
+                                        </div>
+                                    ) : (
+                                        orders.map(order => (
+                                            <tr key={order.OrderID}>
+                                                <td scope='row' className='py-4 align-middle fw-bold'>
+                                                    <div className='text-center'># {order.OrderID}</div>
+                                                </td>
+                                                <td className='py-4 align-middle'>
+                                                    <div className='text-center'>{order.OrderDate}</div>
+                                                </td>
+                                                <td className='py-4 align-middle'>{order.TotalPrice.toLocaleString('vi-VN')} đ</td>
+                                                <td className='py-4 align-middle'>
+                                                    <span className={`badge p-2 text-uppercase ${getBadgeClass(order.Status)}`}>{order.Status}</span>
+                                                </td>
+                                                <td className='py-4 align-middle'>
+                                                    <Link to={`/order/${order.OrderID}`} className='btn btn-outline-dark btn-sm'>View</Link>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             <Footer/>
         </div>
-    );
+    )
 }
 
-export default Order;
+export default Order

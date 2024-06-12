@@ -24,8 +24,17 @@ let handleShowOrderItem = (token, orderid) => {
     })
 }
 
+let handleShowAllOrders = (token) => {
+    return axios.get('/api/protected/show-all-orders', {
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
+    })
+}
+
 export {
     handleCreateNewOrder,
     handleClearCart,
-    handleShowOrderItem
+    handleShowOrderItem,
+    handleShowAllOrders
 }

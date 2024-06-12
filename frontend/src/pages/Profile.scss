@@ -1,41 +1,23 @@
-.profile table {
-    align-items: flex-start;
-    margin: 10px;
+
+.fs-sm {
+   font-size: .875rem !important;
+}
+
+.info-name {
+   font-weight: 400;
+}
+
+.choice {
     width: 100%;
-  }
-
-  .profile {
-    margin-left: 10px;
-  }
-  
-  .profile button {
-    margin: 5px;
-  }
-
-  .profile td{
-    padding: 10px;
-    height: fit-content;
-  }
-
-  .profile input{
-    width: 100%;
-  }
-
-  .profile .label{
-    width: 100px;
-  }
-
-.profile {
-    padding: 20px;
-    margin-top: 20px;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    border: none;
+    border: 1px solid gray;
+    border-radius: 0.375rem;
+    appearance: none;
 }
 
-.form-group {
-    margin-bottom: 15px;
+.delete:hover {
+    border-bottom: 1px solid rgba(220, 53, 69, 1);
 }
-
-.label {
-    font-weight: bold;
-}
-
-

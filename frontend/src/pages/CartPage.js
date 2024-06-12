@@ -21,9 +21,9 @@ const CartPage = () => {
                 </nav>
                 <div className='hero-content pb-4 text-center'>
                     <h1 className='hero-heading'>Shopping Cart</h1>
-                </div>
-                <CartItem/>
+                </div> 
             </div>
+            <CartItem/>
             <FooterCart/>
             <Footer/>
         </div>

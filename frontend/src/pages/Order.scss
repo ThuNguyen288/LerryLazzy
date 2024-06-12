@@ -1,0 +1,47 @@
+
+
+
+.table-head {
+    background-color: #f8f9fa;
+    text-align: center;
+}
+
+.table th,
+.table td {
+    vertical-align: middle;
+    text-align: center;
+}
+
+.table th {
+    background-color: #f8f9fa;
+}
+
+.badge {
+    &.badge-pending-confirm {
+        background-color: #ffe5b4; 
+        color: #d69d2b;
+    }
+    &.badge-pending-pickup {
+        background-color: #cce5ff; 
+        color: #5a9bd4;
+    }
+    &.badge-pending-delivery {
+        background-color: #f8d7da; 
+        color: #d79b9e;
+    }
+    &.badge-delivered {
+        background-color: #d4edda; 
+        color: #6c8e76;
+    }
+    &.badge-cancelled {
+        background-color: #e2e3e5; 
+        color: #a0a4ab;
+    }
+    &.badge-other {
+        background-color: #6c757d; // grey
+        color: #fff;
+    }
+}
+
+
+

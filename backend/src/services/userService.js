@@ -158,7 +158,7 @@ let findUserByUsername = (username) => {
             // Find user
             let user = await db.User.findOne({
                 where: { Username: username },
-                attributes: ['Firstname', 'Lastname', 'Email', 'Address', 'Phone']
+                attributes: ['Firstname', 'Lastname', 'Email', 'Address', 'Phone', 'Password']
             })
 
             if (!user) {

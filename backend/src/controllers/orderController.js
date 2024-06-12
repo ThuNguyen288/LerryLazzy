@@ -72,11 +72,26 @@ let handleShowOrderItem = async (req, res) => {
     }
 }
 
+let handleShowAllOrders = async (req, res) => {
+    try {
+        let userid = req.user.userid
+        let message = await orderService.showAllOrders(userid)
+        return res.status(200).json(message)
+    } catch (error) {
+        console.error('Error handling show all orders request: ', error)
+        return res.status(500).json({
+            errCode: -1,
+            message: 'An internal server error occurred.'
+        })
+    }
+}
+
 module.exports = {
     handleCreateNewOrder: handleCreateNewOrder,
     handleClearCart: handleClearCart,
     handleShowOrder: handleShowOrder,
     handleShowOrderItem: handleShowOrderItem,
+    handleShowAllOrders: handleShowAllOrders
 }
 
 

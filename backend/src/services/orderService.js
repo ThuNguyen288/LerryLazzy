@@ -1,3 +1,4 @@
+import { format } from 'date-fns'
 import db from '../models/index'
 
 // Function create new order
@@ -245,9 +246,56 @@ let addNote = async (userid, note) => {
     })
 }
 
+// Funtion to show all orders of user
+let showAllOrders = async (userid) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let orderData = {
+                errCode: 0,
+                errMessage: '',
+                orders: []
+            }
+
+            let user = await db.User.findOne({
+                where: { UserID: userid }
+            })
+
+            if(!user) {
+                orderData.errCode = 1
+                orderData.errMessage = 'User not found'
+                return resolve(orderData)
+            }
+
+            let orders = await db.Order.findAll({
+                where: { UserID: userid },
+                order: [['OrderID', 'DESC']]
+            })
+
+            if (!orders) {
+                orderData.errCode = 2;
+                orderData.errMessage = 'Orders not found!';
+                return resolve(orderData);
+            }
+
+            orderData.orders = orders.map(order => {
+                return {
+                    ...order,
+                    OrderDate: format(new Date(order.OrderDate), 'dd/MM/yyyy')
+                }
+            })
+
+            orderData.errMessage = 'Show all orders successfully!'
+            return resolve(orderData)
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+
 module.exports = {
     createNewOrder: createNewOrder,
     clearCart: clearCart,
     showOrder: showOrder,
-    showOrderItem: showOrderItem
+    showOrderItem: showOrderItem,
+    showAllOrders: showAllOrders
 }
