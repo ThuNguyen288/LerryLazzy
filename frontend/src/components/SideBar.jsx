@@ -1,12 +1,14 @@
 import React, { useContext } from 'react'
 import { LuCreditCard, LuHeart, LuShoppingBag, LuStar, LuUser, LuBell, LuBadgeHelp, LuBadgeInfo, LuLogOut, LuMapPin } from 'react-icons/lu'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { AuthContext } from '../context/AuthContext'
 import './SideBar.scss'
 
     
 const SideBar = () => {
-    const { logout } = useContext(AuthContext)
+    const { isAuthenticated, logout } = useContext(AuthContext)
+
+    const { username } = useParams()
 
     const handleLogout = () => {
         logout()
@@ -33,7 +35,7 @@ const SideBar = () => {
             </nav>
             <div className='cart-header topic mt-3'>Manage account</div>
             <nav className='list-group list-group-borderless mt-1'>
-                <Link to='/profile' className='list-group-item list-group-item-action d-flex align-items-center'>
+                <Link to={`/profile/${isAuthenticated.user.Username}`} className='list-group-item list-group-item-action d-flex align-items-center'>
                     <LuUser className='fs-base opacity-75 me-2'/>Personal info
                 </Link>
                 <Link to='#' className='list-group-item list-group-item-action d-flex align-items-center'>
@@ -57,36 +59,6 @@ const SideBar = () => {
                     <LuLogOut className='fs-base opacity-75 me-2'/>Logout
                 </Link>
             </nav>
-            
-            
-            {/* <div className=''>Shopping</div>
-            <button className='sidebar-item'>
-                <i className='fas fa-list icon'/>
-                <Link to='/order' className='link'>Order</Link>
-                <span className='badge text-white bg-danger me-2 mt-1 float-end rounded-circle '>4</span>
-            </button>
-            <button className='sidebar-item'>
-                <i className='fas fa-shopping-cart icon'/>
-                <Link to='/cart' className='link'>Cart</Link>
-            </button>
-            <button className='sidebar-item'>
-                <i className='fas fa-heart icon'/>
-                <Link to='/wishlist' className='link'>Wish List</Link>
-            </button>
-            <div className=''>Manage Account</div>
-            <button className='sidebar-item'>
-                <i className='fas fa-user icon'/>
-                <Link to='/profile/:username' className='link'>Personal Info</Link>
-            </button>
-            <button className='sidebar-item'>
-            <i className='fas fa-key icon'/>
-                <Link to='/changepassword' className='link'>Change Pasword</Link>
-            </button>
-            <button className='sidebar-item'>
-                <i className='fas fa-bell icon'/>
-                <Link to='/notification' className='link'>Notification</Link>
-            </button> */}
-            
         </div>
     )
 }

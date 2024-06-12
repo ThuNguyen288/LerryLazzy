@@ -39,8 +39,8 @@ const Order = () => {
                 return 'badge-pending-delivery'
             case 'Delivered':
                 return 'badge-delivered'
-            case 'Cancelled':
-                return 'badge-cancelled'
+            case 'Canceled':
+                return 'badge-canceled'
             default:
                 return 'badge-other'
         }

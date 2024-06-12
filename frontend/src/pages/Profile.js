@@ -17,6 +17,7 @@ import './Profile.scss'
 
 const Profile = () => {
     const { isAuthenticated, logout } = useContext(AuthContext)
+    
     const [profile, setProfile] = useState({})
     const [date, setDate] = React.useState('June 6, 2003')
     const [loading, setLoading] = useState(true)
@@ -224,6 +225,7 @@ const Profile = () => {
                 <nav aria-label='breadcrumb'>
                     <ol className='breadcrumb justify-content-start no-border my-4'>
                         <li className='breadcrumb-item'><Link className='breadcrumb-link' to='/home'>Home</Link></li>
+                        <li className='breadcrumb-item'><Link className='breadcrumb-link' to={`/profile/${isAuthenticated.user.Username}`}>Account</Link></li>
                         <li className='breadcrumb-item active' aria-current='page'>Profile</li>
                     </ol>
                 </nav>
