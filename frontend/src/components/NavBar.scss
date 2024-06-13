@@ -34,7 +34,7 @@
 .cart-count {
     position: relative;
     display: inline-block;
-  }
+}
 
 .cart-count .badge {
     position: absolute;
@@ -97,27 +97,27 @@
     transform: translateX(0);
 }
 
-.menu .nav-icon {
+.nav-icon {
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 3px;
 }
 
-.menu .nav-icon .icon-nav {
+.nav-icon .icon-nav {
     color: #686D76;
     transform: color 3s ease;
 }
 
-.menu .nav-icon .icon-nav:hover {
+.nav-icon .icon-nav:hover {
     color: #333;
 }
 
-.menu .nav-icon.dropdown {
+.nav-icon.dropdown {
     position: relative;
 }
 
-.menu .nav-icon .dropdown-menu {
+.nav-icon .dropdown-menu {
     position: absolute;
     top: 30px;
     background-color: white;
@@ -125,11 +125,16 @@
     z-index: 100;
 }
 
-.menu .nav-button button{
+.nav-button button{
     width: 90px;
     justify-content: center;
     align-items: center;
 }
-.menu .nav-button{
+
+.nav-button{
     display: flex;
+}
+
+.dropdown-menu {
+    --bs-dropdown-link-active-bg: tranparent;
 }

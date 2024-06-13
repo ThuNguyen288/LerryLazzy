@@ -1,7 +1,7 @@
 import axios from '../axios'
 
 let handleAddRemoveFavorite = (token, productid) => {
-    return axios.put('/api/protected/add-remove', { productid } , {
+    return axios.post('/api/protected/add-remove-favorite', { productid } , {
         headers: {
             'Authorization': 'Bearer ' + token
         }
@@ -16,7 +16,16 @@ let handleShowFavorite = (token) => {
     })
 }
 
+let handleCheckFavorite = (token, productid) => {
+    return axios.get(`/api/protected/check-favorite?productid=${productid}`, {
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
+    })
+}
+
 export {
-    handleAddRemoveFavorite,
+    handleAddRemoveFavorite, 
+    handleCheckFavorite,
     handleShowFavorite
 }

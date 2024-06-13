@@ -116,7 +116,7 @@ let handleUpdateOrderStatus = async () => {
 }
 
 // Cron job to run every 5 minutes
-cron.schedule('*/1 * * * *', async () => {
+cron.schedule('*/10 * * * *', async () => {
     console.log('Running a task every 5 minutes')
     let message = await handleUpdateOrderStatus()
     console.log(message)

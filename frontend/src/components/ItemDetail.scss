@@ -59,3 +59,12 @@
 .quantity-number::-webkit-inner-spin-button {
     -webkit-appearance: none;
 }
+
+.custom-capitalize {
+    text-transform: none;
+}
+
+.custom-capitalize::first-letter {
+    text-transform: uppercase;
+}
+

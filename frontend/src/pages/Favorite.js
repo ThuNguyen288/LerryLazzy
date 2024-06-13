@@ -1,26 +1,29 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Spinner from 'react-bootstrap/Spinner'
-import { Link } from 'react-router-dom'
-import { FaAngleRight } from 'react-icons/fa6'
+import { Link, useParams } from 'react-router-dom'
 
 import Footer from '../components/Footer'
 import NavBar from '../components/NavBar'
 import SideBar from '../components/SideBar'
 
+import { CartContext } from '../context/CartContext'
 import { AuthContext } from '../context/AuthContext'
 import { handleShowProductDetail } from '../services/cartService'
 import { handleShowFavorite } from '../services/favoriteService'
+import { handleUserAddToCart } from '../services/cartService'
 
 import './Favorite.scss'
 
 const Favorite = () => {
 
     const { isAuthenticated } = useContext(AuthContext)
+    const { updateCartQuantity } = useContext(CartContext)
+
+    const { productid } = useParams()
 
     const [products, setProducts] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
-
     const [favoData, setFavoData] = useState([])
 
     useEffect(() => {
@@ -50,6 +53,26 @@ const Favorite = () => {
 
         fetchData()
     }, [])
+
+    const handleAddToCart = async (productid) => {
+        try {
+            if (!productid) {
+                console.error('Error: Invalid product')
+                return
+            }
+            const token = localStorage.getItem('token')
+            if (!token) {
+                alert('You need to login first')
+                return
+            }
+            await handleUserAddToCart(token, productid)
+            
+            alert('Added product to cart successfully')
+            updateCartQuantity()
+        } catch (error) {
+            console.error('Error add product to cart:', error)
+        }
+    }
 
     if (loading) {
         return (
@@ -165,6 +188,7 @@ const Favorite = () => {
                                                 <div className='cart-title col-9 mt-2'>
                                                     <Link className='text-uppercase' to={`/product/detail/${product.ProductID}`}>{product.ProductName}
                                                         <label>{product.Name}</label>
+                                                        <label role='button'>{product.Name}</label>
                                                     </Link>
                                                     <p className='text-muted text-sm text-truncate'>{product.Description}</p>
                                                 </div>
@@ -178,7 +202,7 @@ const Favorite = () => {
                                                         <label className={`fw-bold ${product.InStock !== 0 ? 'text-dark' : 'text-danger' }`}>{(product.InStock !== 0) ? 'In Stock' : 'Out of Stock'}</label>
                                                     </div>
                                                     <div className='col-md-4 text-center'>
-                                                        <button className='btn btn-sm btn-dark btn-cart'>
+                                                        <button className='btn btn-sm btn-dark btn-cart' onClick={() => handleAddToCart(product.ProductID)}>
                                                             Add to cart
                                                         </button>
                                                     </div>

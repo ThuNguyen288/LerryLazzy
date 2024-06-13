@@ -1,6 +1,5 @@
 import db from '../models/index'
 
-
 // Function add or remove favorite product
 let addRemoveFavorite = (userid, productid) => {
     return new Promise (async (resolve, reject) => {
@@ -37,17 +36,18 @@ let addRemoveFavorite = (userid, productid) => {
                     UserID: userid,
                     ProductID: productid,
                 })
-                
                 favoData.errMessage = 'Added product to favorite successfully!'
                 return resolve(favoData)
             } else {
                 await db.Favorite.destroy({
-                    where: { UserID: userid, ProductID: productid }
+                    where: { 
+                        UserID: userid, 
+                        ProductID: productid 
+                    }
                 })
-                
                 favoData.errMessage = 'Remove product from favorite successfully!'
                 return resolve(favoData)
-            }
+            }  
         } catch (error) {
             reject(error)
         }
@@ -91,7 +91,56 @@ let showFavorite = (userid) => {
     })
 }
 
+// Function to check product in favorite
+let checkFavorite = (userid, productid) => {
+    return new Promise (async (resolve, reject) => {
+        try {
+            let favoData = {
+                errCode: 0,
+                errMessage: '',
+                inFavo: false,
+            }
+
+            let user = await db.User.findOne({
+                where: { UserID: userid }
+            })
+            if (!user) {
+                favoData.errCode = 1
+                favoData.errMessage = 'User not found'
+                return resolve(favoData)
+            }
+
+            let product = await db.Product.findOne({
+                where: { ProductID: productid }
+            })
+            if (!product) {
+                favoData.errCode = 2
+                favoData.errMessage = 'Product not found'
+                return resolve(favoData)
+            }
+
+            let productInFavo = await db.Favorite.findOne({
+                where: { UserID: userid, ProductID: productid }
+            })
+
+            if (!productInFavo) {
+                
+                favoData.errCode = 3
+                favoData.errMessage = 'Product not in favorite'
+                return resolve(favoData)
+            }
+
+            favoData.inFavo = true
+            favoData.errMessage = 'Product in favorite'
+            return resolve(favoData)
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+
 module.exports = {
-    addRemoveFavorite: addRemoveFavorite,
-    showFavorite: showFavorite
+    addRemoveFavorite: addRemoveFavorite ,
+    showFavorite: showFavorite,
+    checkFavorite: checkFavorite
 }

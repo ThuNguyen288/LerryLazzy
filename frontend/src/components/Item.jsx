@@ -16,11 +16,8 @@ const Item = ({ categoryid, subcategoryid }) => {
     const [products, setProducts] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
-
     const { updateCartQuantity } = useContext(CartContext)
     const { productid } = useParams()
-    
-    console.log(productid)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -44,6 +41,33 @@ const Item = ({ categoryid, subcategoryid }) => {
         fetchData()
     }, [categoryid, subcategoryid])
 
+    // useEffect(() => {
+    //     const fetchFavoriteStatus = async (productId) => {
+    //         try {
+    //             const token = localStorage.getItem('token')
+    //             const favoriteStatus = await handleCheckFavorite(token, productId)
+    //             return favoriteStatus.inFavo
+    //         } catch (error) {
+    //             console.error(`Error checking favorite status for product ${productId}:`, error)
+    //             return false
+    //         }
+    //     }
+
+    //     const updateProductsFavoriteStatus = async () => {
+    //         try {
+    //             const updatedProducts = await Promise.all(products.map(async (product) => {
+    //                 const isFavorite = await fetchFavoriteStatus(product.ProductID)
+    //                 return { ...product, isFavorite }
+    //             }))
+    //             setProducts(updatedProducts)
+    //         } catch (error) {
+    //             console.error('Error updating favorite status:', error)
+    //         }
+    //     }
+
+    //     updateProductsFavoriteStatus()
+    // }, [products])
+
     const handleAddToCart = async (id) => {
         try {
             if (!id) {
@@ -64,8 +88,30 @@ const Item = ({ categoryid, subcategoryid }) => {
         }
     }
 
-    const handleAddToFavorite = () => {
-
+    const handleToggleFavorite = async (productId) => {
+        // try {
+        //     const token = localStorage.getItem('token')
+        //     if (!token) {
+        //         console.error('Error: User not authenticated')
+        //         return
+        //     }
+    
+        //     // Update local state optimistically
+        //     setProducts(prevProducts => {
+        //         return prevProducts.map(product => {
+        //             if (product.ProductID === productId) {
+        //                 return { ...product, isFavorite: !product.isFavorite }
+        //             }
+        //             return product
+        //         })
+        //     })
+    
+        //     // Call backend to toggle favorite status
+        //     await handleAddRemoveFavorite(token, productId)
+            
+        // } catch (error) {
+        //     console.error('Error toggling favorite status:', error)
+        // }
     }
 
     if (loading) {
@@ -95,8 +141,8 @@ const Item = ({ categoryid, subcategoryid }) => {
                                 <Link className='i-cart' onClick={() => handleAddToCart(product.ProductID)}>
                                     <FontAwesomeIcon icon={faShoppingCart} className='mx-2' />
                                 </Link>
-                                <Link className='i-heart' onClick={handleAddToFavorite}>
-                                    <FontAwesomeIcon icon={faHeart} className='mx-2' />
+                                <Link className='i-heart' onClick={handleToggleFavorite}>
+                                    <FontAwesomeIcon icon={faHeart} className={`mx-2 ${product.isFavorite ? 'red' : 'gray'}`} />
                                 </Link>
                             </div>
                         </div>
