@@ -7,11 +7,11 @@ import { Link, useParams } from 'react-router-dom'
 
 import { CartContext } from '../context/CartContext'
 import { handleUserAddToCart } from '../services/cartService'
-import { getHotProduct } from '../services/productService'
+import { getNewProduct } from '../services/productService'
 
 import './Item.scss'
 
-const HotItem = () => {
+const NewItem = () => {
     const [products, setProducts] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
@@ -26,7 +26,7 @@ const HotItem = () => {
             try {
                 setLoading(true)
 
-                let response = await getHotProduct()
+                let response = await getNewProduct()
                 if (response) {
                     setProducts(response)
                     setLoading(false)
@@ -88,7 +88,7 @@ const HotItem = () => {
                             <Link to={`/product/detail/${product.ProductID}`}>
                                 <img src={`${process.env.PUBLIC_URL}${product.Image}`} className='card-img' alt={product.Name} />
                             </Link>
-                            <span className='product-promo bg-red'>hot</span>
+                            <span className='product-promo bg-red'>new</span>
                             <div className='product-action'>
                                 <Link className='i-cart' onClick={() => handleAddToCart(product.ProductID)}>
                                     <FontAwesomeIcon icon={faShoppingCart} className='mx-2' />
@@ -109,4 +109,4 @@ const HotItem = () => {
     )
 }
 
-export default HotItem
+export default NewItem

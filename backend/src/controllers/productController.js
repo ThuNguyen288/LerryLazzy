@@ -69,8 +69,22 @@ let displayHotProduct = async (req, res) => {
     }
 }
 
+let displayNewProduct = async (req, res) => {
+    try {
+        let message = await productService.getNewProduct()
+        return res.status(200).json(message)
+    } catch (error) {
+        console.error('Error handling display prroduct request: ', error)
+        return res.status(500).json({
+            errCode: -1,
+            message: 'An internal server error occurred.'
+        })
+    }
+}
+
 module.exports = {
     displayProducts: displayProducts,
     displayTopRating: displayTopRating,
-    displayHotProduct: displayHotProduct
+    displayHotProduct: displayHotProduct,
+    displayNewProduct: displayNewProduct
 }

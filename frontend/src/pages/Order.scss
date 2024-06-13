@@ -1,19 +1,7 @@
-
-
-
-.table-head {
-    background-color: #f8f9fa;
-    text-align: center;
-}
-
 .table th,
 .table td {
     vertical-align: middle;
     text-align: center;
-}
-
-.table th {
-    background-color: #f8f9fa;
 }
 
 .badge {
@@ -41,6 +29,21 @@
         background-color: #6c757d; // grey
         color: #fff;
     }
+}
+
+.table-head th {
+    font-weight: 500;
+    letter-spacing: 0.13rem;
+    cursor: default;
+}
+
+.order-bold {
+    font-weight: 500;
+}
+
+.select-form:focus {
+    box-shadow: none;
+    border: 1px solid #333;
 }
 
 

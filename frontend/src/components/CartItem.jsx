@@ -47,7 +47,6 @@ const Cart = () => {
         
             const detailsPromises = response.cart.map(async (item) => {
                 const product = await handleShowProductDetail(item.ProductID)
-                // console.log('Product:', product)
                 return product
             })
         

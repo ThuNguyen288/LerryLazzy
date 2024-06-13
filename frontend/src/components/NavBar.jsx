@@ -7,7 +7,7 @@ import { AuthContext } from '../context/AuthContext'
 import { CartContext } from '../context/CartContext'
 import Search from './Search'
 
-import '../App.css'
+import './NavBar.scss'
 
 const NavBar = () => {
   const { isAuthenticated, logout } = useContext(AuthContext)

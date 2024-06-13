@@ -24,8 +24,8 @@ const AuthProvider = ({ children }) => {
                 if (expiryTime > Date.now()) {
                     setIsAuthenticated({ token, user: parsedUser })
                 } else {
-                    alert('Token has expired, please login again')
                     logout()
+                    alert('Token has expired, please login again')
                 }
             } catch (error) {
                 console.error('Failed to parse user from localStorage', error)
@@ -38,12 +38,14 @@ const AuthProvider = ({ children }) => {
         setIsAuthenticated({ token, user })
         localStorage.setItem('token', token)
         localStorage.setItem('user', JSON.stringify(user))
+        window.history.back()
     }
 
     const logout = () => {
         setIsAuthenticated({ token: null, user: null })
         localStorage.removeItem('token')
         localStorage.removeItem('user')
+        window.parent.location = '/'
     }
 
     return (

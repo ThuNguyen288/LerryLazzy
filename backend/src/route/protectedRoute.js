@@ -3,6 +3,7 @@ import authMiddleware from '../middleware/authMiddleware'
 import userController from '../controllers/userController'
 import cartController from '../controllers/cartController'
 import orderController from '../controllers/orderController'
+import favoriteController from '../controllers/favoriteController'
 
 
 let protectedRouter = express.Router() 
@@ -32,6 +33,10 @@ let protectedRoutes = (app) => {
     protectedRouter.get('/show-order', authMiddleware.authenticateToken, orderController.handleShowOrder)
     protectedRouter.get('/show-order-item', authMiddleware.authenticateToken, orderController.handleShowOrderItem)
     protectedRouter.get('/show-all-orders', authMiddleware.authenticateToken, orderController.handleShowAllOrders)
+
+    // Router for favorite
+    protectedRouter.post('/add-remove-favorite', authMiddleware.authenticateToken, favoriteController.handleAddRemoveFavorite)
+    protectedRouter.get('/show-favorite', authMiddleware.authenticateToken, favoriteController.handleShowFavorite)
     
     return app.use('/api/protected', protectedRouter) 
 }

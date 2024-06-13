@@ -42,7 +42,7 @@ const Checkout = () => {
             setActiveStep(activeStep - 1)
         }
         if (activeStep === 0) {
-            window.location.href='/orderItem'
+            window.location.href='/cart'
         }
     }
 
@@ -75,8 +75,15 @@ const Checkout = () => {
         setShippingAddress(event.target.value)
     }
 
+    useEffect(() => {
+        if (profile.Address !== '') {
+            setShippingAddress(profile.Address)
+        }
+    }, [profile.Address])
+
     const handleGetShippingAddress = (event) => {
         event.preventDefault()
+        
         if (shippingAddress === '') {
             alert('Please enter your shipping address')
             return
@@ -160,11 +167,12 @@ const Checkout = () => {
                 alert(response.errMessage)
                 console.log(response.errMessage)
             }
+            
             setOrderId(response.order.OrderID)
 
             setActiveStep(3)
 
-            let responseItem = await handleShowOrderItem(token, orderId)
+            let responseItem = await handleShowOrderItem(token, response.order.OrderID)
             
             if (!responseItem || !responseItem.orderItems) {
                 console.log("No order items found");
@@ -238,19 +246,19 @@ const Checkout = () => {
                                 </div>
                                 <div className='block-body'>
                                     <div className='row'>
-                                        <div className='form-group col-md-6'>
+                                        <div className='form-group col-md-6 mb-3'>
                                             <label className='form-label'>Full Name</label>
                                             <input type='text' className='form-control' value={profile.Fullname} disabled/>
                                         </div>
-                                        <div className='form-group col-md-6'>
+                                        <div className='form-group col-md-6 mb-3'>
                                             <label className='form-label'>Email Address</label>
                                             <input type='text' className='form-control' value={profile.Email} disabled/>
                                         </div>
-                                        <div className='form-group col-md-6'>
+                                        <div className='form-group col-md-6 mb-2'>
                                             <label className='form-label'>Phone Number</label>
                                             <input type='text' className='form-control' value={profile.Phone || ''} disabled/>
                                         </div>
-                                        <div className='form-group col-md-6'>
+                                        <div className='form-group col-md-6 mb-2'>
                                             <label className='form-label'>Shipping Address</label>
                                             {useDifferentAddress ? (
                                                 <input type='text' className='form-control' value={shippingAddress} onChange={handleShippingAddressChange} />

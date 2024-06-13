@@ -136,6 +136,25 @@ let getHotProduct = () => {
     })
 }
 
+// Function to show to new product
+let getNewProduct = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+
+            let products = await getAllProducts()
+
+            products.sort((a, b) => b.ProductID - a.ProductID)
+
+            let newProducts = products.slice(0, 8)
+
+            resolve(newProducts)
+        } catch (error) {
+            console.error('Error handling display product: ', error)
+            reject(error)
+        }
+    })
+}
+
 module.exports = {
     getProductsByCategory: getProductsByCategory,
     getProductsBySubcategory: getProductsBySubcategory,
@@ -143,6 +162,7 @@ module.exports = {
     getAllProducts: getAllProducts,
     calculateReview: calculateReview,
     calTotalOrders: calTotalOrders,
-    getHotProduct: getHotProduct
+    getHotProduct: getHotProduct,
+    getNewProduct: getNewProduct
 }
 

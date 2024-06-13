@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { LuCreditCard, LuHeart, LuShoppingBag, LuStar, LuUser, LuBell, LuBadgeHelp, LuBadgeInfo, LuLogOut, LuMapPin } from 'react-icons/lu'
-import { Link, useParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { AuthContext } from '../context/AuthContext'
 import './SideBar.scss'
 
@@ -8,11 +8,8 @@ import './SideBar.scss'
 const SideBar = () => {
     const { isAuthenticated, logout } = useContext(AuthContext)
 
-    const { username } = useParams()
-
     const handleLogout = () => {
         logout()
-        window.location.href='/'
     }
 
     return(
@@ -35,7 +32,7 @@ const SideBar = () => {
             </nav>
             <div className='cart-header topic mt-3'>Manage account</div>
             <nav className='list-group list-group-borderless mt-1'>
-                <Link to={`/profile/${isAuthenticated.user.Username}`} className='list-group-item list-group-item-action d-flex align-items-center'>
+                <Link to={`/profile/${isAuthenticated.user?.Username}`} className='list-group-item list-group-item-action d-flex align-items-center'>
                     <LuUser className='fs-base opacity-75 me-2'/>Personal info
                 </Link>
                 <Link to='#' className='list-group-item list-group-item-action d-flex align-items-center'>

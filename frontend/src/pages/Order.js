@@ -13,6 +13,7 @@ const Order = () => {
     const [orders, setOrders] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
+    const [filterStatus, setFilterStatus] = useState('All')
 
     useEffect(() => {
         const fetchCartData = async () => {
@@ -24,6 +25,7 @@ const Order = () => {
                 setLoading(false)
             } catch (error) {
                 console.error('Error fetching orders data:', error)
+                setError(error)
             }
         }
         fetchCartData()
@@ -45,6 +47,12 @@ const Order = () => {
                 return 'badge-other'
         }
     }
+
+    const handleStatusFilterChange = (status) => {
+        setFilterStatus(status);
+    }
+
+    const filteredOrders = filterStatus === 'All' ? orders : orders.filter(order => order.Status === filterStatus)
 
     if (loading) {
         return (
@@ -102,42 +110,68 @@ const Order = () => {
                             <SideBar/>
                         </div>
                         <div className='col-lg-8 col-xl-9 order-body'>
-                            <table className='table table-hover'>
-                                <thead>
-                                    <tr className='table-head'>
-                                        <th scope='col' className='py-4 text-uppercase text-sm'>Order #</th>
-                                        <th scope='col' className='py-4 text-uppercase text-sm'>Date</th>
-                                        <th scope='col' className='py-4 text-uppercase text-sm'>Total</th>
-                                        <th scope='col' className='py-4 text-uppercase text-sm'>Status</th>
-                                        <th scope='col' className='py-4 text-uppercase text-sm'>Action</th> 
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {orders.length === 0 ? (
-                                        <div className='text-center py-4'>
-                                            <p>No purchase history!</p>
-                                        </div>
-                                    ) : (
-                                        orders.map(order => (
-                                            <tr key={order.OrderID}>
-                                                <td scope='row' className='py-4 align-middle fw-bold'>
-                                                    <div className='text-center'># {order.OrderID}</div>
-                                                </td>
-                                                <td className='py-4 align-middle'>
-                                                    <div className='text-center'>{order.OrderDate}</div>
-                                                </td>
-                                                <td className='py-4 align-middle'>{order.TotalPrice.toLocaleString('vi-VN')} đ</td>
-                                                <td className='py-4 align-middle'>
-                                                    <span className={`badge p-2 text-uppercase ${getBadgeClass(order.Status)}`}>{order.Status}</span>
-                                                </td>
-                                                <td className='py-4 align-middle'>
-                                                    <Link to={`/order/${order.OrderID}`} className='btn btn-outline-dark btn-sm'>View</Link>
-                                                </td>
-                                            </tr>
-                                        ))
-                                    )}
-                                </tbody>
-                            </table>
+                            <div className='cart-header mb-4'>
+                                <div className='row'>
+                                    <div className='col'>Orders History</div>
+                                    <div className='col-auto'>
+                                        <select
+                                            className='form-select form-select-sm select-form'
+                                            aria-label='Filter orders by status'
+                                            value={filterStatus}
+                                            onChange={(e) => handleStatusFilterChange(e.target.value)}
+                                        >   
+                                            <option value='All'>All</option>
+                                            <option value='Delivered'>Delivered</option>
+                                            <option value='Pending Confirmation'>Pending Confirmation</option>
+                                            <option value='Pending Pickup'>Pending Pickup</option>
+                                            <option value='Pending Delivery'>Pending Delivery</option>
+                                            <option value='Canceled'>Canceled</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            {filteredOrders.length === 0 ? (
+                                <div className='text-center py-4'>
+                                    <p>No orders found with status: {filterStatus}</p>
+                                </div>
+                            ) : (
+                                <table className='table table-hover'>
+                                    <thead>
+                                        <tr className='table-head'>
+                                            <th scope='col' className='py-4 text-uppercase text-sm'>Order #</th>
+                                            <th scope='col' className='py-4 text-uppercase text-sm'>Date Order</th>
+                                            <th scope='col' className='py-4 text-uppercase text-sm'>Total</th>
+                                            <th scope='col' className='py-4 text-uppercase text-sm'>Status</th>
+                                            <th scope='col' className='py-4 text-uppercase text-sm'>Action</th> 
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {orders.length === 0 ? (
+                                            <div className='text-center py-4'>
+                                                <p>No purchase history!</p>
+                                            </div>
+                                        ) : (
+                                            filteredOrders.map(order => (
+                                                <tr key={order.OrderID}>
+                                                    <td className='py-4 align-middle order-bold'>
+                                                        <div className='text-center'># {order.OrderID}</div>
+                                                    </td>
+                                                    <td className='py-4 align-middle'>
+                                                        <div className='text-center'>{order.OrderDate}</div>
+                                                    </td>
+                                                    <td className='py-4 align-middle'>{order.TotalPrice.toLocaleString('vi-VN')} đ</td>
+                                                    <td className='py-4 align-middle'>
+                                                        <span className={`badge p-2 text-uppercase ${getBadgeClass(order.Status)}`}>{order.Status}</span>
+                                                    </td>
+                                                    <td className='py-4 align-middle'>
+                                                        <Link to={`/order/${order.OrderID}`} className='btn btn-outline-dark btn-sm'>View</Link>
+                                                    </td>
+                                                </tr>
+                                            ))
+                                        )}
+                                    </tbody>
+                                </table>
+                            )}
                         </div>
                     </div>
                 </div>

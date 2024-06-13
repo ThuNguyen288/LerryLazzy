@@ -1,5 +1,5 @@
-import db from '../models/index'
 import orderService from '../services/orderService'
+import cron from 'node-cron'
 
 let handleCreateNewOrder = async(req, res) => {
     try {
@@ -86,12 +86,49 @@ let handleShowAllOrders = async (req, res) => {
     }
 }
 
+let handleUpdateOrderStatus = async () => {
+    try {
+        let pickupToDelivery = await orderService.updatePickupStatus()
+        let deliveryToDelivered = await orderService.updateDeliveryStatus()
+        let confirmToCancel = await orderService.updateConfirmStatus()
+
+        if (pickupToDelivery.errCode !== 0) {
+            console.log('Update pending pick up to pending delivery:', pickupToDelivery.errMessage);
+        }
+
+        if (deliveryToDelivered.errCode !== 0) {
+            console.log('Update pending delivery to delivered:', deliveryToDelivered.errMessage);
+        }
+        
+        if (confirmToCancel.errCode !== 0) {
+            console.log('Update pending confirmation to canceled:', confirmToCancel.errMessage);
+        }
+
+        console.log('Order status updated successfully')
+        return {
+            pickupToDelivery,
+            deliveryToDelivered,
+            confirmToCancel
+        }
+    } catch (error) {
+        console.error('Error handling update order status request:', error);
+    }
+}
+
+// Cron job to run every 5 minutes
+cron.schedule('*/1 * * * *', async () => {
+    console.log('Running a task every 5 minutes')
+    let message = await handleUpdateOrderStatus()
+    console.log(message)
+})
+
 module.exports = {
     handleCreateNewOrder: handleCreateNewOrder,
     handleClearCart: handleClearCart,
     handleShowOrder: handleShowOrder,
     handleShowOrderItem: handleShowOrderItem,
-    handleShowAllOrders: handleShowAllOrders
+    handleShowAllOrders: handleShowAllOrders,
+    handleUpdateOrderStatus: handleUpdateOrderStatus
 }
 
 

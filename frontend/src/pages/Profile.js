@@ -3,16 +3,16 @@ import React, { useContext, useEffect, useState } from 'react'
 import Spinner from 'react-bootstrap/Spinner'
 import Flatpickr from 'react-flatpickr'
 
+import { Button, Modal } from 'react-bootstrap'
 import { CiCalendar } from 'react-icons/ci'
 import { Link } from 'react-router-dom'
-import { Modal, Button } from 'react-bootstrap'
 
 import { AuthContext } from '../context/AuthContext'
 import { handleDeleteUserAccount, handleShowProfile, handleUpdateProfile } from '../services/userService'
 
+import Footer from '../components/Footer'
 import NavBar from '../components/NavBar'
 import SideBar from '../components/SideBar'
-import Footer from '../components/Footer';
 import './Profile.scss'
 
 const Profile = () => {
@@ -176,7 +176,6 @@ const Profile = () => {
             const response = await handleDeleteUserAccount(token)
             alert(response.errMessage)
             logout()
-            window.parent.location = '/'
         } catch (error) {
             console.error('Error deleting proflie:', error)
         }
@@ -257,15 +256,15 @@ const Profile = () => {
                                     <form onSubmit={handleChangeProfile}>
                                         <div className='row g-3 g-sm-4'>
                                             <div className='col-sm-6'>
-                                                <label htmlFor='fn' className='form-label ms-2'>Firstname</label>
+                                                <label htmlFor='fn1' className='form-label ms-2'>Firstname</label>
                                                 <div className='position-relative'>
-                                                    <input type='text' className='form-control' id='fn' name='Firstname' value={profile?.Firstname || ''} onChange={handleChange}/>
+                                                    <input type='text' className='form-control' id='fn1' name='Firstname' value={profile?.Firstname || ''} onChange={handleChange}/>
                                                 </div>
                                             </div>
                                             <div className='col-sm-6'>
-                                                <label htmlFor='fn' className='form-label ms-2'>Lastname</label>
+                                                <label htmlFor='fn2' className='form-label ms-2'>Lastname</label>
                                                 <div className='position-relative'>
-                                                    <input type='text' className='form-control' id='fn' name='Lastname' value={profile?.Lastname || ''} onChange={handleChange}/>
+                                                    <input type='text' className='form-control' id='fn2' name='Lastname' value={profile?.Lastname || ''} onChange={handleChange}/>
                                                 </div>
                                             </div>
                                             <div className='col-sm-6'>

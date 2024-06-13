@@ -117,3 +117,27 @@
         opacity: 0;
     }
 }
+
+.product-promo {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: block;
+    width: 2.5rem; /* Adjust the size as needed */
+    height: 2.5rem; /* Adjust the size as needed */
+    line-height: 2.5rem; /* Match line-height to the height for vertical centering */
+    text-align: center;
+    background: #4F944F;
+    border-radius: 0; /* Remove border-radius to make it square */
+    font-size: 0.87rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #fff;
+    z-index: 10;
+    border-bottom-left-radius: 45%;
+    border-top-right-radius: 5px;
+}
+
+.bg-red {
+    background-color: #E35D46 !important;
+}

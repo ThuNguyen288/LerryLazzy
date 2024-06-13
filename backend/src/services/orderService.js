@@ -96,7 +96,7 @@ let createNewOrder = (userid, data) => {
 }
 
 // Function to clear cart
-const clearCart = async (userid, orderid) => {
+let clearCart = async (userid, orderid) => {
     return new Promise(async (resolve, reject) => {
         try {
             let orderData = {
@@ -292,10 +292,182 @@ let showAllOrders = async (userid) => {
     })
 }
 
+let { Op } = require('sequelize')
+
+// Function to update pickup status of order { Pending Pickup -> Pending Delivery}
+let updatePickupStatus = async () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let orderData = {
+                errCode: 0,
+                errMessage: '',
+                orders: []
+            }
+            
+            let now = new Date()
+            let randomDays = Math.floor(Math.random() * 2) + 1
+
+            let pastDate = new Date()
+            pastDate.setMinutes(now.getMinutes() - randomDays)
+
+            let orders = await db.Order.findAll({
+                where: {
+                    StatusDate: { [Op.lte]: pastDate },
+                    Status: 'Pending Pickup'
+                }
+            })
+
+            if (!orders || orders.length === 0) {
+                orderData.errCode = 1
+                orderData.errMessage = 'No orders found for pickup status update'
+                return resolve(orderData)
+            }
+
+            for (let order of orders) {
+                await db.Order.update({
+                    Status: 'Pending Delivery',
+                    StatusDate: Date.now()
+                }, {
+                    where: { OrderID: order.OrderID}
+                })
+                orderData.orders.push(order)
+            }
+            orderData.errMessage = 'Complete to change order status from pending pickup to pending delivery'
+            return resolve(orderData)
+        } catch (error) {
+            reject(error)
+        } 
+    })
+}
+
+// Function to update delivery status of order { Pending Delivery -> Delivered }
+let updateDeliveryStatus = async () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let orderData = {
+                errCode: 0,
+                errMessage: '',
+                orders: []
+            }
+            
+            let now = new Date()
+            
+            let methods = [
+                {
+                    name: 'Usp Next Day',
+                    minDays: 0,
+                    maxDays: 1,
+                    pastDate: null
+                }, {
+                    name: 'Express Shipping',
+                    minDays: 2,
+                    maxDays: 3,
+                    pastDate: null
+                }, {
+                    name: 'Standard Shipping',
+                    minDays: 5,
+                    maxDays: 7,
+                    pastDate: null
+                }, {
+                    name: 'In Store Pickup',
+                    minDays: 0,
+                    maxDays: 0,
+                    pastDate: null
+                }
+            ]
+
+            for (let method of methods) {
+                let randomDays = Math.floor(Math.random() * (method.maxDays - method.minDays + 1)) + method.minDays
+                let pastDate = new Date()
+                pastDate.setMinutes(now.getMinutes() - randomDays)
+                method.pastDate = pastDate
+                console.log(`Delivery Method: ${method.name}, Past Date: ${method.pastDate}`)
+
+                let orders = await db.Order.findAll({
+                    where: {
+                        Status: 'Pending Delivery',
+                        StatusDate: { [Op.lte]: method.pastDate },
+                        DeliveryMethod: method.name
+                    }
+                })
+
+                if (!orders || orders.length === 0) {
+                    console.log(`No orders found for delivery method: ${method.name}`)
+                    continue
+                }
+
+                for (let order of orders) {
+                    await db.Order.update({
+                        Status: 'Delivered',
+                        StatusDate: Date.now()
+                    }, {
+                        where: { OrderID: order.OrderID }
+                    })
+                    orderData.orders.push(order)
+                }
+            }
+
+            orderData.errMessage = 'Complete to change order status from pending delivery to devivered'
+            return resolve(orderData)
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+
+// Function to update confirm status of order { Pending Confirmation -> Canceled }
+let updateConfirmStatus = async () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let orderData = {
+                errCode: 0,
+                errMessage: '',
+                orders: []
+            }
+
+            let now = new Date()
+            let randomHours = Math.floor(Math.random() * 5) + 1
+
+            let pastDate = new Date()
+            pastDate.setMinutes(now.getMinutes() - randomHours)
+            
+            let orders = await db.Order.findAll({
+                where: {
+                    updatedAt: { [Op.lte]: pastDate },
+                    Status: 'Pending Confirmation'
+                }
+            })
+
+            if (!orders || orders.length === 0) {
+                orderData.errCode = 1
+                orderData.errMessage = 'No orders found for confirm status update'
+            }
+
+            for (let order of orders) {
+                await db.Order.update({
+                    Status: 'Canceled',
+                    StatusDate: Date.now()
+                }, {
+                    where: { OrderID: order.OrderID}
+                })
+                orderData.orders.push(order)
+            }
+            orderData.errMessage = 'Complete to change order status from pending confirmation to canceled'
+            return resolve(orderData)
+
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+
 module.exports = {
     createNewOrder: createNewOrder,
     clearCart: clearCart,
     showOrder: showOrder,
     showOrderItem: showOrderItem,
-    showAllOrders: showAllOrders
+    showAllOrders: showAllOrders,
+    updateDeliveryStatus: updateDeliveryStatus,
+    updatePickupStatus: updatePickupStatus,
+    updateConfirmStatus: updateConfirmStatus
 }

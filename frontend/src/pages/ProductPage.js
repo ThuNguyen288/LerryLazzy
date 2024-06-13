@@ -35,25 +35,26 @@ const ProductPage = () => {
     return (
         <div className='bg-1'>
             <NavBar />
-            <nav className='py-4'>
-                <div className='container'>
-                    <div className='row'>
-                        <div className='col-12'>
-                            <ol className='breadcrumb mb-0 fx-xs'>
-                                <li className='breadcrumb-item'><a className='breadcrumb-link bread-home' href='/'>Home</a></li>
-                                {subcategory ? (
-                                    <>
-                                        <li className='breadcrumb-item'><a className='breadcrumb-link' href='/product/product'>{capitalizeFirstLetter('product')}</a></li>
-                                        <li className='breadcrumb-item active' aria-current='page'>{capitalizeFirstLetter(subcategory)}</li>
-                                    </>
-                                ) : (
-                                    category && <li className='breadcrumb-item active' aria-current='page'>{capitalizeFirstLetter(category)}</li>
-                                )}
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-            </nav>
+            <div className='container'>
+                <nav aria-label='breadcrumb'>
+                    <ol className='breadcrumb justify-content-start no-border my-4'>
+                        <li className='breadcrumb-item'><a className='breadcrumb-link bread-home' href='/'>Home</a></li>
+                        {subcategory ? (
+                            <>
+                                <li className='breadcrumb-item'><a className='breadcrumb-link' href='/product/product'>{capitalizeFirstLetter('product')}</a></li>
+                                <li className='breadcrumb-item active' aria-current='page'>{capitalizeFirstLetter(subcategory)}</li>
+                            </>
+                        ) : (
+                            category && <li className='breadcrumb-item active' aria-current='page'>{capitalizeFirstLetter(category)}</li>
+                        )}
+                    </ol>
+                </nav>
+            </div>
+            <div className='hero-content pb-4 text-center'>
+                <h1 className='hero-heading'>
+                    {subcategory ? (subcategory.charAt(0).toUpperCase() + subcategory.slice(1)) : (category ? (category.charAt(0).toUpperCase() + category.slice(1)) : 'Product')}
+                </h1>
+            </div> 
             <div className='container'>
                 {categoryid && <Item categoryid={categoryid} />}
                 {subcategoryid && <Item subcategoryid={subcategoryid} />}
