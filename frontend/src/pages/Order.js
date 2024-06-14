@@ -168,7 +168,7 @@ const Order = () => {
                                                         <span className={`badge p-2 text-uppercase ${getBadgeClass(order.Status)}`}>{order.Status}</span>
                                                     </td>
                                                     <td className='py-4 align-middle'>
-                                                        <Link to={`/order/${order.OrderID}`} className='btn btn-outline-dark btn-sm'>View</Link>
+                                                        <Link to={`/order/detail/${order.OrderID}`} className='btn btn-outline-dark btn-sm px-3'>View</Link>
                                                     </td>
                                                 </tr>
                                             ))

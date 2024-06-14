@@ -90,8 +90,6 @@
     --bs-btn-padding-y: 0.7rem;
     --bs-btn-padding-x: 0.75rem;
     --bs-btn-font-size: 0.75rem;
-    --bs-btn-border-radius: 0;
-    
 }
 
 .collapse {
@@ -109,7 +107,7 @@ a.accordion-link {
 }
 
 .notice {
-    font-size: 12px;
+    font-size: 14px;
     color: #999;
     font-style: italic;
     align-self: flex-end;
@@ -232,4 +230,19 @@ a.accordion-link {
     outline: none;
     box-shadow: none;
     border-color: #495057;
+}
+
+.accordion-button {
+    padding: 0;
+    background-color: #f8f9fa;
+}
+
+.accordion-button:active {
+    background-color: #f8f9fa;
+}
+
+.accordion-button:not(.collapsed) {
+    color:  #f8f9fa;
+    background-color: transparent;
+    box-shadow: none;
 }

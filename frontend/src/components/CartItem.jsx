@@ -15,8 +15,6 @@ import {
     handleUserShowCart
 } from '../services/cartService'
 
-import 'bootstrap/dist/css/bootstrap.min.css'
-
 import './CartItem.scss'
 
 const Cart = () => {
@@ -81,11 +79,11 @@ const Cart = () => {
 
     useEffect(() => {
         if (cartData.errCode === 0 && cartData.cart.length > 0) {
-            setCartEmpty(false);
+            setCartEmpty(false)
         } else {
-            setCartEmpty(true);
+            setCartEmpty(true)
         }
-    }, [cartData]);
+    }, [cartData])
 
     const handleIncreaseItem = async (event) => {
         event.preventDefault()
@@ -310,10 +308,6 @@ const Cart = () => {
                                         <span>0 đ</span>
                                         <span className='position-absolute discount' role='button' onClick={toggleCoupon}>Have a promotion?</span>
                                     </li>
-                                    {/* <li className={`order-summary-item coupon ${showCoupon ? '' : 'hidden'}`}>
-                                        <input className='w-100 promotion' placeholder='Enter your promotion...' value={couponCode} onChange={(event) => setCouponCode(event.target.value)}/>
-                                        <button className='btn-promotion'>Apply</button>
-                                    </li> */}
                                     <li className='order-summary-item position-relative'>
                                         <span>Total</span>
                                         <strong className='order-summary-total'>{totalPrice.toLocaleString('vi-VN')} đ</strong>

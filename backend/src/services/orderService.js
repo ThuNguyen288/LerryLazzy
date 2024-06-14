@@ -1,5 +1,6 @@
 import { format } from 'date-fns'
 import db from '../models/index'
+let { Op } = require('sequelize')
 
 // Function create new order
 let createNewOrder = (userid, data) => {
@@ -86,6 +87,10 @@ let createNewOrder = (userid, data) => {
 
                 await db.OrderItem.bulkCreate(orderItemsData, { transaction: t })
 
+                await db.Cart.destroy({ where: { UserID: userid }, transaction: t })
+
+                await t.commit()
+
                 orderData.errMessage = 'Ordered successfully!'
                 return resolve(orderData)
             })
@@ -96,7 +101,7 @@ let createNewOrder = (userid, data) => {
 }
 
 // Function to clear cart
-let clearCart = async (userid, orderid) => {
+let clearCart = async (userid, orderid, note) => {
     return new Promise(async (resolve, reject) => {
         try {
             let orderData = {
@@ -126,14 +131,11 @@ let clearCart = async (userid, orderid) => {
             }
 
             await db.Order.update({
+                Note: note,
                 Status: 'Pending Pickup',
                 StatusDate: Date.now(),
             }, {
                 where: { OrderID: orderid }
-            })
-
-            await db.Cart.destroy({
-                where: { UserID: userid }
             })
 
             orderData.errCode = 0
@@ -291,8 +293,6 @@ let showAllOrders = async (userid) => {
         }
     })
 }
-
-let { Op } = require('sequelize')
 
 // Function to update pickup status of order { Pending Pickup -> Pending Delivery}
 let updatePickupStatus = async () => {

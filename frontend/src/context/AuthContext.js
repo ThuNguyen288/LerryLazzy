@@ -38,14 +38,14 @@ const AuthProvider = ({ children }) => {
         setIsAuthenticated({ token, user })
         localStorage.setItem('token', token)
         localStorage.setItem('user', JSON.stringify(user))
-        window.history.back()
+        window.location.href='/home'
     }
 
     const logout = () => {
         setIsAuthenticated({ token: null, user: null })
         localStorage.removeItem('token')
         localStorage.removeItem('user')
-        window.parent.location = '/'
+        window.location.href = '/'
     }
 
     return (

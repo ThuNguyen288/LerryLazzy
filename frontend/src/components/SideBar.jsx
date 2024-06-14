@@ -23,10 +23,10 @@ const SideBar = () => {
                 <Link to='/favorite' className='list-group-item list-group-item-action d-flex align-items-center'>
                     <LuHeart className='fs-base opacity-75 me-2'/>Favorite
                 </Link>
-                <Link to='#' className='list-group-item list-group-item-action d-flex align-items-center'>
+                <Link to='/comming-soon' className='list-group-item list-group-item-action d-flex align-items-center'>
                     <LuCreditCard className='fs-base opacity-75 me-2'/>Payment method
                 </Link>
-                <Link to='#' className='list-group-item list-group-item-action d-flex align-items-center'>
+                <Link to='/comming-soon' className='list-group-item list-group-item-action d-flex align-items-center'>
                     <LuStar className='fs-base opacity-75 me-2'/>My review
                 </Link>
             </nav>
@@ -35,7 +35,7 @@ const SideBar = () => {
                 <Link to={`/profile/${isAuthenticated.user?.Username}`} className='list-group-item list-group-item-action d-flex align-items-center'>
                     <LuUser className='fs-base opacity-75 me-2'/>Personal info
                 </Link>
-                <Link to='#' className='list-group-item list-group-item-action d-flex align-items-center'>
+                <Link to='/comming-soon' className='list-group-item list-group-item-action d-flex align-items-center'>
                     <LuMapPin className='fs-base opacity-75 me-2'/>Address
                 </Link>
                 <Link to='/notification' className='list-group-item list-group-item-action d-flex align-items-center'>
@@ -44,10 +44,10 @@ const SideBar = () => {
             </nav>
             <div className='cart-header topic mt-3'>Customer service</div>
             <nav className='list-group list-group-borderless mt-1'>
-                <Link to='#' className='list-group-item list-group-item-action d-flex align-items-center'>
+                <Link to='/comming-soon' className='list-group-item list-group-item-action d-flex align-items-center'>
                     <LuBadgeHelp className='fs-base opacity-75 me-2'/>Help center
                 </Link>
-                <Link to='#' className='list-group-item list-group-item-action d-flex align-items-center'>
+                <Link to='/comming-soon' className='list-group-item list-group-item-action d-flex align-items-center'>
                     <LuBadgeInfo className='fs-base opacity-75 me-2'/>Terms and conditions
                 </Link>
             </nav>

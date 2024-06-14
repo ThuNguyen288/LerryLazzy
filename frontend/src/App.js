@@ -6,20 +6,23 @@ import Login from './pages/auth/Login'
 import Register from './pages/auth/Register'
 
 import CartPage from './pages/CartPage'
-import WishList from './pages/Favorite'
+import CheckoutPage from './pages/CheckoutPage'
 import HomePage from './pages/HomePage'
 import Notification from './pages/Notification'
 import Order from './pages/Order'
+import OrderCompletePage from './pages/OrderComplete'
 import ProductInfo from './pages/ProductInfo'
 import ProductPage from './pages/ProductPage'
 import Profile from './pages/Profile'
-import CheckoutPage from './pages/CheckoutPage'
+import Favorite from './pages/Favorite'
 
 import { AuthProvider } from './context/AuthContext'
 import { CartProvider } from './context/CartContext'
 import PrivateRoute from './route/PrivateRoute'
 
 import './App.css'
+import OrderInfo from './pages/OrderInfo'
+
 
 function App() {
     return (
@@ -34,14 +37,16 @@ function App() {
                             <Route path='/register' element={<Register />} />
                             <Route path='/product/:category' element={<ProductPage />} />
                             <Route path='/product/product/:subcategory' element={<ProductPage />} />
-                            <Route path='/product/:category/:subcategory/:productid' element={<ProductInfo />} />
-                            <Route path='/product/:category/:productid' element={<ProductInfo />} />                            <Route path='/home' element={<PrivateRoute><HomePage /></PrivateRoute>} />
+                            <Route path='/product/detail/:productid' element={<ProductInfo />} />                            
+                            <Route path='/home' element={<PrivateRoute><HomePage /></PrivateRoute>} />
                             <Route path='/order' element={<PrivateRoute><Order/></PrivateRoute>} />
-                            <Route path='/favorite' element={<PrivateRoute><WishList/></PrivateRoute>} />
+                            <Route path='/favorite' element={<PrivateRoute><Favorite/></PrivateRoute>} />
                             <Route path='/cart' element={<PrivateRoute><CartPage/></PrivateRoute>} />
                             <Route path='/profile/:username'element={<PrivateRoute><Profile/></PrivateRoute>} />
                             <Route path='/notification' element={<PrivateRoute><Notification/></PrivateRoute>} />
-                            <Route path='/checkout' element={<PrivateRoute><CheckoutPage/></PrivateRoute>}></Route>
+                            <Route path='/checkout' element={<PrivateRoute><CheckoutPage/></PrivateRoute>}/>
+                            <Route path='/order-complete' element={<PrivateRoute><OrderCompletePage/></PrivateRoute>}/>
+                            <Route path='/order/detail/:orderid' element={<PrivateRoute><OrderInfo/></PrivateRoute>}/>
                         </Routes>
                     </BrowserRouter>
                 </CartProvider>

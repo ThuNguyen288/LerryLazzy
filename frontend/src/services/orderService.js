@@ -32,9 +32,18 @@ let handleShowAllOrders = (token) => {
     })
 }
 
+let handleShowOrder = (token, orderid) => {
+    return axios.get(`/api/protected/show-order?orderid=${orderid}`, {
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
+    })
+}
+
 export {
     handleCreateNewOrder,
     handleClearCart,
     handleShowOrderItem,
-    handleShowAllOrders
+    handleShowAllOrders,
+    handleShowOrder
 }

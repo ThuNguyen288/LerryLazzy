@@ -135,6 +135,6 @@
     display: flex;
 }
 
-.dropdown-menu {
+.dropdown-menu:active {
     --bs-dropdown-link-active-bg: tranparent;
 }

@@ -16,10 +16,10 @@ const Footer = () => {
             <div className="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4 d-flex justify-content-center">
               <div>
                 <h6 className="text-uppercase fw-bold mb-4">PRIVACY & POLICY</h6>
-                <p><a href="#!" className="text-reset">Pricing Policy</a></p>
-                <p><a href="#!" className="text-reset">Setting Policy</a></p>
-                <p><a href="#!" className="text-reset">Order Policy</a></p>
-                <p><a href="#!" className="text-reset">Help</a></p>
+                <p><a href="/comming-soon" className="text-reset">Pricing Policy</a></p>
+                <p><a href="/comming-soon" className="text-reset">Setting Policy</a></p>
+                <p><a href="/comming-soon" className="text-reset">Order Policy</a></p>
+                <p><a href="/comming-soon" className="text-reset">Help</a></p>
               </div>
             </div>
             <div className="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4 d-flex justify-content-end">

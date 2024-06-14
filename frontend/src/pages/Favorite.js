@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Spinner from 'react-bootstrap/Spinner'
-import { Link, useParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import Footer from '../components/Footer'
 import NavBar from '../components/NavBar'
@@ -18,8 +18,6 @@ const Favorite = () => {
 
     const { isAuthenticated } = useContext(AuthContext)
     const { updateCartQuantity } = useContext(CartContext)
-
-    const { productid } = useParams()
 
     const [products, setProducts] = useState([])
     const [loading, setLoading] = useState(true)

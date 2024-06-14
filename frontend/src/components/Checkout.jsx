@@ -175,7 +175,7 @@ const Checkout = () => {
             let responseItem = await handleShowOrderItem(token, response.order.OrderID)
             
             if (!responseItem || !responseItem.orderItems) {
-                console.log("No order items found");
+                console.log('No order items found');
                 return;
             }
 
@@ -188,6 +188,7 @@ const Checkout = () => {
             const productDetails = await Promise.all(detailsPromises)
             console.log(productDetails)
             setProductDetails(productDetails)
+            localStorage.setItem('OrderID', response.order.OrderID)
 
         } catch (error) {
             console.error('Error in handling checkout:', error)
@@ -198,8 +199,8 @@ const Checkout = () => {
         try {
             let token = localStorage.getItem('token')
             await handleClearCart(token, orderId)
-
-            window.location.href='/home'
+            
+            window.location.href='/order-complete'
             
         } catch (error) {
             console.error('Error in handling check out:', error)
@@ -221,21 +222,21 @@ const Checkout = () => {
     }
 
     return (
-        <div className="container">
+        <div className='container'>
             <div className='row'>
                 <div className='col-lg-8'>
                     <ul className='custom-nav nav nav-pills mb-5'>
                         <li className='nav-item w-25'>
-                            <a className={`nav-link text-sm ${activeStep === 0 ? 'active' : 'disabled'}`} href='#'>Address</a>
+                            <a className={`nav-link text-sm ${activeStep === 0 ? 'active' : 'disabled'}`}>Address</a>
                         </li>
                         <li className='nav-item w-25'>
-                            <a className={`nav-link text-sm ${activeStep === 1 ? 'active' : 'disabled'}`} href='#'>Delivery Method</a>
+                            <a className={`nav-link text-sm ${activeStep === 1 ? 'active' : 'disabled'}`}>Delivery Method</a>
                         </li>
                         <li className='nav-item w-25'>
-                            <a className={`nav-link text-sm ${activeStep === 2 ? 'active' : 'disabled'}`} href='#'>Payment Method</a>
+                            <a className={`nav-link text-sm ${activeStep === 2 ? 'active' : 'disabled'}`}>Payment Method</a>
                         </li>
                         <li className='nav-item w-25'>
-                            <a className={`nav-link text-sm ${activeStep === 3 ? 'active' : 'disabled'}`} href='#'>Order Review</a>
+                            <a className={`nav-link text-sm ${activeStep === 3 ? 'active' : 'disabled'}`}>Order Review</a>
                         </li>
                     </ul>
                     <form>
@@ -310,89 +311,84 @@ const Checkout = () => {
                         )}
                         {activeStep === 2 && (
                             <div className='mb-5'>
-                                <div id='accordion' role='tablist'>
+                                <div className='accordion accordion-flush' id='accordionFlushExample'>
                                     <div className='block mb-3'>
-                                        <div className='block-header' id='headingOne' role='tab' onClick={() => handleHeaderClick('Internet Banking')}>
-                                            <strong>
-                                                <input type='radio' className='me-2' id='internetBanking' name='payment' value='Internet Banking' checked={paymentMethod === 'Internet Banking'} onChange={handlePaymentMethodChange} />
-                                                <a className='accordion-link text-decoration-none' data-bs-toggle='collapse' href='#collapseOne' aria-expanded={paymentMethod === 'Internet Banking'} aria-controls='collapseOne' role='radio' onClick={() => handleHeaderClick('Internet Banking')}>Internet Banking</a> 
-                                            </strong>
-                                        </div>
-                                        <div className={`collapse ${activeAccordion === 'Internet Banking' ? 'show' : ''}`} id='collapseOne' role='tabpanel' aria-labelledby='headingOne' data-parent='#accordion'>
+                                        <h2 className='block-header' id='flush-headingOne' onClick={() => handleHeaderClick('Internet Banking')}>
+                                            <div className='accordion-button collapsed' type='button' data-bs-toggle='collapse' data-bs-target='#flush-collapseOne' aria-expanded='false' aria-controls='flush-collapseOne'>
+                                                <input type='radio' className='me-2 align-middle' id='internetBanking' name='payment' value='Internet Banking' checked={paymentMethod === 'Internet Banking'} onChange={handlePaymentMethodChange} />
+                                                <a className='accordion-link text-decoration-none'>Internet Banking</a>
+                                            </div>
+                                        </h2>
+                                        <div id='flush-collapseOne' className='accordion-collapse collapse' aria-labelledby='flush-headingOne' data-bs-parent='#accordionFlushExample'>
                                             <div className='block-body'>
-                                                <div action='#'>
-                                                    <div className='row'>
-                                                        <div className='mb-3 col-md-6 haha px-5'>
-                                                            <div className='row'>
-                                                                <label className='mb-3 col-md-5'>Account Name:</label>
-                                                                <span className='mb-3 col-md-7 text-sm'>VU TRA MY</span>
-                                                                <label className='mb-3 col-md-5'>Account Number:</label>
-                                                                <span className='mb-3 col-md-7 text-sm'>1234567890</span>
-                                                                <label className='mb-3 col-md-5'>Bank Name:</label>
-                                                                <span className='mb-3 col-md-7 text-sm'>Vietcombank</span>
-                                                            </div>
+                                                <div className='row'>
+                                                    <div className='mb-3 col-md-6 haha px-5'>
+                                                        <div className='row'>
+                                                            <label className='mb-3 col-md-5'>Account Name:</label>
+                                                            <span className='mb-3 col-md-7 text-sm'>VU TRA MY</span>
+                                                            <label className='mb-3 col-md-5'>Account Number:</label>
+                                                            <span className='mb-3 col-md-7 text-sm'>1234567890</span>
+                                                            <label className='mb-3 col-md-5'>Bank Name:</label>
+                                                            <span className='mb-3 col-md-7 text-sm'>Vietcombank</span>
                                                         </div>
-                                                        <div className='mb-3 col-md-6 px-5'>
-                                                            <div className='row'>
-                                                                <label className='mb-3 col-md-5'>Account Name:</label>
-                                                                <span className='mb-3 col-md-7 text-sm'>NGUYEN THI KIM THU</span>
-                                                                <label className='mb-3 col-md-5'>Account Number:</label>
-                                                                <span className='mb-3 col-md-7 text-sm'>0987654321</span>
-                                                                <label className='mb-3 col-md-5'>Bank Name:</label>
-                                                                <span className='mb-3 col-md-7 text-sm'>Techcombank</span>
-                                                            </div>
+                                                    </div>
+                                                    <div className='mb-3 col-md-6 px-5'>
+                                                        <div className='row'>
+                                                            <label className='mb-3 col-md-5'>Account Name:</label>
+                                                            <span className='mb-3 col-md-7 text-sm'>NGUYEN THI KIM THU</span>
+                                                            <label className='mb-3 col-md-5'>Account Number:</label>
+                                                            <span className='mb-3 col-md-7 text-sm'>0987654321</span>
+                                                            <label className='mb-3 col-md-5'>Bank Name:</label>
+                                                            <span className='mb-3 col-md-7 text-sm'>Techcombank</span>
                                                         </div>
-                                                        <div className='mb-2 col-md-12 text-end'>
-                                                            <span className='notice'>Choose one and make payment, then take a photo of the bill</span>
-                                                        </div>
+                                                    </div>
+                                                    <div className='mb-2 col-md-12 text-end'>
+                                                        <span className='notice'>Choose one and make payment, then take a photo of the bill</span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div className='block mb-3'>
-                                        <div className='block-header' id='headingTwo' role='tab' onClick={() => handleHeaderClick('E-Wallet')}>
-                                            <strong>
-                                                <input type='radio' className='me-2' id='eWallet' name='payment' value='E-Wallet' checked={paymentMethod === 'E-Wallet'} onChange={handlePaymentMethodChange} />
-                                                <a className='accordion-link text-decoration-none' data-bs-toggle='collapse' href='#collapseTwo' aria-expanded={paymentMethod === 'E-Wallet'} aria-controls='collapseTwo' role='radio' onClick={() => handleHeaderClick('eWallet')}>E-Wallet</a> 
-                                            </strong>
-                                        </div>
-                                        <div className={`collapse ${activeAccordion === 'E-Wallet' ? 'show' : ''}`} id='collapseTwo' role='tabpanel' aria-labelledby='headingTwo' data-parent='#accordion'>
-                                            <div className='block-body'>
-                                                <div action='#'>
-                                                    <div className='row'>
-                                                        <div className='mb-3 col-md-6'>
-                                                            <div className='row d-flex align-items-center justify-content-center'>
-                                                                <img className='col-md-12 border' src={`${process.env.PUBLIC_URL}/Zalopay.png`} style={{maxHeight: '350px', width: 'auto'}}></img>
-                                                                <span className='col-md-12 text-center fw-bold mt-3'>ZaloPay</span>
-                                                            </div>
-                                                        </div>
-                                                        <div className='mb-3 col-md-6'>
-                                                            <div className='row d-flex align-items-center justify-content-center'>
-                                                                <img className='col-md-12 border' src={`${process.env.PUBLIC_URL}Momo.png`} style={{maxHeight: '350px', width: 'auto'}}></img>
-                                                                <span className='col-md-12 text-center fw-bold mt-3'>Momo</span>
-                                                            </div>
-                                                        </div>
-                                                        <div className='mb-2 col-md-12 text-end'>
-                                                            <span className='notice'>Choose one and make payment, then take a photo of the bill</span>
-                                                        </div>
+                                        <h2 className='block-header' id='flush-headingTwo' onClick={() => handleHeaderClick('E-Wallet')}>
+                                            <div className='accordion-button collapsed' type='button' data-bs-toggle='collapse' data-bs-target='#flush-collapseTwo' aria-expanded='false' aria-controls='flush-collapseTwo'>
+                                                <input type='radio' className='me-2 align-middle' id='eWallet' name='payment' value='E-Wallet' checked={paymentMethod === 'E-Wallet'} onChange={handlePaymentMethodChange} />
+                                                <a className='accordion-link text-decoration-none'>E-Wallet</a> 
+                                            </div>
+                                        </h2>
+                                        <div id='flush-collapseTwo' className='accordion-collapse collapse' aria-labelledby='flush-headingTwo' data-bs-parent='#accordionFlushExample'>
+                                            <div className='row'>
+                                                <div className='mb-3 col-md-6'>
+                                                    <div className='row d-flex align-items-center justify-content-center mt-2'>
+                                                        <img className='col-md-12 border' src={`${process.env.PUBLIC_URL}/Zalopay.png`} style={{maxHeight: '350px', width: 'auto'}}></img>
+                                                        <span className='col-md-12 text-center fw-bold mt-3'>ZaloPay</span>
                                                     </div>
+                                                </div>
+                                                <div className='mb-3 col-md-6'>
+                                                    <div className='row d-flex align-items-center justify-content-center mt-2'>
+                                                        <img className='col-md-12 border' src={`${process.env.PUBLIC_URL}Momo.png`} style={{maxHeight: '350px', width: 'auto'}}></img>
+                                                        <span className='col-md-12 text-center fw-bold mt-3'>Momo</span>
+                                                    </div>
+                                                </div>
+                                                <div className='mb-2 col-md-12 text-end'>
+                                                    <span className='notice'>Choose one and make payment, then take a photo of the bill</span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div className='block mb-3'>
-                                        <div className='block-header' id='headingThree' role='tab' onClick={() => handleHeaderClick('Cash On Deliver')}>
-                                            <strong>
-                                                <input type='radio' className='me-2' id='cod' name='payment' value='Cash On Deliver' checked={paymentMethod === 'Cash On Deliver'} onChange={handlePaymentMethodChange} />
-                                                <a className='accordion-link text-decoration-none' data-bs-toggle='collapse' href='#collapseThree' aria-expanded={paymentMethod === 'Cash On Deliver'} aria-controls='collapseThree' role='radio' onClick={() => handleHeaderClick('Cash On Deliver')}>Cash On Deliver</a>
-                                            </strong>
-                                        </div>
-                                        <div className={`collapse ${activeAccordion === 'Cash On Deliver' ? 'show' : ''}`} id='collapseThree' role='tabpanel' aria-labelledby='headingThree' data-parent='#accordion'>
-                                            <div className='block-body'>
-                                                <div className='mb-2 col-md-12 text-start'>
-                                                    <span >Pay after receive</span>
-                                                </div>
+                                        <h2 className='block-header' id='flush-headingThree' onClick={() => handleHeaderClick('Cash On Deliver')}>
+                                            <div className='accordion-button collapsed' type='button' data-bs-toggle='collapse' data-bs-target='#flush-collapseThree' aria-expanded='false' aria-controls='flush-collapseThree'>
+                                                <input type='radio' className='me-2 align-middle' id='cod' name='payment' value='Cash On Deliver' checked={paymentMethod === 'Cash On Deliver'} onChange={handlePaymentMethodChange} />
+                                                <a className='accordion-link text-decoration-none'>Cash On Deviler</a> 
+                                            </div>
+                                        </h2>
+                                        <div id='flush-collapseThree' className='accordion-collapse collapse' aria-labelledby='flush-headingThree' data-bs-parent='#accordionFlushExample'>
+                                            <div className='accordion-body'>
+                                                <ul className='list-unstyled'>
+                                                    <li className='text-justify'><b>Check the goods carefully before making the payment</b> to ensure the products are not damaged, incorrect, or not as per your order.</li>
+                                                    <li className='text-justify'><b>If you find any issues</b>, immediately contact the delivery personnel or the customer service department for assistance.</li>
+                                                </ul>
                                             </div>
                                         </div>
                                     </div>
@@ -464,29 +460,29 @@ const Checkout = () => {
                         )}
                         <div className='mb-5 d-flex justify-content-between flex-column flex-lg-row'>
                             <a className='text-muted btn-back' onClick={handleBackStep} role='button'>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="M9.78 12.78a.75.75 0 0 1-1.06 0L4.47 8.53a.75.75 0 0 1 0-1.06l4.25-4.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042L6.06 8l3.72 3.72a.75.75 0 0 1 0 1.06Z"></path></svg>
+                                <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' width='16' height='16'><path d='M9.78 12.78a.75.75 0 0 1-1.06 0L4.47 8.53a.75.75 0 0 1 0-1.06l4.25-4.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042L6.06 8l3.72 3.72a.75.75 0 0 1 0 1.06Z'></path></svg>
                                 Back
                             </a>
                             {activeStep === 3 && (
-                                <button type="button" className='btn btn-dark btn-next' onClick={handleCheckOut}>
+                                <button type='button' className='btn btn-dark btn-next' onClick={handleCheckOut}>
                                     Place an other
                                     <i className='fas fa-chevron-right ms-2'></i>
                                 </button>
                             )}
                             {activeStep === 2 && (
-                                <button type="button" className='btn btn-dark btn-next' onClick={handleGetPaymentMethod}>
+                                <button type='button' className='btn btn-dark btn-next' onClick={handleGetPaymentMethod}>
                                     Check your order
                                     <i className='fas fa-chevron-right ms-2'></i>
                                 </button>
                             )}
                             {activeStep === 1 && (
-                                <button type="button" className='btn btn-dark btn-next' onClick={handleGetDeliveryMethod}>
+                                <button type='button' className='btn btn-dark btn-next' onClick={handleGetDeliveryMethod}>
                                     Choose Payment Method
                                     <i className='fas fa-chevron-right ms-2'></i>
                                 </button>
                             )}
                             {activeStep === 0 && (
-                                <button type="button" className='btn btn-dark btn-next' onClick={handleGetShippingAddress}>
+                                <button type='button' className='btn btn-dark btn-next' onClick={handleGetShippingAddress}>
                                     Choose Delivery Method
                                     <i className='fas fa-chevron-right ms-2'></i>
                                 </button>

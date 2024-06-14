@@ -43,7 +43,7 @@ let handleClearCart = async (req, res) => {
 let handleShowOrder = async (req, res) => {
     try {
         let userid = req.user.userid 
-        let  { orderid } = req.body
+        let  { orderid } = req.query
 
         let message = await orderService.showOrder(userid, orderid)
         return res.status(200).json(message)
