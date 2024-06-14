@@ -22,10 +22,15 @@ let getNewProduct = async () => {
     return response
 }
 
+let getAllReviews = (productid) => {
+    return axios.get(`/api/product/review?productid=${productid}`)
+}
+
 export {
     getProductsByCategory, 
     getProductById, 
     getProductsBySubcategory,
     getHotProduct,
-    getNewProduct
+    getNewProduct,
+    getAllReviews
 }

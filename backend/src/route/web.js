@@ -18,6 +18,7 @@ let initWebRoutes = (app) => { //rest api
     router.get('/product', productController.displayProducts)
     router.get('/hot-product', productController.displayHotProduct)
     router.get('/new-product', productController.displayNewProduct)
+    router.get('/product/review', productController.displayProductReviews)
 
     // Router for order
     router.put('update-order-status', orderController.handleUpdateOrderStatus)

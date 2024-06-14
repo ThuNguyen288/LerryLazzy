@@ -60,25 +60,42 @@ let getAllProducts = () => {
 let calculateReview = (productid) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const review = {
-                averageRating: 0,
-                totalReviews: 0
+            let review = {
+                averageRating: 0.0,
+                totalReviews: 0,
+                starCounts: {
+                    1: 0,
+                    2: 0,
+                    3: 0,
+                    4: 0,
+                    5: 0
+                }
             }
 
-            const result = await db.Review.findOne({
+            let result = await db.Review.findOne({
                 attributes: [
                     [db.sequelize.fn('COUNT', db.sequelize.col('Rating')), 'TotalReviews'],
-                    [db.sequelize.fn('AVG', db.sequelize.col('Rating')), 'AverageRating']
+                    [db.sequelize.fn('AVG', db.sequelize.cast(db.sequelize.col('Rating'), 'FLOAT')), 'AverageRating']
                 ],
                 where: { ProductID: productid },
                 group: ['ProductID'],
                 order: ['ProductID']
             })
 
+            let starCountsResult = await db.Review.findAll({
+                attributes: ['Rating', [db.sequelize.fn('COUNT', db.sequelize.col('Rating')), 'Count']],
+                where: { ProductID: productid },
+                group: ['Rating'],
+            })
+
             if (result && result.AverageRating && result.TotalReviews) {
-                review.averageRating = result.AverageRating
-                review.totalReviews = result.TotalReviews
+                review.averageRating = parseFloat(result.AverageRating.toFixed(1))
+                review.totalReviews = review.totalReviews = parseInt(result.TotalReviews, 10)
             }
+
+            starCountsResult.forEach(row => {
+                review.starCounts[row.Rating] = parseInt(row.Count, 10)
+            })
 
             resolve(review)
         } catch (error) {
@@ -92,7 +109,7 @@ let calculateReview = (productid) => {
 let calTotalOrders = (productid) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const result = await db.OrderItem.findOne({
+            let result = await db.OrderItem.findOne({
                 attributes: [
                     [db.sequelize.fn('COUNT', db.sequelize.col('OrderItem.OrderID')), 'OrderCount']
                 ],
@@ -155,6 +172,32 @@ let getNewProduct = () => {
     })
 }
 
+// Function to get all review for product
+let getAllReviews = (productid) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let reviews = await db.Review.findAll({
+                where: { ProductID: productid },
+                include: [
+                    {
+                        model: db.User,
+                        attributes: ['Username', 'Firstname', 'Lastname'],
+                        as: 'user'
+                    }
+                ],
+                order: [['ReviewDate', 'DESC']],
+                raw: true
+            })
+                
+            resolve(reviews)
+        } catch (error) {
+            console.error('Error in getAllReviews:', error)
+            reject(error)
+            throw error
+        }
+    })
+}
+
 module.exports = {
     getProductsByCategory: getProductsByCategory,
     getProductsBySubcategory: getProductsBySubcategory,
@@ -163,6 +206,7 @@ module.exports = {
     calculateReview: calculateReview,
     calTotalOrders: calTotalOrders,
     getHotProduct: getHotProduct,
-    getNewProduct: getNewProduct
+    getNewProduct: getNewProduct,
+    getAllReviews: getAllReviews,
 }
 

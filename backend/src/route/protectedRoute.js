@@ -1,8 +1,10 @@
 import express from 'express'
+
 import cartController from '../controllers/cartController'
 import favoriteController from '../controllers/favoriteController'
 import orderController from '../controllers/orderController'
 import userController from '../controllers/userController'
+import reviewController from '../controllers/reviewController'
 import authMiddleware from '../middleware/authMiddleware'
 
 
@@ -38,6 +40,9 @@ let protectedRoutes = (app) => {
     protectedRouter.post('/add-remove-favorite', authMiddleware.authenticateToken, favoriteController.handleAddRemoveFavorite)
     protectedRouter.get('/show-favorite', authMiddleware.authenticateToken, favoriteController.handleShowFavorite)
     protectedRouter.get('/check-favorite', authMiddleware.authenticateToken, favoriteController.handleCheckFavorite)
+
+    // Router for review 
+    protectedRouter.post('/create-review', authMiddleware.authenticateToken, reviewController.handlePostReview)
     
     return app.use('/api/protected', protectedRouter) 
 }

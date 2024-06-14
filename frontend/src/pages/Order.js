@@ -131,8 +131,10 @@ const Order = () => {
                                 </div>
                             </div>
                             {filteredOrders.length === 0 ? (
-                                <div className='text-center py-4'>
-                                    <p>No orders found with status: {filterStatus}</p>
+                                <div className='col-lg my-5'>
+                                    <div className='text-center' style={{ fontSize: '25px' }}>
+                                        <p>No purchase history!</p>
+                                    </div>
                                 </div>
                             ) : (
                                 <table className='table table-hover'>
@@ -147,8 +149,10 @@ const Order = () => {
                                     </thead>
                                     <tbody>
                                         {orders.length === 0 ? (
-                                            <div className='text-center py-4'>
-                                                <p>No purchase history!</p>
+                                            <div className='col-lg my-5'>
+                                                <div className='text-center' style={{ fontSize: '25px' }}>
+                                                    <p>No purchase history!</p>
+                                                </div>
                                             </div>
                                         ) : (
                                             filteredOrders.map(order => (

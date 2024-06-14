@@ -55,7 +55,7 @@ const ProductPage = () => {
                     {subcategory ? (subcategory.charAt(0).toUpperCase() + subcategory.slice(1)) : (category ? (category.charAt(0).toUpperCase() + category.slice(1)) : 'Product')}
                 </h1>
             </div> 
-            <div className='container'>
+            <div className='container mb-5'>
                 {categoryid && <Item categoryid={categoryid} />}
                 {subcategoryid && <Item subcategoryid={subcategoryid} />}
             </div>

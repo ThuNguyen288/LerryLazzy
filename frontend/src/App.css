@@ -47,3 +47,7 @@
 .mr-30{
     margin-right: 30px;
 }
+
+html * {
+    -webkit-font-smoothing: antialiased;
+}

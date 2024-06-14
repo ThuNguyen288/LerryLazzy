@@ -40,12 +40,26 @@
     border-right: 2px solid rgba(83, 81, 81, 0.7);
 }
 
-.product-action .i-heart{
-    font-size: larger;
+.product-action .i-cart:hover{
+    color: #231f1f;
 }
 
-.product-action .i-cart:hover{
-    color: #333;
+.product-action .i-heart-favo {
+    color: #e83625;
+    font-size: larger
+}
+
+.product-action .i-heart-favo:hover{
+    color: #f7f4f4;
+}
+
+.product-action .i-heart {
+    color: #f7f4f4;
+    font-size: larger
+}
+
+.product-action .i-heart:hover {
+    color: #e83625;
 }
 
 .product-content a:hover{

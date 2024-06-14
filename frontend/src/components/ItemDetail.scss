@@ -7,12 +7,12 @@
 }
 
 .price {
-    color: rgb(255, 111, 97, 1);
+    color: rgb(244, 80, 66);
 }
 
 .count-input {
     background-color: #fff;
-    border: 2px solid #cad0d9;
+    border: 2px solid #212529;
     border-radius: 8px;
     display: inline-flex;
     overflow: hidden;
@@ -62,9 +62,53 @@
 
 .custom-capitalize {
     text-transform: none;
+    font-family: "Roboro", sans-serif;
+    font-weight: 400;
 }
 
 .custom-capitalize::first-letter {
     text-transform: uppercase;
 }
 
+.heart-fill {
+    color: #e74c3c;
+}
+
+.heart-empty {
+    color: #797a7c;
+}
+
+.heart-fill:hover {
+    color: #797a7c;
+}
+
+.heart-empty:hover {
+    color: #e74c3c;
+}
+
+textarea.form-control:focus {
+    box-shadow: none;
+    border: 1px solid #212529;
+}
+
+.reviewText .form-control {
+    border-radius: 0;
+    border: 1px solid #797a7c;
+}
+
+.post-review {
+    border-radius: 0;
+}
+
+.animate-underline .animate-target, .animate-underline.animate-target {
+    position: relative;
+    text-decoration: none;
+}
+
+.animate-underline:hover {
+    text-decoration: underline;
+}
+
+a, button {
+    text-underline-offset: .25em;
+}

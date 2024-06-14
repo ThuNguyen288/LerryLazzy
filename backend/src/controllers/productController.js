@@ -24,6 +24,7 @@ let displayProducts = async (req, res) => {
             
             products.AverageRating = review.averageRating
             products.TotalReviews = review.totalReviews
+            products.CountStars = review.starCounts
             products.TotalOrders = totalOrders
 
             console.log('Product details:', products)
@@ -74,7 +75,7 @@ let displayNewProduct = async (req, res) => {
         let message = await productService.getNewProduct()
         return res.status(200).json(message)
     } catch (error) {
-        console.error('Error handling display prroduct request: ', error)
+        console.error('Error handling display product request: ', error)
         return res.status(500).json({
             errCode: -1,
             message: 'An internal server error occurred.'
@@ -82,9 +83,34 @@ let displayNewProduct = async (req, res) => {
     }
 }
 
+let displayProductReviews = async (req, res) => {
+    try {
+        let { productid } = req.query
+
+        if (!productid) {
+            return res.status(400).json({
+                errCode: 1,
+                message: 'Missing required parameters'
+            })
+        }
+
+        let reviews = await productService.getAllReviews(productid)
+        return res.status(200).json(reviews)
+    } catch (error) {
+        console.error('Error handling display product reviews request: ', error)
+        return res.status(500).json({
+            errCode: -1,
+            message: 'An internal server error occurred.'
+        })
+    }
+}
+
+
+
 module.exports = {
     displayProducts: displayProducts,
     displayTopRating: displayTopRating,
     displayHotProduct: displayHotProduct,
-    displayNewProduct: displayNewProduct
+    displayNewProduct: displayNewProduct,
+    displayProductReviews: displayProductReviews,
 }

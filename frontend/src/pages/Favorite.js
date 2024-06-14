@@ -187,7 +187,6 @@ const Favorite = () => {
                                                 </Link>
                                                 <div className='cart-title col-9 mt-2'>
                                                     <Link className='text-uppercase' to={`/product/detail/${product.ProductID}`}>{product.ProductName}
-                                                        <label>{product.Name}</label>
                                                         <label role='button'>{product.Name}</label>
                                                     </Link>
                                                     <p className='text-muted text-sm text-truncate'>{product.Description}</p>

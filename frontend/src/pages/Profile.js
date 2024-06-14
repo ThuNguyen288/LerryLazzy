@@ -247,7 +247,7 @@ const Profile = () => {
                                 </div>
                                 <div className='basic-info collapse show' id='basicInfoPreview'>
                                     <ul className='list-unstyled fs-sm m-0 info-name'>
-                                        <li className=''>{profile.Firstname + ' ' + profile.Lastname}</li>
+                                        <li className=''>{profile.Lastname + ' ' + profile.Firstname}</li>
                                         <li className='mt-1'>June 6, 2003</li>
                                         <li className='mt-1'>{profile.Address}</li>
                                     </ul>
