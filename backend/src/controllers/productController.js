@@ -41,9 +41,6 @@ let displayProducts = async (req, res) => {
 }
 
 let displayTopRating = async (req,res) => {
-    let limit = req.query.limit
-    if (!limit) limit = 8
-
     try {
         const products = await productService.getAllProducts()
         console.log(products)
@@ -105,7 +102,32 @@ let displayProductReviews = async (req, res) => {
     }
 }
 
+let displayProductByKeyword = async (req, res) => {
+    try {
+        let { keyword } = req.query
 
+        let products = await productService.searchProduct(keyword)
+        if (products.length === 0) {
+            return res.status(404).json({
+                errCode: 1,
+                errMessage: 'No products found!',
+                products: []
+            })
+        }
+
+        return res.status(200).json({
+            errCode: 0,
+            errMessage: 'Products found successfully!',
+            products: products
+        })
+    } catch (error) {
+        console.error('Error handling display product by keyword request: ', error)
+        return res.status(500).json({
+            errCode: -1,
+            message: 'An internal server error occurred.'
+        })
+    }
+}
 
 module.exports = {
     displayProducts: displayProducts,
@@ -113,4 +135,5 @@ module.exports = {
     displayHotProduct: displayHotProduct,
     displayNewProduct: displayNewProduct,
     displayProductReviews: displayProductReviews,
+    displayProductByKeyword: displayProductByKeyword
 }

@@ -1,8 +1,8 @@
 import { faBell, faShoppingCart, faUser } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useContext } from 'react'
-import { Link, useParams } from 'react-router-dom'
-
+import { Link, useParams,useNavigate } from 'react-router-dom'
+import { useSearch } from '../context/SearchContext'
 import { AuthContext } from '../context/AuthContext'
 import { CartContext } from '../context/CartContext'
 import Search from './Search'
@@ -12,14 +12,22 @@ import './NavBar.scss'
 const NavBar = () => {
   const { isAuthenticated, logout } = useContext(AuthContext)
   const { cartQuantity } = useContext(CartContext)
+  const { updateKeyword } = useSearch()
   const { category, subcategory } = useParams()
   
   console.log(category, subcategory)
   console.log(isAuthenticated.user, isAuthenticated.token)
 
+  const navigate = useNavigate()
+
   const handleLogout = () => {
     logout()
-    window.location.href='/'
+    navigate('/')
+  }
+
+  const handleSearch = (keyword) => {
+    updateKeyword(keyword)
+    navigate('/product/search');
   }
 
   return (
@@ -73,7 +81,7 @@ const NavBar = () => {
               <>
                 <div className='d-flex float-end mx-4'>
                   <div className='' role='button' aria-expanded='false'>
-                    <Search/>
+                    <Search onSearch={handleSearch}/>
                   </div>
                   <div className='nav-icon d-flex'>
                     <div className='cart-count'>
@@ -108,7 +116,7 @@ const NavBar = () => {
               <>
                 <div className='d-flex float-end mx-2'>
                   <div className='' role='button' aria-expanded='false'>
-                    <Search/>
+                    <Search onSearch={handleSearch}/>
                   </div>
                   <div className='nav-button mx-1'>
                     <button className='btn rounded-pill border border-dark'><Link to='/login' className='text-brown'>Sign In</Link></button>

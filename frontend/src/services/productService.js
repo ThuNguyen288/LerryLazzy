@@ -26,11 +26,16 @@ let getAllReviews = (productid) => {
     return axios.get(`/api/product/review?productid=${productid}`)
 }
 
+let getProductByKeyword = (keyword) => {
+    return axios.get(`/api/search-product?keyword=${keyword}`)
+}
+
 export {
     getProductsByCategory, 
     getProductById, 
     getProductsBySubcategory,
     getHotProduct,
     getNewProduct,
-    getAllReviews
+    getAllReviews,
+    getProductByKeyword
 }

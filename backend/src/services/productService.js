@@ -1,4 +1,5 @@
 import db from '../models/index'
+let { Op } = require('sequelize')
 
 // Function to get all product by CategoryID
 let getProductsByCategory = (categoryid) => {
