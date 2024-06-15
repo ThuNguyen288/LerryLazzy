@@ -268,3 +268,8 @@
 .checkout:hover .arrow {
     transform: translateX(7px);
 }
+
+.coupon-in:focus {
+    box-shadow: none;
+    border: 1px solid #333;
+}

@@ -158,7 +158,7 @@ let findUserByUsername = (username) => {
             // Find user
             let user = await db.User.findOne({
                 where: { Username: username },
-                attributes: ['Firstname', 'Lastname', 'Email', 'Address', 'Phone', 'Password']
+                attributes: ['Firstname', 'Lastname', 'Email', 'Address', 'Phone', 'Password', 'DateOfBirth']
             })
 
             if (!user) {
@@ -209,7 +209,8 @@ let updateProfile = (username, data) => {
                 Lastname: data.Lastname,
                 Email: data.Email,
                 Address: data.Address,
-                Phone: data.Phone
+                Phone: data.Phone,
+                DateOfBirth: data.DateOfBirth
             }, {
                 where: { Username: username },
             })
@@ -217,7 +218,7 @@ let updateProfile = (username, data) => {
             // Retrieve updated user profile
             let updateUser = await db.User.findOne({
                 where: { Username: username },
-                attributes: ['Firstname', 'Lastname', 'Phone', 'Email', 'Address']
+                attributes: ['Firstname', 'Lastname', 'Phone', 'Email', 'Address', 'DateOfBirth']
             })
 
             userData.errMessage = 'Profile updated successfully!'

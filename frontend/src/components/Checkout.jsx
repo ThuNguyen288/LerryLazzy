@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Spinner from 'react-bootstrap/Spinner'
-
+import { Button, Modal } from 'react-bootstrap'
 
 import { AuthContext } from '../context/AuthContext'
 import { handleShowProductDetail } from '../services/cartService'
-import { handleClearCart, handleCreateNewOrder, handleShowOrderItem } from '../services/orderService'
+import { handleApplyCoupon, handleClearCart, handleCreateNewOrder, handleShowOrderItem } from '../services/orderService'
 import { handleShowProfile } from '../services/userService'
 
 import './Checkout.scss'
@@ -23,7 +23,13 @@ const Checkout = () => {
     const [subTotal, setSubTotal] = useState(0)
     const [shippingFee, setShippingFee] = useState(0)
     const [deliveryMethod, setDeliveryMethod] = useState('')
+    const [note, setNote] = useState('')
+    const [couponId, setCouponId] = useState('')
     
+    const [discountPrice, setDiscountPrice] = useState(0)
+    const [code, setCode] = useState('')
+    const [showCoupon, setShowCoupon] = useState(false)
+
     const [orderId, setOrderId] = useState('')
     const [productDetails, setProductDetails] = useState([])
     
@@ -66,6 +72,28 @@ const Checkout = () => {
         }
         fetchData()
     }, [isAuthenticated.token])
+
+    const applyCoupon = async () => {
+        try {
+            const token = localStorage.getItem('token')
+            const response = await handleApplyCoupon(token, code)
+            
+            if (response.errCode === 0) {
+                setCouponId(response.coupon.CouponID)
+                setShowCoupon(false)
+                setDiscountPrice(subTotal * (response.coupon.Discount / 100))
+            } else {
+                alert(response.errMessage)
+            }
+
+        } catch (error) {
+            console.error('Error during apply coupon:', error)
+        }
+    }
+
+    const toggleCoupon = () => {
+        setShowCoupon(!showCoupon)
+    }
 
     const handleCheckboxChange = () => {
         setUseDifferentAddress(!useDifferentAddress)
@@ -144,13 +172,14 @@ const Checkout = () => {
         setPaymentMethod(event.target.value)
     }
 
-    const totalPrice = subTotal + shippingFee
+    const totalPrice = subTotal + shippingFee - discountPrice
 
     const orderData = {
         shippingAddress,
         paymentMethod,
         totalPrice,
-        deliveryMethod
+        deliveryMethod,
+        couponId
     }
 
     const handleGetPaymentMethod = async () => {
@@ -160,8 +189,8 @@ const Checkout = () => {
                 return
             }
 
-            let token = localStorage.getItem('token')
-            let response = await handleCreateNewOrder(token, orderData)
+            const token = localStorage.getItem('token')
+            const response = await handleCreateNewOrder(token, orderData)
 
             if (response.errCode !== 0) {
                 alert(response.errMessage)
@@ -172,11 +201,11 @@ const Checkout = () => {
 
             setActiveStep(3)
 
-            let responseItem = await handleShowOrderItem(token, response.order.OrderID)
+            const responseItem = await handleShowOrderItem(token, response.order.OrderID)
             
             if (!responseItem || !responseItem.orderItems) {
-                console.log('No order items found');
-                return;
+                console.log('No order items found')
+                return
             }
 
             const detailsPromises = responseItem.orderItems.map(async (item) => {
@@ -195,10 +224,14 @@ const Checkout = () => {
         }
     }
 
-    let handleCheckOut = async () => {
+    const handleGetNote = (event) => {
+        setNote(event.target.value)
+    }
+
+    const handleCheckOut = async () => {
         try {
-            let token = localStorage.getItem('token')
-            await handleClearCart(token, orderId)
+            const token = localStorage.getItem('token')
+            await handleClearCart(token, orderId, note)
             
             window.location.href='/order-complete'
             
@@ -278,29 +311,29 @@ const Checkout = () => {
                         {activeStep === 1 && (
                             <div className='block-body'>
                                 <div className='row'>
-                                    <div className='mb-4 col-md-6 d-flex align-items-center'>
-                                        <input type='radio' id='option0' name='shipping' value='Usp Next Day' onChange={handleDeliveryMethodChange}/>
+                                    <div className='mb-4 col-md-6 d-flex align-items-center shipping'>
+                                        <input className='input-radio' type='radio' id='option0' name='shipping' value='Usp Next Day' onChange={handleDeliveryMethodChange}/>
                                         <label className='ms-3' htmlFor='option0'>
                                             <strong className='d-block text-uppercase mb-2'>Usp next day</strong>
                                             <span className='text-muted text-sm'>Get your order delivered next day</span>
                                         </label>
                                     </div>
-                                    <div className='mb-4 col-md-6 d-flex align-items-center'>
-                                        <input type='radio' id='option1' name='shipping' value='Standard Shipping' onChange={handleDeliveryMethodChange}/>
+                                    <div className='mb-4 col-md-6 d-flex align-items-center shipping'>
+                                        <input className='input-radio' type='radio' id='option1' name='shipping' value='Standard Shipping' onChange={handleDeliveryMethodChange}/>
                                         <label className='ms-3' htmlFor='option1'>
                                             <strong className='d-block text-uppercase mb-2'>Standard Shipping</strong>
                                             <span className='text-muted text-sm'>Delivery within 5-7 business days</span>
                                         </label>
                                     </div>
-                                    <div className='mb-4 col-md-6 d-flex align-items-center'>
-                                        <input type='radio' id='option2' name='shipping' value='Express Shipping' onChange={handleDeliveryMethodChange}/>
+                                    <div className='mb-4 col-md-6 d-flex align-items-center shipping'>
+                                        <input className='input-radio' type='radio' id='option2' name='shipping' value='Express Shipping' onChange={handleDeliveryMethodChange}/>
                                         <label className='ms-3' htmlFor='option2'>
                                             <strong className='d-block text-uppercase mb-2'>Express Shipping</strong>
                                             <span className='text-muted text-sm'>Delivery within 2-3 business days</span>
                                         </label>
                                     </div>
-                                    <div className='mb-4 col-md-6 d-flex align-items-center'>
-                                        <input type='radio' id='option3' name='shipping' value='In Store Pickup' onChange={handleDeliveryMethodChange}/>
+                                    <div className='mb-4 col-md-6 d-flex align-items-center shipping'>
+                                        <input className='input-radio' type='radio' id='option3' name='shipping' value='In Store Pickup' onChange={handleDeliveryMethodChange}/>
                                         <label className='ms-3' htmlFor='option3'>
                                             <strong className='d-block text-uppercase mb-2'>In-Store Pickup</strong>
                                             <span className='text-muted text-sm'>Pick up your order from our store</span>
@@ -429,29 +462,34 @@ const Checkout = () => {
                                     </div>
                                     <div className='cart-body'>
                                         <div className='row justify-content-between'>
-                                            <div className='col-md-6 my-4 px-4'>
+                                            <div className='col-md-6 my-4 pe-4'>
                                                 <label className='form-label w-100 info'>Fullname</label>
                                                 <input type='text' className='input-info form-control form-control-sm' value={profile.Fullname} disabled/>
                                             </div>
-                                            <div className='col-md-6 my-4 px-4'>
+                                            <div className='col-md-6 my-4 ps-4'>
                                                 <label className='form-label w-100 info'>Phone Number</label>
                                                 <input type='text' className='input-info form-control form-control-sm' value={profile.Phone} disabled/>
                                             </div>
-                                            <div className='col-md-6 my-4 px-4'>
+                                            <div className='col-md-6 my-4 pe-4'>
                                                 <label className='form-label w-100 info'>Shipping Address</label>
                                                 <input type='text' className='input-info form-control form-control-sm' value={shippingAddress} disabled/>
                                             </div>
-                                            <div className='col-md-6 my-4 px-4'>
+                                            <div className='col-md-6 my-4 ps-4'>
                                                 <label className='form-label w-100 info'>Delivery Method</label>
                                                 <input type='text' className='input-info form-control form-control-sm' value={deliveryMethod} disabled/>
                                             </div>
-                                            <div className='col-md-6 my-4 px-4'>
+                                            <div className='col-md-6 my-4 pe-4'>
                                                 <label className='form-label w-100 info'>Payment Method</label>
                                                 <input type='text' className='input-info form-control form-control-sm' value={paymentMethod} disabled/>
                                             </div>
-                                            <div className='col-md-6 my-4 px-4'>
+                                            <div className='col-md-6 my-4 ps-4'>
                                                 <label className='form-label w-100 info'>Note</label>
-                                                <input type='text' className='input-info form-control form-control-sm' value=''/>
+                                                <input type='text' className='input-info form-control form-control-sm' value={note} onChange={handleGetNote}/>
+                                            </div>
+                                            <div className='col-md-6 my-4 pe-4'></div>
+                                            <div className='col-md-6 my-4 ps-4'>
+                                                <label htmlFor='fileInput' className='form-label w-100 info'>Upload your bill here</label>
+                                                <input type='file' className='input-image form-control form-control-sm' id='fileInput' accept='image/*'/>
                                             </div>
                                         </div>
                                     </div>
@@ -508,7 +546,8 @@ const Checkout = () => {
                                 </li>
                                 <li className='order-summary-item position-relative'>
                                     <span>Discount</span>
-                                    <span>0 đ</span>
+                                    <span>- {discountPrice.toLocaleString('vi-VN')} đ</span>
+                                    <span className='position-absolute discount' role='button' onClick={toggleCoupon}>Have a promotion?</span>
                                 </li>
                                 <li className='order-summary-item position-relative'>
                                     <span>Total</span>
@@ -519,6 +558,22 @@ const Checkout = () => {
                     </div>
                 </div>
             </div>
+            <Modal show={showCoupon} onHide={() => setShowCoupon(false)} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>Have a promotion?</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <input className='form-control coupon-in' style={{borderRadius: '0'}} name='Code' placeholder='Enter your promotion...' value={code} onChange={(event) => setCode(event.target.value)}/>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant='secondary' onClick={() => setShowCoupon(false)}>
+                        Cancel
+                    </Button>
+                    <Button variant='dark' onClick={applyCoupon}>
+                        Apply
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </div>
     )
 }

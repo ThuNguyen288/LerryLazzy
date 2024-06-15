@@ -35,6 +35,7 @@ let protectedRoutes = (app) => {
     protectedRouter.get('/show-order', authMiddleware.authenticateToken, orderController.handleShowOrder)
     protectedRouter.get('/show-order-item', authMiddleware.authenticateToken, orderController.handleShowOrderItem)
     protectedRouter.get('/show-all-orders', authMiddleware.authenticateToken, orderController.handleShowAllOrders)
+    protectedRouter.post('/apply-coupon', authMiddleware.authenticateToken, orderController.handleApplyCoupon)
 
     // Router for favorite
     protectedRouter.post('/add-remove-favorite', authMiddleware.authenticateToken, favoriteController.handleAddRemoveFavorite)

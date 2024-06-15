@@ -15,13 +15,15 @@ import ProductInfo from './pages/ProductInfo'
 import ProductPage from './pages/ProductPage'
 import Profile from './pages/Profile'
 import Favorite from './pages/Favorite'
+import OrderInfo from './pages/OrderInfo'
+import ComingSoonPage from './pages/ComingSoon'
 
 import { AuthProvider } from './context/AuthContext'
 import { CartProvider } from './context/CartContext'
 import PrivateRoute from './route/PrivateRoute'
 
 import './App.css'
-import OrderInfo from './pages/OrderInfo'
+
 
 
 function App() {
@@ -47,6 +49,7 @@ function App() {
                             <Route path='/checkout' element={<PrivateRoute><CheckoutPage/></PrivateRoute>}/>
                             <Route path='/order-complete' element={<PrivateRoute><OrderCompletePage/></PrivateRoute>}/>
                             <Route path='/order/detail/:orderid' element={<PrivateRoute><OrderInfo/></PrivateRoute>}/>
+                            <Route path='/coming-soon' element={<ComingSoonPage />} />
                         </Routes>
                     </BrowserRouter>
                 </CartProvider>

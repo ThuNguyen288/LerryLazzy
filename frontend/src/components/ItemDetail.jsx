@@ -271,7 +271,7 @@ const ItemDetail = () => {
                         <button className='btn btn-outline-secondary ms-auto align-center'>
                             <div className='accordion-item'>
                                 <h2 className='accordion-header' id='headingOne'>
-                                    <div className='accordion-button' data-bs-toggle='collapse' data-bs-target='#collapseOne' aria-expanded='false' aria-controls='collapseOne'>
+                                    <div className='accordion-button text-dark' data-bs-toggle='collapse' data-bs-target='#collapseOne' aria-expanded='false' aria-controls='collapseOne'>
                                         <LuPenLine className='ms-n1 me-2'/>Leave a review
                                     </div>
                                 </h2>

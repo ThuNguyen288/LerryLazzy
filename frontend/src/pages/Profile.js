@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 
 import Spinner from 'react-bootstrap/Spinner'
 import Flatpickr from 'react-flatpickr'
-
+import { format } from 'date-fns'
 import { Button, Modal } from 'react-bootstrap'
 import { CiCalendar } from 'react-icons/ci'
 import { Link } from 'react-router-dom'
@@ -19,7 +19,6 @@ const Profile = () => {
     const { isAuthenticated, logout } = useContext(AuthContext)
     
     const [profile, setProfile] = useState({})
-    const [date, setDate] = React.useState('June 6, 2003')
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const [showModal, setShowModal] = useState(false)
@@ -44,7 +43,6 @@ const Profile = () => {
             try {
                 const token = localStorage.getItem('token')
                 const response = await handleShowProfile(token)
-                console.log(response)
                 if (!ignore) {
                     setProfile(response.user)
                 }
@@ -247,8 +245,8 @@ const Profile = () => {
                                 </div>
                                 <div className='basic-info collapse show' id='basicInfoPreview'>
                                     <ul className='list-unstyled fs-sm m-0 info-name'>
-                                        <li className=''>{profile.Lastname + ' ' + profile.Firstname}</li>
-                                        <li className='mt-1'>June 6, 2003</li>
+                                        <li>{profile.Lastname + ' ' + profile.Firstname}</li>
+                                        <li className='mt-1'>{profile.DateOfBirth ? format(new Date(profile.DateOfBirth), 'MMMM dd, yyyy') : ''}</li>
                                         <li className='mt-1'>{profile.Address}</li>
                                     </ul>
                                 </div>
@@ -272,12 +270,18 @@ const Profile = () => {
                                                 <div className='position-relative'>
                                                     <Flatpickr
                                                         id='dob'
+                                                        name='DateOfBirth'
                                                         className='form-control form-icon-end'
-                                                        value={date}
-                                                        onChange={([selectedDate]) => setDate(selectedDate)}
+                                                        value={profile?.DateOfBirth || ''}
+                                                        onChange={(selectedDates) => {
+                                                            const selectedDate = selectedDates[0];
+                                                            setProfile(prevProfile => ({
+                                                                ...prevProfile,
+                                                                DateOfBirth: selectedDate instanceof Date ? selectedDate.toISOString() : ''
+                                                            }));
+                                                        }}
                                                         options={{
                                                             dateFormat: 'F j, Y',
-                                                            defaultDate: 'June 6, 2003'
                                                         }}
                                                         placeholder='Choose date'
                                                     />
@@ -308,7 +312,7 @@ const Profile = () => {
                                 <div className='contact-info collapse show' id='contactInfoPreview'>
                                     <ul className='list-unstyled fs-sm m-0'>
                                         <li>{profile.Email}<span className='text-success ms-3'>Verified</span></li>
-                                        <li className='mt-1'>0{profile.Phone}<span className='text-success ms-3'>Verified</span></li>
+                                        <li className='mt-1'>{profile.Phone ? `0${profile.Phone}` : ''} {profile.Phone ? <span className='text-success ms-3'>Verified</span> : ''}</li>
                                     </ul>
                                 </div>
                                 <div className='contact-info collapse' id='contactInfoEdit'>

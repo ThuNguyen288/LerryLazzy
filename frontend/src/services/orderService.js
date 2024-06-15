@@ -8,8 +8,8 @@ let handleCreateNewOrder = (token, data) => {
     })
 }
 
-let handleClearCart = (token, orderid) => {
-    return axios.put('/api/protected/clear-cart', { orderid }, {
+let handleClearCart = (token, orderid, note) => {
+    return axios.put('/api/protected/clear-cart', { orderid, note }, {
         headers: {
             'Authorization': 'Bearer ' + token
         }
@@ -40,10 +40,19 @@ let handleShowOrder = (token, orderid) => {
     })
 }
 
+let handleApplyCoupon = (token, code) => {
+    return axios.post('/api/protected/apply-coupon', { code }, {
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
+    })
+}
+
 export {
     handleCreateNewOrder,
     handleClearCart,
     handleShowOrderItem,
     handleShowAllOrders,
-    handleShowOrder
+    handleShowOrder,
+    handleApplyCoupon
 }

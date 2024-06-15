@@ -1,4 +1,4 @@
-.form-check-input {
+.noti.form-check-input {
   --cz-form-check-bg: #fff;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -16,7 +16,7 @@
   width: 1em;
 }
 
-.form-check .form-check-input {
+.noti.form-check-input {
   float: left;
   margin-left: -1.5em;
 }
@@ -43,7 +43,7 @@
   width: 2.75rem;
 }
 
-.form-check-input[type=checkbox]:checked {
+.noti .form-check-input[type=checkbox]:checked {
   border-radius: 2.75em;
   border: 1px solid #212529;
   background-color: #343a40;

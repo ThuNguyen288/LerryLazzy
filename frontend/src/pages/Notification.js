@@ -62,7 +62,7 @@ const Notifications = () => {
                       <div className='cart-header flex-nowrap align-items-center justify-content-between'>
                           <div className='row'>
                               <div className='col'>Notification Settings</div>
-                              <div className='col-auto form-check form-switch'>
+                              <div className='col-auto form-check form-switch noti'>
                                   <label className='form-check-label animate-target text-capitalize' htmlFor='unselectAll'>Select all</label>
                                   <input
                                       className='form-check-input align-middle me-2'
@@ -76,7 +76,7 @@ const Notifications = () => {
                       </div>
                       <div className='cart-body mt-4'>
                           {Object.keys(notifications).map((key) => (
-                              <div key={key} className='mb-4 form-check form-switch'>
+                              <div key={key} className='mb-4 form-check form-switch noti'>
                                   <input
                                       className='form-check-input me-2'
                                       id={key}

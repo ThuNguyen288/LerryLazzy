@@ -27,9 +27,9 @@ let handleCreateNewOrder = async(req, res) => {
 let handleClearCart = async (req, res) => {
     try {
         let userid = req.user.userid
-        let { orderid } = req.body
+        let { orderid, note } = req.body
 
-        let message = await orderService.clearCart(userid, orderid)
+        let message = await orderService.clearCart(userid, orderid, note)
         return res.status(200).json(message)
     } catch (error) {
         console.error('Error handling clear cart request: ', error)
@@ -86,6 +86,21 @@ let handleShowAllOrders = async (req, res) => {
     }
 }
 
+let handleApplyCoupon = async (req, res) => {
+    try {
+        let userid = req.user.userid
+        let { code } = req.body
+        let message = await orderService.applyCoupon(userid, code)
+        return res.status(200).json(message)
+    } catch (error) {
+        console.error('Error handling apply coupn request: ', error)
+        return res.status(500).json({
+            errCode: -1,
+            message: 'An internal server error occurred.'
+        })
+    }
+}
+
 let handleUpdateOrderStatus = async () => {
     try {
         let pickupToDelivery = await orderService.updatePickupStatus()
@@ -128,7 +143,8 @@ module.exports = {
     handleShowOrder: handleShowOrder,
     handleShowOrderItem: handleShowOrderItem,
     handleShowAllOrders: handleShowAllOrders,
-    handleUpdateOrderStatus: handleUpdateOrderStatus
+    handleUpdateOrderStatus: handleUpdateOrderStatus,
+    handleApplyCoupon: handleApplyCoupon
 }
 
 

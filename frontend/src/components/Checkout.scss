@@ -155,38 +155,19 @@ a.accordion-link {
 }
 
 .block-body .form-check-input[type=checkbox] {
-    border-radius: 0.25em;
     border: 1px solid #212529;
 }
 
-.form-check-input[type=checkbox]:checked{
-    border-radius: 0.25em;
-    border: 1px solid #212529;
+.block-body .form-check-input[type=checkbox]:checked{
     background-color:#343a40;
 }
 
-.form-check .form-check-input {
+.block-body .form-check .form-check-input {
     float: left;
     margin-left: -1.5em;
 }
 
-// .form-check-input {
-//     width: 1em;
-//     height: 1em;
-//     margin-top: 0.25em;
-//     vertical-align: top;
-//     background-color: #fff;
-//     background-repeat: no-repeat;
-//     background-position: center;
-//     background-size: contain;
-//     border: 1px solid rgba(0, 0, 0, 0.25);
-//     -webkit-appearance: none;
-//     -moz-appearance: none;
-//     appearance: none;
-//     color: #000;
-// }
-
-.form-check-input[type="checkbox"]:focus {
+.form-check-input[type=checkbox]:focus {
     outline: none;
     box-shadow: none;
 }
@@ -222,6 +203,14 @@ a.accordion-link {
     transition: none;
 }
 
+.input-image {
+    width: 100%;
+    border: none;
+    border-radius: 0;
+    transition: none;
+    background: transparent;
+}
+
 .input-info:disabled{
     background-color: transparent;
 }
@@ -230,6 +219,10 @@ a.accordion-link {
     outline: none;
     box-shadow: none;
     border-color: #495057;
+}
+
+.input-radio[type=radio]:checked {
+    background-color:#343a40;
 }
 
 .accordion-button {

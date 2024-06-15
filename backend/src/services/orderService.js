@@ -101,7 +101,7 @@ let createNewOrder = (userid, data) => {
 }
 
 // Function to clear cart
-let clearCart = async (userid, orderid, note) => {
+let clearCart = (userid, orderid, note) => {
     return new Promise(async (resolve, reject) => {
         try {
             let orderData = {
@@ -133,7 +133,7 @@ let clearCart = async (userid, orderid, note) => {
             await db.Order.update({
                 Note: note,
                 Status: 'Pending Pickup',
-                StatusDate: Date.now(),
+                StatusDate: new Date(),
             }, {
                 where: { OrderID: orderid }
             })
@@ -150,7 +150,7 @@ let clearCart = async (userid, orderid, note) => {
 }
 
 // Function to show order
-let showOrder = async (userid, orderid) => {
+let showOrder = (userid, orderid) => {
     return new Promise(async (resolve, reject) => {
         try {
             let orderData = {
@@ -189,7 +189,7 @@ let showOrder = async (userid, orderid) => {
 }
 
 // Function to show order item
-let showOrderItem = async (userid, orderid) => {
+let showOrderItem = (userid, orderid) => {
     return new Promise(async (resolve, reject) => {
         try {
             let orderData = {
@@ -237,19 +237,8 @@ let showOrderItem = async (userid, orderid) => {
     })
 }
 
-// Function to add note
-let addNote = async (userid, note) => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            
-        } catch (error) {
-            reject(error)
-        }
-    })
-}
-
 // Funtion to show all orders of user
-let showAllOrders = async (userid) => {
+let showAllOrders = (userid) => {
     return new Promise(async (resolve, reject) => {
         try {
             let orderData = {
@@ -294,8 +283,54 @@ let showAllOrders = async (userid) => {
     })
 }
 
+// Function to add coupon code
+let applyCoupon = async (userid, code) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let couponData = {
+                errCode: 0,
+                errMessage: '',
+                coupon: null
+            }
+
+            let user = await db.User.findOne({
+                where: { UserID: userid }
+            })
+
+            if(!user) {
+                orderData.errCode = 1
+                orderData.errMessage = 'User not found'
+                return resolve(orderData)
+            }
+
+            let coupon = await db.Coupon.findOne({
+                where: { Code: code }
+            })
+
+            if (!coupon) {
+                couponData.errCode = 2
+                couponData.errMessage = 'Coupon code not found!'
+                return resolve(couponData)
+            }
+
+            const currentDate = new Date()
+            if (coupon.ExpiryDate < currentDate) {
+                couponData.errCode = 3
+                couponData.errMessage = 'Coupon has expired!'
+                return resolve(couponData)
+            }
+
+            couponData.coupon = coupon
+            couponData.errMessage = 'Apply discount code successfully'
+            return resolve(couponData)
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+
 // Function to update pickup status of order { Pending Pickup -> Pending Delivery}
-let updatePickupStatus = async () => {
+let updatePickupStatus = () => {
     return new Promise(async (resolve, reject) => {
         try {
             let orderData = {
@@ -341,7 +376,7 @@ let updatePickupStatus = async () => {
 }
 
 // Function to update delivery status of order { Pending Delivery -> Delivered }
-let updateDeliveryStatus = async () => {
+let updateDeliveryStatus = () => {
     return new Promise(async (resolve, reject) => {
         try {
             let orderData = {
@@ -416,7 +451,7 @@ let updateDeliveryStatus = async () => {
 }
 
 // Function to update confirm status of order { Pending Confirmation -> Canceled }
-let updateConfirmStatus = async () => {
+let updateConfirmStatus = () => {
     return new Promise(async (resolve, reject) => {
         try {
             let orderData = {
@@ -469,5 +504,6 @@ module.exports = {
     showAllOrders: showAllOrders,
     updateDeliveryStatus: updateDeliveryStatus,
     updatePickupStatus: updatePickupStatus,
-    updateConfirmStatus: updateConfirmStatus
+    updateConfirmStatus: updateConfirmStatus,
+    applyCoupon: applyCoupon
 }

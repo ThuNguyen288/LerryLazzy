@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
-import Spinner from 'react-bootstrap/Spinner'
 import { Button, Modal } from 'react-bootstrap'
+import Spinner from 'react-bootstrap/Spinner'
 import { BsDash, BsPlus } from 'react-icons/bs'
 import { FaAngleRight } from 'react-icons/fa6'
 import { Link } from 'react-router-dom'
@@ -15,6 +15,7 @@ import {
     handleUserShowCart
 } from '../services/cartService'
 
+import { handleApplyCoupon } from '../services/orderService'
 import './CartItem.scss'
 
 const Cart = () => {
@@ -27,6 +28,8 @@ const Cart = () => {
 
     const [productDetails, setProductDetails] = useState([])
     const [totalPrice, setTotalPrice] = useState(0)
+    const [discountPrice, setDiscountPrice] = useState(0)
+    const [code, setCode] = useState('')
     const [cartEmpty, setCartEmpty] = useState(true)
 
     const [showModal, setShowModal] = useState(false)
@@ -58,7 +61,7 @@ const Cart = () => {
             setTotalPrice(total)
             localStorage.setItem('subTotal', total)
         } catch (error) {
-            console.error('Error updating cart data:', error);
+            console.error('Error updating cart data:', error)
             setError(error)
         } finally {
             setLoading(false)
@@ -138,12 +141,12 @@ const Cart = () => {
             setShowModal(false)
             updateCartQuantity()
         } catch (error) {
-            console.error('Error remove all product:', error);
+            console.error('Error remove all product:', error)
         }
     }
 
     const toggleCoupon = () => {
-        setShowCoupon(!showCoupon);
+        setShowCoupon(!showCoupon)
     }
 
     const redirectToHome = () => {
@@ -154,7 +157,24 @@ const Cart = () => {
         try {
             window.location.href='/checkout'
         } catch (error) {
-        console.error('Error during checkout:', error)
+            console.error('Error during checkout:', error)
+        }
+    }
+
+    const applyCoupon = async () => {
+        try {
+            const token = localStorage.getItem('token')
+            const response = await handleApplyCoupon(token, code)
+            
+            if (response.errCode === 0) {
+                setShowCoupon(false)
+                setDiscountPrice(totalPrice * (response.coupon.Discount / 100))
+            } else {
+                alert(response.errMessage)
+            }
+
+        } catch (error) {
+            console.error('Error during apply coupon:', error)
         }
     }
 
@@ -305,12 +325,12 @@ const Cart = () => {
                                     </li>
                                     <li className='order-summary-item position-relative'>
                                         <span>Discount</span>
-                                        <span>0 đ</span>
+                                        <span>- {discountPrice.toLocaleString('vi-VN')} đ</span>
                                         <span className='position-absolute discount' role='button' onClick={toggleCoupon}>Have a promotion?</span>
                                     </li>
                                     <li className='order-summary-item position-relative'>
                                         <span>Total</span>
-                                        <strong className='order-summary-total'>{totalPrice.toLocaleString('vi-VN')} đ</strong>
+                                        <strong className='order-summary-total'>{(totalPrice - discountPrice).toLocaleString('vi-VN')} đ</strong>
                                     </li>
                                 </ul>
                             </div>
@@ -335,6 +355,22 @@ const Cart = () => {
                     </Button>
                     <Button variant='danger' onClick={handleRemoveAllProduct}>
                         Remove All
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+            <Modal show={showCoupon} onHide={() => setShowCoupon(false)} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>Have a promotion?</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <input className='form-control coupon-in' style={{borderRadius: '0'}} name='Code' placeholder='Enter your promotion...' value={code} onChange={(event) => setCode(event.target.value)}/>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant='secondary' onClick={() => setShowCoupon(false)}>
+                        Cancel
+                    </Button>
+                    <Button variant='dark' onClick={applyCoupon}>
+                        Apply
                     </Button>
                 </Modal.Footer>
             </Modal>

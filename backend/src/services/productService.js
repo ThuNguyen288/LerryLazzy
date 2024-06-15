@@ -198,6 +198,24 @@ let getAllReviews = (productid) => {
     })
 }
 
+// Function to get product by keyword
+let searchProduct = (keyword) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let products = await db.Product.findAll({
+                where: {
+                    Name: {
+                        [Op.like]: `%${keyword}%`
+                    }
+                }
+            })
+            return resolve(products)
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+
 module.exports = {
     getProductsByCategory: getProductsByCategory,
     getProductsBySubcategory: getProductsBySubcategory,
@@ -208,5 +226,6 @@ module.exports = {
     getHotProduct: getHotProduct,
     getNewProduct: getNewProduct,
     getAllReviews: getAllReviews,
+    searchProduct: searchProduct
 }
 
