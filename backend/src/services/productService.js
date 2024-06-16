@@ -210,7 +210,9 @@ let searchProduct = (keyword) => {
                     }
                 }
             })
-            return resolve(products)
+            
+            let count = products.length
+            return resolve({ products, count })
         } catch (error) {
             reject(error)
         }

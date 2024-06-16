@@ -3,7 +3,7 @@ import { Button, Modal } from 'react-bootstrap'
 import Spinner from 'react-bootstrap/Spinner'
 import { BsDash, BsPlus } from 'react-icons/bs'
 import { FaAngleRight } from 'react-icons/fa6'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { CartContext } from '../context/CartContext'
 import {
@@ -26,8 +26,10 @@ const Cart = () => {
         numberProduct: 0
     })
 
+    const navigate = useNavigate()
+
     const [productDetails, setProductDetails] = useState([])
-    const [totalPrice, setTotalPrice] = useState(0)
+    const [subtotal, setSubtotal] = useState(0)
     const [discountPrice, setDiscountPrice] = useState(0)
     const [code, setCode] = useState('')
     const [cartEmpty, setCartEmpty] = useState(true)
@@ -54,12 +56,12 @@ const Cart = () => {
             const productDetails = await Promise.all(detailsPromises)
             setProductDetails(productDetails)
         
-            const total = response.cart.reduce((sum, item, index) => {
+            const orderSubtotal = response.cart.reduce((sum, item, index) => {
                 const price = productDetails[index]?.Price || 0
                 return sum + item.Quantity * price
             }, 0)
-            setTotalPrice(total)
-            localStorage.setItem('subTotal', total)
+            setSubtotal(orderSubtotal)
+            localStorage.setItem('subTotal', orderSubtotal)
         } catch (error) {
             console.error('Error updating cart data:', error)
             setError(error)
@@ -139,6 +141,7 @@ const Cart = () => {
             const token = localStorage.getItem('token')
             await handleUserRemoveAllProduct(token)
             setShowModal(false)
+            window.location.reload()
             updateCartQuantity()
         } catch (error) {
             console.error('Error remove all product:', error)
@@ -150,12 +153,12 @@ const Cart = () => {
     }
 
     const redirectToHome = () => {
-        window.location.href='/home'
+        navigate('/home')
     }
 
     const handleCheckout = async () => {
         try {
-            window.location.href='/checkout'
+            navigate('/checkout')
         } catch (error) {
             console.error('Error during checkout:', error)
         }
@@ -168,7 +171,7 @@ const Cart = () => {
             
             if (response.errCode === 0) {
                 setShowCoupon(false)
-                setDiscountPrice(totalPrice * (response.coupon.Discount / 100))
+                setDiscountPrice(subtotal * (response.coupon.Discount / 100))
             } else {
                 alert(response.errMessage)
             }
@@ -317,7 +320,7 @@ const Cart = () => {
                                 <ul className='order-summary mb-0 list-unstyled'>
                                     <li className='order-summary-item'>
                                         <span>Order subtotal</span>
-                                        <span>{totalPrice.toLocaleString('vi-VN')} đ</span>
+                                        <span>{subtotal.toLocaleString('vi-VN')} đ</span>
                                     </li>
                                     <li className='order-summary-item'>
                                         <span>Shipping and handling</span>
@@ -325,12 +328,12 @@ const Cart = () => {
                                     </li>
                                     <li className='order-summary-item position-relative'>
                                         <span>Discount</span>
-                                        <span>- {discountPrice.toLocaleString('vi-VN')} đ</span>
+                                        <span>{(discountPrice !== 0 ? (- discountPrice) : 0).toLocaleString('vi-VN')} đ</span>
                                         <span className='position-absolute discount' role='button' onClick={toggleCoupon}>Have a promotion?</span>
                                     </li>
                                     <li className='order-summary-item position-relative'>
                                         <span>Total</span>
-                                        <strong className='order-summary-total'>{(totalPrice - discountPrice).toLocaleString('vi-VN')} đ</strong>
+                                        <strong className='order-summary-total'>{(subtotal - discountPrice).toLocaleString('vi-VN')} đ</strong>
                                     </li>
                                 </ul>
                             </div>

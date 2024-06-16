@@ -1,7 +1,7 @@
 import { faBell, faShoppingCart, faUser } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useContext } from 'react'
-import { Link, useParams,useNavigate } from 'react-router-dom'
+import { Link, useParams, useNavigate } from 'react-router-dom'
 import { useSearch } from '../context/SearchContext'
 import { AuthContext } from '../context/AuthContext'
 import { CartContext } from '../context/CartContext'

@@ -106,11 +106,12 @@ let displayProductByKeyword = async (req, res) => {
     try {
         let { keyword } = req.query
 
-        let products = await productService.searchProduct(keyword)
-        if (products.length === 0) {
+        let { products, count } = await productService.searchProduct(keyword)
+        if (count === 0) {
             return res.status(404).json({
                 errCode: 1,
                 errMessage: 'No products found!',
+                count: 0,
                 products: []
             })
         }
@@ -118,6 +119,7 @@ let displayProductByKeyword = async (req, res) => {
         return res.status(200).json({
             errCode: 0,
             errMessage: 'Products found successfully!',
+            count: count,
             products: products
         })
     } catch (error) {

@@ -11,7 +11,7 @@ const config = {
         instancename: 'SQLEXPRESS'
     },
     logging: false,
-    port: 1433
+    port: 1433,
 };
 
 let connectDB = async () => {

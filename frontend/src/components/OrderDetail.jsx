@@ -29,6 +29,7 @@ const OrderDetail = () => {
     const [rating, setRating] = useState(0)
     const [comment, setComment] = useState('')
     const [currentProduct, setCurrentProduct] = useState(null)
+    const [discount, setDiscount] = useState(0)
 
     const { updateCartQuantity } = useContext(CartContext)
 
@@ -43,8 +44,8 @@ const OrderDetail = () => {
     }
 
     useEffect(() => {
-        setLoading(false)
         const fetchOrderItems = async () => {
+            setLoading(false)
             try {
                 const token = localStorage.getItem('token')
                 const orderInfo = await handleShowOrder(token, orderid)
@@ -56,7 +57,6 @@ const OrderDetail = () => {
                 setPaymentMethod(orderInfo.order.PaymentMethod)
                 setTotal(orderInfo.order.TotalPrice)
                 setNote(orderInfo.order.Note)
-                console.log(orderInfo.order)
 
                 const orderDetail = await handleShowOrderItem(token, orderid)
                 setOrderItems(orderDetail.orderItems)
@@ -77,6 +77,9 @@ const OrderDetail = () => {
                     return sum + (product.Price * product.Quantity)
                 }, 0)
                 setTotalPrice(total)
+
+                const discountPrice = (total * (orderInfo.discount / 100))
+                setDiscount(discountPrice)
 
                 calculateShippingFee(orderInfo.order.DeliveryMethod, total)
                 
@@ -127,7 +130,6 @@ const OrderDetail = () => {
 
     const handleReview = (productid) => {
         setCurrentProduct(productid)
-        (true)
     }
 
     const handlePostReview = async () => {
@@ -135,7 +137,7 @@ const OrderDetail = () => {
             const token = localStorage.getItem('token')
             const result = await handleCreateReview(token, currentProduct, rating, comment)
 
-            if (result.errCode === 0) {    
+            if (result.errCode === 0) {
                 setRating(0)
                 setComment('')
             } 
@@ -257,7 +259,6 @@ const OrderDetail = () => {
                                 </div>
                             </div>
                         </div>
-                        
                     </div>
                     <div className='col-xl-4 col-lg-4 mb-5'>
                         <div className='block'>
@@ -276,7 +277,7 @@ const OrderDetail = () => {
                                     </li>
                                     <li className='order-summary-item'>
                                         <span>Discount</span>
-                                        <span>0 đ</span>
+                                        <span>{(discount !== 0 ? (- discount) : 0).toLocaleString('vi-VN')} đ</span>
                                     </li>
                                     <li className='order-summary-item border-0'>
                                         <strong className='order-summary-total'>Total</strong>

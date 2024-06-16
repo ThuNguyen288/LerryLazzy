@@ -122,7 +122,6 @@ const Order = () => {
                                         >   
                                             <option value='All'>All</option>
                                             <option value='Delivered'>Delivered</option>
-                                            <option value='Pending Confirmation'>Pending Confirmation</option>
                                             <option value='Pending Pickup'>Pending Pickup</option>
                                             <option value='Pending Delivery'>Pending Delivery</option>
                                             <option value='Canceled'>Canceled</option>

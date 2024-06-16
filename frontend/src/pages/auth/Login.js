@@ -37,7 +37,6 @@ const Login = () => {
                 if (token && user) {
                     console.log("Login successful:", token, user)
                     login(token, user)
-                    window.history.back()
                     alert(response.errMessage)
                 } else {
                     throw new Error('Invalid response: missing token or user')

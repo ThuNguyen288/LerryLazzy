@@ -21,7 +21,7 @@ let handleShowProductDetail = (productid) => {
 }
 
 let handleUserRemoveFromCart = (token, productid) => {
-    return axios.delete('api/protected/delete-from-cart', {
+    return axios.delete('/api/protected/delete-from-cart', {
         headers: {
             'Authorization': 'Bearer ' + token
         },

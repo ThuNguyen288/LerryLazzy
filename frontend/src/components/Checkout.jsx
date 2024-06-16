@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Spinner from 'react-bootstrap/Spinner'
 import { Button, Modal } from 'react-bootstrap'
-
+import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../context/AuthContext'
-import { handleShowProductDetail } from '../services/cartService'
+import { handleShowProductDetail, handleUserShowCart } from '../services/cartService'
 import { handleApplyCoupon, handleClearCart, handleCreateNewOrder, handleShowOrderItem } from '../services/orderService'
 import { handleShowProfile } from '../services/userService'
 
@@ -36,6 +36,9 @@ const Checkout = () => {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
 
+    const navigate = useNavigate()
+
+
     useEffect(() => {
         const totalPriceFromLocalStorage = localStorage.getItem('subTotal')
         if (totalPriceFromLocalStorage) {
@@ -48,7 +51,7 @@ const Checkout = () => {
             setActiveStep(activeStep - 1)
         }
         if (activeStep === 0) {
-            window.location.href='/cart'
+            navigate('/cart')
         }
     }
 
@@ -82,6 +85,7 @@ const Checkout = () => {
                 setCouponId(response.coupon.CouponID)
                 setShowCoupon(false)
                 setDiscountPrice(subTotal * (response.coupon.Discount / 100))
+                
             } else {
                 alert(response.errMessage)
             }
@@ -109,6 +113,7 @@ const Checkout = () => {
         }
     }, [profile.Address])
 
+    // Choose delivery method button
     const handleGetShippingAddress = (event) => {
         event.preventDefault()
         
@@ -116,6 +121,7 @@ const Checkout = () => {
             alert('Please enter your shipping address')
             return
         }
+
         setActiveStep(1)
         console.log('Shipping address:', shippingAddress)
     }
@@ -124,6 +130,7 @@ const Checkout = () => {
         setDeliveryMethod(event.target.value)
     }
 
+    // Choose shipping method button
     const handleGetDeliveryMethod = (event) => {
         event.preventDefault()
         if (deliveryMethod === '') {
@@ -172,52 +179,26 @@ const Checkout = () => {
         setPaymentMethod(event.target.value)
     }
 
-    const totalPrice = subTotal + shippingFee - discountPrice
-
-    const orderData = {
-        shippingAddress,
-        paymentMethod,
-        totalPrice,
-        deliveryMethod,
-        couponId
-    }
-
+    // Check your order button
     const handleGetPaymentMethod = async () => {
         try {
             if (paymentMethod === '') {
                 alert('Please select a payment method')
                 return
             }
-
-            const token = localStorage.getItem('token')
-            const response = await handleCreateNewOrder(token, orderData)
-
-            if (response.errCode !== 0) {
-                alert(response.errMessage)
-                console.log(response.errMessage)
-            }
-            
-            setOrderId(response.order.OrderID)
-
             setActiveStep(3)
 
-            const responseItem = await handleShowOrderItem(token, response.order.OrderID)
-            
-            if (!responseItem || !responseItem.orderItems) {
-                console.log('No order items found')
-                return
-            }
+            const token = localStorage.getItem('token')
+            const responseItem = await handleUserShowCart(token)
 
-            const detailsPromises = responseItem.orderItems.map(async (item) => {
+            const detailsPromises = responseItem.cart.map(async (item) => {
                 const product = await handleShowProductDetail(item.ProductID)
-                console.log(product)
                 return product
             })
 
             const productDetails = await Promise.all(detailsPromises)
             console.log(productDetails)
             setProductDetails(productDetails)
-            localStorage.setItem('OrderID', response.order.OrderID)
 
         } catch (error) {
             console.error('Error in handling checkout:', error)
@@ -228,12 +209,30 @@ const Checkout = () => {
         setNote(event.target.value)
     }
 
+    const totalPrice = subTotal + shippingFee - discountPrice
+
+    const orderData = {
+        shippingAddress,
+        paymentMethod,
+        totalPrice,
+        deliveryMethod,
+        couponId,
+        note
+    }
+
+    // Play an order button
     const handleCheckOut = async () => {
         try {
             const token = localStorage.getItem('token')
-            await handleClearCart(token, orderId, note)
-            
-            window.location.href='/order-complete'
+            const response = await handleCreateNewOrder(token, orderData)
+            console.log(orderData)
+
+            if (response.errCode !== 0) {
+                alert(response.errMessage)
+                console.log(response.errMessage)
+            }
+            localStorage.setItem('OrderID', response.order.OrderID)
+            navigate('/order-complete')
             
         } catch (error) {
             console.error('Error in handling check out:', error)
@@ -298,7 +297,7 @@ const Checkout = () => {
                                                 <input type='text' className='form-control' value={shippingAddress} onChange={handleShippingAddressChange} />
                                             ) : (
                                                 <input type='text' className='form-control' value={profile.Address || ''} disabled/>
-                                            )}                                        
+                                            )}
                                         </div>
                                         <div className='form-check'>
                                             <input className='form-check-input' type='checkbox' id='sameAddress' checked={useDifferentAddress} onChange={handleCheckboxChange}/>
@@ -546,7 +545,7 @@ const Checkout = () => {
                                 </li>
                                 <li className='order-summary-item position-relative'>
                                     <span>Discount</span>
-                                    <span>- {discountPrice.toLocaleString('vi-VN')} đ</span>
+                                    <span>{(discountPrice !== 0 ? (- discountPrice) : 0).toLocaleString('vi-VN')} đ</span>
                                     <span className='position-absolute discount' role='button' onClick={toggleCoupon}>Have a promotion?</span>
                                 </li>
                                 <li className='order-summary-item position-relative'>

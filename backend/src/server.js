@@ -6,8 +6,6 @@ import connectDB from './config/connectDB'
 import viewEngine from './config/viewEngine'
 import protectedRoutes from './route/protectedRoute'
 import initWebRoutes from './route/web'
-import cron from './controllers/orderController'
-
 
 require('dotenv').config()
 

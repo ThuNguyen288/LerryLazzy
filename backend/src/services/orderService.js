@@ -72,10 +72,11 @@ let createNewOrder = (userid, data) => {
                     ShippingAddress: data.shippingAddress,
                     PaymentMethod: data.paymentMethod,
                     TotalPrice: data.totalPrice,
-                    CouponID: data.couponid,
-                    Status: 'Pending Confirmation',
+                    CouponID: data.couponId,
+                    Status: 'Pending Pickup',
                     StatusDate: new Date(),
-                    DeliveryMethod: data.deliveryMethod
+                    DeliveryMethod: data.deliveryMethod,
+                    Note: data.note,
                 }, { transaction: t })
 
                 let orderItemsData = cartItems.map((item) => ({
@@ -156,7 +157,8 @@ let showOrder = (userid, orderid) => {
             let orderData = {
                 errCode: 0,
                 errMessage: '',
-                order: null     
+                order: null,
+                discount: 0,
             }
 
             let user = await db.User.findOne({
@@ -177,6 +179,15 @@ let showOrder = (userid, orderid) => {
                 orderData.errCode = 2
                 orderData.errMessage = 'Order not found!'
                 return resolve(orderData)
+            }
+
+            if (order.CouponID) {
+                let coupon = await db.Coupon.findOne({
+                    where: { CouponID: order.CouponID }
+                })
+                if (coupon) {
+                    orderData.discount = coupon.Discount
+                }
             }
 
             orderData.order = order
