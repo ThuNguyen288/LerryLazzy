@@ -112,14 +112,21 @@ let calTotalOrders = (productid) => {
         try {
             let result = await db.OrderItem.findOne({
                 attributes: [
-                    [db.sequelize.fn('COUNT', db.sequelize.col('OrderItem.OrderID')), 'OrderCount']
+                    [db.sequelize.fn('COUNT', db.sequelize.col('OrderItem.OrderID')), 'OrderCount'],
+                    [db.sequelize.fn('SUM', db.sequelize.col('OrderItem.Quantity')), 'TotalQuantity']
                 ],
                 where: { ProductID: productid },
                 group: ['ProductID'],
                 order: ['ProductID']
             })
 
-            resolve(result ? result.OrderCount : 0)
+            resolve(result ? { 
+                totalOrders: result.OrderCount, 
+                totalQuantity: result.TotalQuantity 
+            } : { 
+                totalOrders: 0, 
+                totalQuantity: 0 
+            })
         } catch (error) {
             console.error('Error in calculate total orders:', error)
             reject(error)
@@ -135,10 +142,11 @@ let getHotProduct = () => {
             let products = await getAllProducts()
 
             let productPromises = products.map(async (product) => {
-                let orderCount = await calTotalOrders(product.ProductID)
+                let orderData = await calTotalOrders(product.ProductID)
                 return {
                     ...product,
-                    orderCount
+                    orderCount: orderData.totalOrders,
+                    totalQuantity: orderData.totalQuantity
                 }
             })
 

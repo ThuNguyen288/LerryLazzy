@@ -438,6 +438,7 @@ const Profile = () => {
                                     </form>
                                 </div>
                             </div>
+                            {profile.Role === 'customer' && (
                             <div className='pt-3 mt-2 mt-sm-3 mb-5 pb-4'>
                                 <h2 className='h6'>Delete account</h2>
                                 <p className='fs-sm mt-4 blockquote-footer'>
@@ -445,6 +446,7 @@ const Profile = () => {
                                 </p>
                                 <a className='text-danger fs-sm fw-medium text-decoration-none delete' type='button' onClick={() => setShowModal(true)}>Delete account</a>
                             </div>
+                            )}
                         </div>
                     </div>
                 </div>

@@ -30,6 +30,7 @@ let initWebRoutes = (app) => { //rest api
     router.get('/admin/show-client', clientController.countUsersCreated)
     router.get('/admin/show-order', orderClientController.countOrdersCreated)
     router.get('/admin/show-product', productController.displayAllProduct)
+    // router.get('/admin/show-all-order' orderClientController.)
 
 
     return app.use('/api', router)

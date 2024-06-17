@@ -60,6 +60,21 @@
 }
 
 .card-info {
+    .flex-1 {
+        flex: 1;
+    }
+
+    .bullet-item {
+        height: .5rem;
+        width: 1rem;
+        border-radius: 2px;
+    }
+    
+    .text-body {
+        --phoenix-text-opacity: 1;
+        color: rgba(159, 166, 188, var(--phoenix-text-opacity)) !important;
+    }
+
     .card {
         box-shadow: rgb(12, 33, 55);
         margin-bottom: 1.875rem;
@@ -160,5 +175,45 @@
 }
 
 .bg-blue {
-    background-color:  rgb(202, 203, 205);
+    background-color:  rgb(255, 255, 255);
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.name {
+    width: 30%;
+    font-size: 0.875rem; /* Smaller font size */
+}
+
+.price {
+    width: 10%;
+    font-size: 0.875rem; /* Smaller font size */
+}
+
+.quantity {
+    width: 10%;
+    font-size: 0.875rem; /* Smaller font size */
+}
+
+.amount {
+    width: 10%;
+    font-size: 0.875rem; /* Smaller font size */
+}
+
+.sales {
+    width: 35%;
+    font-size: 0.875rem; /* Smaller font size */
+}
+
+.table-responsive {
+    max-height: 400px;
+    overflow-y: auto;
+    border-radius: 15px;
+}
+
+
+.table-responsive::-webkit-scrollbar {
+    display: none;
 }

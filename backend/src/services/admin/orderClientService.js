@@ -1,5 +1,5 @@
-import db from '../../models/index'
 import { Op } from 'sequelize'
+import db from '../../models/index'
 
 const countOrdersCreatedToday = async () => {
     try {
@@ -61,17 +61,56 @@ const countOrdersCreatedThisMonth = async () => {
 
 const getAllOrdersAndCount = async () => {
     try {
-        const orders = await db.Order.findAll()
+        const orders = await db.Order.findAll({
+            include: [{
+                model: db.OrderItem, 
+                as: 'orderitem',
+                attributes: ['ProductID', 'Quantity']
+            }],
+            raw: true
+        })
+        console.log(orders)
 
-        let totalPrice = 0;
+        let totalPrice = 0
+        let statusCounts = {
+            pickup: 0,
+            delivery: 0,
+            delivered: 0,
+            canceled: 0
+        }
+
+        let deliveredProductsQuantity = 0;
+
         orders.forEach(order => {
             totalPrice += order.TotalPrice;
-        })
+
+            switch (order.Status) {
+                case 'Pending Pickup':
+                    statusCounts.pickup++;
+                    break;
+                case 'Pending Delivery':
+                    statusCounts.delivery++;
+                    break;
+                case 'Delivered':
+                    statusCounts.delivered++;
+                    if (order['orderitem.Quantity']) {
+                        deliveredProductsQuantity += order['orderitem.Quantity'];
+                    }
+                    break;
+                case 'Canceled':
+                    statusCounts.canceled++;
+                    break;
+                default:
+                    break;
+            }
+        });
 
         return {
             count: orders.length,
             totalPrice: totalPrice,
-            orders: orders
+            statusCounts: statusCounts,
+            orders: orders,
+            deliveredProductsQuantity: deliveredProductsQuantity,
         }
     } catch (error) {
         throw new Error('Error fetching all orders and count: ' + error.message)
@@ -80,36 +119,29 @@ const getAllOrdersAndCount = async () => {
 
 const getOrdersForLast7Days = async () => {
     try {
-        // Tạo ngày bắt đầu của ngày hiện tại
         const todayStart = new Date();
         todayStart.setHours(0, 0, 0, 0);
 
-        // Tạo ngày kết thúc của ngày hiện tại
         const todayEnd = new Date();
         todayEnd.setHours(23, 59, 59, 999);
 
-        // Tạo ngày bắt đầu của ngày 7 ngày trước
         const sevenDaysAgo = new Date();
         sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
         sevenDaysAgo.setHours(0, 0, 0, 0);
 
-        // Truy vấn cơ sở dữ liệu để lấy danh sách đơn hàng trong 7 ngày gần đây
         const orders = await db.Order.findAll({
             where: {
                 createdAt: {
                     [Op.between]: [sevenDaysAgo, todayEnd]
                 }
             },
-            order: [['createdAt', 'ASC']] // Sắp xếp theo ngày tăng dần
+            order: [['createdAt', 'ASC']] 
         });
 
-        // Tạo một mảng để lưu trữ số lượng đơn hàng mỗi ngày
         const dailyData = [];
 
-        // Tạo một đối tượng map để lưu trữ tổng giá trị đơn hàng mỗi ngày
         const dailyTotalMap = new Map();
 
-        // Lặp qua danh sách đơn hàng và nhóm chúng theo ngày
         orders.forEach(order => {
             const orderDate = order.createdAt.toDateString();
             if (!dailyTotalMap.has(orderDate)) {
@@ -118,12 +150,11 @@ const getOrdersForLast7Days = async () => {
             dailyTotalMap.set(orderDate, dailyTotalMap.get(orderDate) + order.TotalPrice);
         });
 
-        // Tạo mảng dữ liệu hàng ngày từ bản đồ
         dailyTotalMap.forEach((total, date) => {
             dailyData.push({
                 day: new Date(date).toLocaleDateString('en-US', { weekday: 'long' }), // Format ngày thành tên ngày
                 count: orders.filter(order => order.createdAt.toDateString() === date).length, // Đếm số lượng đơn hàng trong ngày
-                total: total // Tổng giá trị đơn hàng trong ngày
+                total: total 
             });
         });
 
@@ -133,9 +164,55 @@ const getOrdersForLast7Days = async () => {
     }
 };
 
+let showAllOrders = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let orderData = {
+                errCode: 0,
+                errMessage: '',
+                orders: []
+            };
+
+            let orders = await db.Order.findAll({
+                include: [{
+                    model: db.User,
+                    attributes: ['Firstname', 'Lastname'],
+                    as: 'user'
+                }],
+                order: [['createdAt', 'DESC']],
+                raw: true
+            });
+
+            if (!orders || orders.length === 0) {
+                orderData.errCode = 1;
+                orderData.errMessage = 'Orders not found!';
+                return resolve(orderData);
+            }
+
+            orderData.orders = orders.map(order => {
+                let userName = `${order['user.Firstname']} ${order['user.Lastname']}`;
+        
+                return {
+                    OrderID: order.OrderID,
+                    OrderDate: order.OrderDate,
+                    UserName: userName,
+                    TotalPrice: order.TotalPrice
+                };
+            });
+
+            orderData.errMessage = 'Show all orders successfully!';
+            return resolve(orderData);
+        } catch (error) {
+            reject(error);
+        }
+    });
+};
+
+
 module.exports = {
     countOrdersCreatedToday: countOrdersCreatedToday,
     countOrdersCreatedThisMonth: countOrdersCreatedThisMonth,
     getAllOrdersAndCount: getAllOrdersAndCount,
-    getOrdersForLast7Days: getOrdersForLast7Days
+    getOrdersForLast7Days: getOrdersForLast7Days,
+    showAllOrders: showAllOrders
 }
