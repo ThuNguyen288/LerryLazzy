@@ -13,6 +13,7 @@ import { handleShowFavorite } from '../services/favoriteService'
 import { handleUserAddToCart } from '../services/cartService'
 
 import './Favorite.scss'
+import NotFound from '../components/NotFound'
 
 const Favorite = () => {
 
@@ -112,7 +113,7 @@ const Favorite = () => {
                     <nav aria-label='breadcrumb'>
                         <ol className='breadcrumb justify-content-start no-border my-4'>
                             <li className='breadcrumb-item'><Link className='breadcrumb-link' to='/home'>Home</Link></li>
-                            <li className='breadcrumb-item'><Link className='breadcrumb-link' to={`/profile/${isAuthenticated.user.Username}`}>Account</Link></li>
+                            <li className='breadcrumb-item'><Link className='breadcrumb-link'>Account</Link></li>
                             <li className='breadcrumb-item active' aria-current='page'>Favotire</li>
                         </ol>
                     </nav>
@@ -126,7 +127,7 @@ const Favorite = () => {
                             <SideBar/>
                         </div>
                         <div className='col-lg-8 col-xl-9 align-middle'>
-                            <div className='error-message'>{error}</div>
+                            <NotFound/>
                         </div>
                     </div>
                 </div>

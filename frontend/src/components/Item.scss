@@ -33,7 +33,7 @@
     text-decoration: none;
     text-align: center;
     width: 50%;
-    padding: 12px 0;
+    padding: 7px 0;
 }
 
 .product-action .i-cart{
@@ -110,21 +110,7 @@
     position: absolute;
     width: 50px;
     height: 50px;
-    animation: moveToCart 1s forwards;
     z-index: 1000;
-}
-
-@keyframes moveToCart {
-    0% {
-        top: 0;
-        left: 0;
-        opacity: 1;
-    }
-    100% {
-        top: -50px; 
-        left: 300px; 
-        opacity: 0;
-    }
 }
 
 .product-promo {

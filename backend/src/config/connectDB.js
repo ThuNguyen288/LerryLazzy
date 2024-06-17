@@ -1,4 +1,4 @@
-import sql from "mssql";
+import sql from "mssql"
 
 const config = {
     user: 'sa',
@@ -12,15 +12,15 @@ const config = {
     },
     logging: false,
     port: 1433,
-};
+}
 
 let connectDB = async () => {
   try {
-      await sql.connect(config);
-      console.log('Connected to SQL Server');
+      await sql.connect(config)
+      console.log('Connected to SQL Server')
   } catch (err) {
-      console.error('Error connecting to SQL Server:', err);
+      console.error('Error connecting to SQL Server:', err)
   }
-};
+}
 
-module.exports = connectDB;
+module.exports = connectDB

@@ -9,6 +9,7 @@ import { CartContext } from '../context/CartContext'
 import { handleShowProductDetail, handleUserAddLargeItem } from '../services/cartService'
 import { handleShowOrder, handleShowOrderItem } from '../services/orderService'
 import { handleCreateReview } from '../services/reviewService'
+import NotFound from './NotFound'
 
 const OrderDetail = () => {
     const { orderid } = useParams()
@@ -177,7 +178,7 @@ const OrderDetail = () => {
     }
 
     if (error) {
-        return <div>Error: {error}</div>
+        return <div><NotFound/></div>
     }
 
     if (!order) {

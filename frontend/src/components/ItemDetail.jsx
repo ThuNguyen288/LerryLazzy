@@ -15,6 +15,7 @@ import { handleAddRemoveFavorite, handleCheckFavorite } from '../services/favori
 import { getAllReviews, getProductById } from '../services/productService'
 import { handleCreateReview } from '../services/reviewService'
 import './ItemDetail.scss'
+import NotFound from './NotFound'
 
 const ItemDetail = () => {
     const { productid } = useParams()
@@ -179,7 +180,7 @@ const ItemDetail = () => {
     }
 
     if (error) {
-        return <div>Error: {error}</div>
+        return <div><NotFound/></div>
     }
 
     if (!product) {
@@ -213,7 +214,7 @@ const ItemDetail = () => {
                         </div>
                         <h1 className='h1 producttitle'>{product.Name}</h1>
                         <p className='fs-sm mb-0 text-secondary pb-3 mb-2 mb-lg-3'>{product.Description}</p>
-                        <div style={{height: '90px'}}></div>
+                        <div style={{height: '95px'}}></div>
                         <div className='d-flex flex-wrap align-items-center'>
                             <div className='h3 mb-0 ms-3'>{product.Price.toLocaleString('vi-VN')} đ</div>
                             {product.InStock !== 0 ? (
@@ -242,7 +243,7 @@ const ItemDetail = () => {
                                     <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' width='16' height='16'><path d='M7.75 2a.75.75 0 0 1 .75.75V7h4.25a.75.75 0 0 1 0 1.5H8.5v4.25a.75.75 0 0 1-1.5 0V8.5H2.75a.75.75 0 0 1 0-1.5H7V2.75A.75.75 0 0 1 7.75 2Z'></path></svg>
                                 </button>
                             </div>
-                            <button className='btn btn-lg btn-dark w-100' type='submit' onClick={handleAddToCart}>Add to cart</button>
+                            <button className='btn btn-lg btn-dark w-100' type='submit' onClick={handleAddToCart} disabled={product.InStock !== 0 ? false : true}>Add to cart</button>
                         </div>
                         <ul className='list-unstyled gap-3'>
                             <li className='d-flex flex-wrap fs-sm'>

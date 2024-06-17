@@ -17,6 +17,7 @@ import {
 
 import { handleApplyCoupon } from '../services/orderService'
 import './CartItem.scss'
+import NotFound from './NotFound'
 
 const Cart = () => {
     const [cartData, setCartData] = useState({
@@ -192,7 +193,7 @@ const Cart = () => {
     }
 
     if (error) {
-        return <div>Error: {error.message}</div>
+        return <div><NotFound/></div>
     }
 
     return (

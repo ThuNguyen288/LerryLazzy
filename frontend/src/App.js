@@ -18,6 +18,7 @@ import ProductInfo from './pages/ProductInfo'
 import ProductPage from './pages/ProductPage'
 import Profile from './pages/Profile'
 import ProductList from './pages/ProductList'
+import Admin from './pages/admin/Admin'
 
 import { AuthProvider } from './context/AuthContext'
 import { CartProvider } from './context/CartContext'
@@ -25,6 +26,9 @@ import { SearchProvider } from './context/SearchContext'
 import PrivateRoute from './route/PrivateRoute'
 
 import './App.css'
+import ProductAdmin from './pages/admin/ProductAdmin'
+import NotFoundPage from './pages/NotFound'
+
 
 function App() {
     return (
@@ -52,6 +56,9 @@ function App() {
                                 <Route path='/order/detail/:orderid' element={<PrivateRoute><OrderInfo/></PrivateRoute>}/>
                                 <Route path='/coming-soon' element={<ComingSoonPage />} />
                                 <Route path='/product/search' element={<ProductList />} />
+                                <Route path='/admin' element={<PrivateRoute><Admin/></PrivateRoute>}/>
+                                <Route path='/admin/products' element={<PrivateRoute><ProductAdmin/></PrivateRoute>}/>
+                                <Route path='/notfound' element={<NotFoundPage />} />
                             </Routes>
                         </BrowserRouter>
                     </CartProvider>

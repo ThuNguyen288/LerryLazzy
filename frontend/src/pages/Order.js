@@ -8,6 +8,7 @@ import SideBar from '../components/SideBar'
 import { handleShowAllOrders } from '../services/orderService'
 
 import './Order.scss'
+import NotFound from '../components/NotFound'
 
 const Order = () => {
     const [orders, setOrders] = useState([])
@@ -17,12 +18,13 @@ const Order = () => {
 
     useEffect(() => {
         const fetchCartData = async () => {
+            setLoading(false)
             try {
                 const token = localStorage.getItem('token')
                 const response = await handleShowAllOrders(token)
 
                 setOrders(response.orders)
-                setLoading(false)
+                
             } catch (error) {
                 console.error('Error fetching orders data:', error)
                 setError(error)
@@ -87,7 +89,33 @@ const Order = () => {
     }
 
     if (error) {
-        return <div>Error: {error.message}</div>
+        return (
+            <div>
+                <NavBar/>
+                <div className='container'>
+                    <nav aria-label='breadcrumb'>
+                        <ol className='breadcrumb justify-content-start no-border my-4'>
+                            <li className='breadcrumb-item'><Link className='breadcrumb-link' to='/home'>Home</Link></li>
+                            <li className='breadcrumb-item active' aria-current='page'>Account</li>
+                        </ol>
+                    </nav>
+                </div>
+                <div className='hero-content pb-4 text-center'>
+                    <h1 className='hero-heading'>Your Account</h1>
+                </div> 
+                <div className='container'>
+                    <div className='row'>
+                        <div className='col-xl-3 col-lg-4 mb-5'>
+                            <SideBar/>
+                        </div>
+                        <div className='col-lg-8 col-xl-9 d-flex align-items-center justify-content-center'>
+                           <NotFound/>
+                        </div>
+                    </div>
+                </div>
+                <Footer/>
+            </div>
+        )
     }
 
     return (

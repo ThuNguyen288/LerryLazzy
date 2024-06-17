@@ -11,6 +11,7 @@ import { getProductsByCategory, getProductsBySubcategory } from '../services/pro
 import { handleAddRemoveFavorite, handleCheckFavorite } from '../services/favoriteService'
 
 import './Item.scss'
+import NotFound from './NotFound'
 
 
 const Item = ({ categoryid, subcategoryid }) => {
@@ -112,7 +113,7 @@ const Item = ({ categoryid, subcategoryid }) => {
     }
 
     if (error) {
-        return <div>Error: {error}</div>
+        return <div><NotFound/></div>
     }
 
     return (

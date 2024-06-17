@@ -38,7 +38,11 @@ const AuthProvider = ({ children }) => {
         setIsAuthenticated({ token, user })
         localStorage.setItem('token', token)
         localStorage.setItem('user', JSON.stringify(user))
-        window.location.href='/home'
+        // if (user.Role === 'admin') {
+        //     window.location.href = '/admin'
+        // } else {
+            window.location.href = '/home'
+        // }
     }
 
     const logout = () => {

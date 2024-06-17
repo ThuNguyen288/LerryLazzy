@@ -14,6 +14,7 @@ import Footer from '../components/Footer'
 import NavBar from '../components/NavBar'
 import SideBar from '../components/SideBar'
 import './Profile.scss'
+import NotFound from '../components/NotFound'
 
 const Profile = () => {
     const { isAuthenticated, logout } = useContext(AuthContext)
@@ -212,7 +213,33 @@ const Profile = () => {
     }
 
     if (error) {
-        return <div>Error: {error.message}</div>
+        return (
+            <div>
+                <NavBar/>
+                <div className='container'>
+                    <nav aria-label='breadcrumb'>
+                        <ol className='breadcrumb justify-content-start no-border my-4'>
+                            <li className='breadcrumb-item'><Link className='breadcrumb-link' to='/home'>Home</Link></li>
+                            <li className='breadcrumb-item active' aria-current='page'>Account</li>
+                        </ol>
+                    </nav>
+                </div>
+                <div className='hero-content pb-4 text-center'>
+                    <h1 className='hero-heading'>Your Account</h1>
+                </div> 
+                <div className='container'>
+                    <div className='row'>
+                        <div className='col-xl-3 col-lg-4 mb-5'>
+                            <SideBar/>
+                        </div>
+                        <div className='col-lg-8 col-xl-9 d-flex align-items-center justify-content-center'>
+                            <NotFound/>
+                        </div>
+                    </div>
+                </div>
+                <Footer/>
+            </div>
+        )
     }
 
     return (

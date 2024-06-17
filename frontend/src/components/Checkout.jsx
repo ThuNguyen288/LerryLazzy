@@ -4,10 +4,11 @@ import { Button, Modal } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../context/AuthContext'
 import { handleShowProductDetail, handleUserShowCart } from '../services/cartService'
-import { handleApplyCoupon, handleClearCart, handleCreateNewOrder, handleShowOrderItem } from '../services/orderService'
+import { handleApplyCoupon, handleCreateNewOrder } from '../services/orderService'
 import { handleShowProfile } from '../services/userService'
 
 import './Checkout.scss'
+import NotFound from './NotFound'
 
 const Checkout = () => {
     const { isAuthenticated } = useContext(AuthContext)
@@ -24,13 +25,12 @@ const Checkout = () => {
     const [shippingFee, setShippingFee] = useState(0)
     const [deliveryMethod, setDeliveryMethod] = useState('')
     const [note, setNote] = useState('')
-    const [couponId, setCouponId] = useState('')
+    const [couponId, setCouponId] = useState(null)
     
     const [discountPrice, setDiscountPrice] = useState(0)
     const [code, setCode] = useState('')
     const [showCoupon, setShowCoupon] = useState(false)
 
-    const [orderId, setOrderId] = useState('')
     const [productDetails, setProductDetails] = useState([])
     
     const [loading, setLoading] = useState(true)
@@ -82,14 +82,14 @@ const Checkout = () => {
             const response = await handleApplyCoupon(token, code)
             
             if (response.errCode === 0) {
-                setCouponId(response.coupon.CouponID)
+                
                 setShowCoupon(false)
                 setDiscountPrice(subTotal * (response.coupon.Discount / 100))
-                
+                setCouponId(response.coupon.CouponID)
             } else {
                 alert(response.errMessage)
             }
-
+            
         } catch (error) {
             console.error('Error during apply coupon:', error)
         }
@@ -250,7 +250,7 @@ const Checkout = () => {
     }
 
     if (error) {
-        return <div>Error: {error.message}</div>
+        return <div><NotFound/></div>
     }
 
     return (

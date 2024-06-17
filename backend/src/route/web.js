@@ -2,7 +2,9 @@ import express from 'express'
 import userController from '../controllers/userController'
 import productController from '../controllers/productController'
 import orderController from '../controllers/orderController'
-
+import clientController from '../controllers/admin/clientController'
+import orderClientController from '../controllers/admin/orderClientController.js'
+ 
 let router = express.Router()
 
 let initWebRoutes = (app) => { //rest api
@@ -23,6 +25,12 @@ let initWebRoutes = (app) => { //rest api
 
     // Router for order
     router.put('update-order-status', orderController.handleUpdateOrderStatus)
+
+    // Router for admin
+    router.get('/admin/show-client', clientController.countUsersCreated)
+    router.get('/admin/show-order', orderClientController.countOrdersCreated)
+    router.get('/admin/show-product', productController.displayAllProduct)
+
 
     return app.use('/api', router)
 }

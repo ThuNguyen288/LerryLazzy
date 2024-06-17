@@ -12,6 +12,7 @@ import { handleAddRemoveFavorite } from '../services/favoriteService'
 import Spinner from 'react-bootstrap/Spinner'
 import NavBar from '../components/NavBar'
 import Footer from '../components/Footer'
+import NotFound from '../components/NotFound'
 
 
 const ProductList = () => {
@@ -122,7 +123,7 @@ const ProductList = () => {
     
 
     if (error) {
-        return <div>Error: {error.message}</div>
+        return <div><NotFound/></div>
     }
 
     return (

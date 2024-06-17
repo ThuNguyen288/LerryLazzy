@@ -10,6 +10,7 @@ import { handleUserAddToCart } from '../services/cartService'
 import { handleAddRemoveFavorite, handleCheckFavorite } from '../services/favoriteService'
 import { getNewProduct } from '../services/productService'
 import './Item.scss'
+import NotFound from './NotFound'
 
 const NewItem = () => {
     const [products, setProducts] = useState([])
@@ -131,7 +132,7 @@ const NewItem = () => {
     }
 
     if (error) {
-        return <div>Error: {error}</div>
+        return <div><NotFound/></div>
     }
 
     return (

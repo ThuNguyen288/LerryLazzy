@@ -30,6 +30,11 @@ let getProductByKeyword = (keyword) => {
     return axios.get(`/api/search-product?keyword=${keyword}`)
 }
 
+let getAllProducts = async () => {
+    return axios.get('/api/admin/show-product')
+    
+}
+
 export {
     getProductsByCategory, 
     getProductById, 
@@ -37,5 +42,6 @@ export {
     getHotProduct,
     getNewProduct,
     getAllReviews,
-    getProductByKeyword
+    getProductByKeyword,
+    getAllProducts
 }

@@ -40,11 +40,10 @@ let displayProducts = async (req, res) => {
     }
 }
 
-let displayTopRating = async (req,res) => {
+let displayAllProduct = async (req,res) => {
     try {
         const products = await productService.getAllProducts()
-        console.log(products)
-        return products
+        return res.status(200).json(products)
     } catch (error) {
         console.error(error)
         return res.status(500).json({
@@ -133,7 +132,7 @@ let displayProductByKeyword = async (req, res) => {
 
 module.exports = {
     displayProducts: displayProducts,
-    displayTopRating: displayTopRating,
+    displayAllProduct: displayAllProduct,
     displayHotProduct: displayHotProduct,
     displayNewProduct: displayNewProduct,
     displayProductReviews: displayProductReviews,

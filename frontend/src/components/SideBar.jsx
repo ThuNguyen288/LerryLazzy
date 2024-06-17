@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 import { AuthContext } from '../context/AuthContext'
 import './SideBar.scss'
 
-    
 const SideBar = () => {
     const { isAuthenticated, logout } = useContext(AuthContext)
 
